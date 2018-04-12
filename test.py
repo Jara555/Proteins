@@ -1,3 +1,4 @@
+import numpy as np
 
 class AminoAcid(object):
 
@@ -23,6 +24,10 @@ class Grid(object):
                 print(' 0 ', end="")
             print()
 
+    def matrixGrid(self):
+        print(np.zeros((self.size, self.size)))
+
+
 def main():
 
     h1 = AminoAcid('H', 0, 0)
@@ -35,7 +40,9 @@ def main():
     print()
 
     grid = Grid(4)
-    grid.printGrid()
+    grid.matrixGrid()
+
+
 
 
 if __name__ == "__main__":
