@@ -16,9 +16,13 @@ class AminoAcid(object):
 def main():
 
     h1 = AminoAcid('H', 0, 0)
+    h4 = AminoAcid('H', 0, 3)
     h2 = AminoAcid('H', 0, 1)
     p3 = AminoAcid('P', 0, 2)
+    h1 = AminoAcid('H', 0, 0)
     h4 = AminoAcid('H', 0, 3)
+    h2 = AminoAcid('H', 0, 1)
+    p3 = AminoAcid('P', 0, 2)
 
     print()
     print(h1, h2, p3, h4)
