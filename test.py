@@ -17,21 +17,9 @@ class Grid(object):
     def __init__(self, size):
         self.size = size
 
-
-
-
-    def placeAmino(self, aminoacid):
-
-        grid(aminoacid.x, aminoacid.y) = aminoacid.type
-
-
-
-
-    def printGrid(self):
-        for row in range(self.size):
-            for col in range(self.size):
-                print(' 0 ', end="")
-            print()
+    # def placeAmino(self, aminoacid):
+    #
+    #     self.matrix(aminoacid.x, aminoacid.y) = aminoacid.type
 
 
 def main():
@@ -48,6 +36,7 @@ def main():
     print()
 
     grid = Grid(4)
+    grid.initMatrix()
     grid.printGrid()
 
 
