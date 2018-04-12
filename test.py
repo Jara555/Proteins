@@ -1,4 +1,3 @@
-
 class AminoAcid(object):
 
     def __init__(self, type, x, y):
@@ -12,10 +11,21 @@ class AminoAcid(object):
     def __str__(self):
         return (self.type + " -")
 
+
 class Grid(object):
 
     def __init__(self, size):
         self.size = size
+
+
+
+
+    def placeAmino(self, aminoacid):
+
+        grid(aminoacid.x, aminoacid.y) = aminoacid.type
+
+
+
 
     def printGrid(self):
         for row in range(self.size):
@@ -23,12 +33,12 @@ class Grid(object):
                 print(' 0 ', end="")
             print()
 
-def main():
 
+def main():
     h1 = AminoAcid('H', 0, 0)
-    h4 = AminoAcid('H', 0, 3)
     h2 = AminoAcid('H', 0, 1)
     p3 = AminoAcid('P', 0, 2)
+    h4 = AminoAcid('H', 0, 3)
 
     print()
     print(h1, h2, p3, h4)
