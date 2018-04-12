@@ -11,7 +11,7 @@ class aminoAcid(object):
         self.nex = y + 1
 
     def __str__(self):
-        return "type = yes"
+        return "type = yes gllafd"
 
 def main():
 
