@@ -30,8 +30,11 @@ def main():
     h2 = AminoAcid('H', 0, 1)
     p3 = AminoAcid('P', 0, 2)
 
+    protein = [h1, h2, p3, h4]
+
     print()
-    print(h1, h2, p3, h4)
+    for aminoAcid in protein:
+        print(aminoAcid, end="")
     print()
 
     grid = Grid(4)
