@@ -1,5 +1,5 @@
 import numpy as np
-
+# test
 # the Protein class has AminoAcid as inner class and reflects a list of aminoacids
 class Protein(object):
 
