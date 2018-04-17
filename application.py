@@ -1,5 +1,6 @@
 from classes.Grid import Grid
 from classes.Protein import Protein
+from functions.Ufold import Ufold
 
 
 def main():
@@ -18,6 +19,14 @@ def main():
     grid.placeProtein(protein.protein_list)
 
     # print protein and grid
+    print()
+    print(protein)
+    print()
+    grid.printGrid()
+    print()
+
+    Ufold(protein)
+
     print()
     print(protein)
     print()

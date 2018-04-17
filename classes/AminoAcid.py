@@ -7,9 +7,11 @@ class AminoAcid(object):
         # set type and type specific code
         self.type = type
         if self.type == 'H':
-            self.code = 1
+            self.code = -1
         elif self.type == 'P':
-            self.code = 2
+            self.code = 1
+        elif self.type == 'C':
+            self.code = -5
 
         # set coordinates
         self.x = x
