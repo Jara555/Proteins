@@ -4,8 +4,9 @@ from classes.Protein import Protein
 
 def main():
 
-    # define protein as string
-    protein_string = "HPHHHPHH"
+    # open protein text file
+    with open('data/protein1.txt', 'r') as file:
+        protein_string = file.read()
 
     # create protein of class Protein
     protein = Protein(protein_string)
