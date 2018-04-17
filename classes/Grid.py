@@ -1,6 +1,5 @@
 import numpy as np
 
-
 # the Grid class is used to initialize a 2D grid and to lay the protein over the grid
 class Grid(object):
 
