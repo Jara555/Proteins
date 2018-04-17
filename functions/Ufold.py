@@ -7,6 +7,9 @@ def Ufold(protein):
     if size % 2 == 0:
         fold1 = (size/2) - 1
         fold2 = size/2
+    else:
+        fold2 = (size + 1) / 2
+        fold1 = fold2 - 1
 
     # odd = []
     # even = []
@@ -18,17 +21,14 @@ def Ufold(protein):
     #         else:
     #             odd.append(i)
 
-    patternFold.append("0")
+    patternFold.append('0')
 
     for i in range(size - 1):
         if i == fold1:
-            patternFold.append("-Y")
+            patternFold.append('+X')
         elif i == fold2:
-            patternFold.append("-X")
+            patternFold.append('-Y')
         else:
-            patternFold.append("0")
+            patternFold.append('0')
 
-    print(patternFold)
-
-if _name_ == "_main_":
-    main()
+    return patternFold

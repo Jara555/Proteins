@@ -1,6 +1,6 @@
 from classes.Grid import Grid
 from classes.Protein import Protein
-#from functions.Ufold import Ufold
+from functions.Ufold import Ufold
 from functions.foldprotein import foldprotein
 
 def main():
@@ -26,8 +26,11 @@ def main():
     grid.printGrid()
     print()
 
+    # get folding pattern for folding type Ufold
+    folding_pattern = Ufold(protein_string)
+
     # fold protein based on folding pattern
-    folded_protein = foldprotein(protein.protein_list, ['0', '0', '0', '+X', '+Y', '0', '+X', '0'])
+    folded_protein = foldprotein(protein.protein_list, folding_pattern)
 
     # initiate new grid and place folded protein in it
     grid2 = Grid(len(protein_string))

@@ -1,4 +1,3 @@
-
 def foldprotein(protein, folding_pattern):
     """ Folds protein according to input pattern """
 
