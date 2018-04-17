@@ -1,5 +1,5 @@
-# the AminoAcid class sets up the properties of each aminoacid
 class AminoAcid(object):
+    """ Contains the aminoacid info """
 
     # uses a char (H/P) and coordinates as input
     def __init__(self, type, x, y):

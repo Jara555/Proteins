@@ -1,9 +1,10 @@
 from classes.Grid import Grid
 from classes.Protein import Protein
-from functions.Ufold import Ufold
-
+#from functions.Ufold import Ufold
+from functions.foldprotein import foldprotein
 
 def main():
+    """ Implements all algorithms in order to most efficiently fold a protein """
 
     # open protein text file
     with open('data/protein1.txt', 'r') as file:
@@ -12,26 +13,30 @@ def main():
     # create protein of class Protein
     protein = Protein(protein_string)
 
-    # create grid
+    # create grid of class Grid
     grid = Grid(len(protein_string))
 
-    # place protein in grind
+    # place protein in grid
     grid.placeProtein(protein.protein_list)
 
-    # print protein and grid
+    # print initial protein and grid
     print()
     print(protein)
     print()
     grid.printGrid()
     print()
 
-    Ufold(protein)
+    # fold protein based on folding pattern
+    folded_protein = foldprotein(protein.protein_list, ['0', '0', '0', '+X', '+Y', '0', '+X', '0'])
+
+    # initiate new grid and place folded protein in it
+    grid2 = Grid(len(protein_string))
+    grid2.placeProtein(folded_protein)
 
     print()
-    print(protein)
+    grid2.printGrid()
     print()
-    grid.printGrid()
-    print()
+
 
 if __name__ == "__main__":
     main()
