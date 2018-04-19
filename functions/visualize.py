@@ -9,19 +9,22 @@ def visualize(protein):
 
     x = []
     y = []
-    type = []
+    color = []
 
     for aminoacid in protein:
         x.append(aminoacid.x)
         y.append(aminoacid.y)
-        type.append(aminoacid.type)
+        if aminoacid.type == 'H':
+            color.append('red')
+        else:
+            color.append('blue')
 
     print(x)
     print(y)
     print()
 
     plt.plot(x, y, 'C3', zorder=1, lw=3)
-    plt.scatter(x, y, s=120, zorder=2)
+    plt.scatter(x, y, s=120, zorder=2, color=color)
     plt.title('Protein')
     plt.tight_layout()
 
