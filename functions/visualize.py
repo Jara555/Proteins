@@ -9,10 +9,12 @@ def visualize(protein):
 
     x = []
     y = []
+    type = []
 
     for aminoacid in protein:
         x.append(aminoacid.x)
         y.append(aminoacid.y)
+        type.append(aminoacid.type)
 
     print(x)
     print(y)
