@@ -63,7 +63,7 @@ def multipleUfold(protein):
     print(len(combinations))
     for i in range(len(combinations)):
         for j in range(len(combinations)):
-            pattern += Ufold(protein[combinations[i][j][0]:combinations[i][j][1]+1], i)
+            pattern += Ufold(protein[combinations[i][j][0]:combinations[i][j][1]+1], j)
             print("combinations[i][j] is: " + str(combinations[i][j]) + " i = " + str(i) + " j = " + str(j))
             print("combinations[i][j][0] is: " + str(combinations[i][j][0]))
         print(pattern)
