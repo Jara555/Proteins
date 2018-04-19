@@ -2,6 +2,12 @@ from classes.Grid import Grid
 from classes.Protein import Protein
 from functions.Ufold import Ufold
 from functions.foldprotein import foldprotein
+from functions.randomizer import randomizer
+from functions.visualize import visualize
+from functions.stability import stability
+
+import matplotlib.pyplot as plt
+
 
 def main():
     """ Implements all algorithms in order to most efficiently fold a protein """
@@ -10,35 +16,38 @@ def main():
     with open('data/protein1.txt', 'r') as file:
         protein_string = file.read()
 
+    # print protein name
+    print()
+    print(protein_string)
+    print()
+
     # create protein of class Protein
     protein = Protein(protein_string)
 
-    # create grid of class Grid
-    grid = Grid(len(protein_string))
+    # Ufold: get folding pattern for folding type Ufold and lay over protein
+    Ufolding_pattern = Ufold(protein_string, 0)
+    Ufolded_protein = foldprotein(protein.protein_list, Ufolding_pattern)
 
-    # place protein in grid
-    grid.placeProtein(protein.protein_list)
+    # visualize Ufold and print stability score
+    visualize(Ufolded_protein)
+    print(stability(Ufolded_protein))
 
-    # print initial protein and grid
-    print()
-    print(protein)
-    print()
-    grid.printGrid()
-    print()
+    # Random fold: randomize and visualize protein folding patterns
+    for i in range(1):
+        # get random folding pattern
+        Rfolding_pattern = randomizer(protein_string)
+        Rfolded_protein = foldprotein(protein.protein_list, Rfolding_pattern)
 
-    # get folding pattern for folding type Ufold
-    folding_pattern = Ufold(protein_string)
+        # visualize protein
+        visualize(Rfolded_protein)
 
-    # fold protein based on folding pattern
-    folded_protein = foldprotein(protein.protein_list, folding_pattern)
+        # print stability
+        print(stability(Rfolded_protein))
 
-    # initiate new grid and place folded protein in it
-    grid2 = Grid(len(protein_string))
-    grid2.placeProtein(folded_protein)
-
-    print()
-    grid2.printGrid()
-    print()
+        # TODO: update figures instead of open new figures
+        plt.show(block=False)
+        plt.pause(0.5)
+        plt.close('all')
 
 
 if __name__ == "__main__":
