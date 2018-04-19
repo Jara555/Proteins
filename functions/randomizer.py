@@ -10,6 +10,7 @@ def randomizer(protein):
 
     # index counter for number of items in folding pattern list
     i = 0
+    direction = '+Y'
 
     # iterate over required folding pattern length
     while i <= size:
@@ -25,17 +26,21 @@ def randomizer(protein):
             patternFold.append('0')
             i += 1
         # previous element cannot be inverse orientation
-        elif orientation == 1 and patternFold[i - 1] != '-X':
+        elif orientation == 1 and patternFold[i - 1] != '-X' and patternFold[i - 1] != '+X' and direction != '+X':
             patternFold.append('+X')
             i += 1
-        elif orientation == 2 and patternFold[i - 1] != '+X':
+            direction = '+X'
+        elif orientation == 2 and patternFold[i - 1] != '+X' and patternFold[i - 1] != '-X' and direction != '-X':
             patternFold.append('-X')
             i += 1
-        elif orientation == 3 and patternFold[i - 1] != '-Y':
+            direction = '-X'
+        elif orientation == 3 and patternFold[i - 1] != '-Y' and patternFold[i - 1] != '+Y' and direction != '+Y':
             patternFold.append('+Y')
             i += 1
-        elif orientation == 4 and patternFold[i - 1] != '+Y':
+            direction = '+Y'
+        elif orientation == 4 and patternFold[i - 1] != '+Y' and patternFold[i - 1] != '+Y' and direction != '-Y':
             patternFold.append('-Y')
             i += 1
+            direction = '-Y'
 
     return patternFold
