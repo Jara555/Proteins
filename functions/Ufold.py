@@ -1,4 +1,4 @@
-def Ufold(protein):
+def Ufold(protein, noFold):
     """ Creates folding pattern """
 
     size = len(protein)
@@ -21,14 +21,26 @@ def Ufold(protein):
     #         else:
     #             odd.append(i)
 
-    patternFold.append('0')
+    if noFold == 0:
+        patternFold.append('0')
 
-    for i in range(size - 1):
-        if i == fold1:
-            patternFold.append('+X')
-        elif i == fold2:
-            patternFold.append('-Y')
-        else:
-            patternFold.append('0')
+        for i in range(size - 1):
+            if i == fold1:
+                patternFold.append('+X')
+            elif i == fold2:
+                patternFold.append('-Y')
+            else:
+                patternFold.append('0')
+    elif noFold == 1:
+        patternFold.append('0')
+
+        for i in range(size - 1):
+            if i == fold1:
+                patternFold.append('-X')
+            elif i == fold2:
+                patternFold.append('+Y')
+            else:
+                patternFold.append('0')
+
 
     return patternFold
