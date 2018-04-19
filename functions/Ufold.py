@@ -43,5 +43,4 @@ def Ufold(protein, noFold):
                 patternFold.append('0')
 
 
-
     return patternFold

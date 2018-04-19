@@ -5,6 +5,12 @@ from functions.foldprotein import foldprotein
 from functions.multipleUfold import multipleUfold
 from functions.visualize import visualize
 from functions.stability import stability
+from functions.randomizer import randomizer
+from functions.visualize import visualize
+from functions.stability import stability
+
+import matplotlib.pyplot as plt
+
 
 def main():
     """ Implements all algorithms in order to most efficiently fold a protein """
@@ -31,48 +37,30 @@ def main():
 
     # get folding pattern for folding type Ufold
     folding_pattern = Ufold(protein_string,0)
+    # Ufold: get folding pattern for folding type Ufold and lay over protein
+    Ufolding_pattern = Ufold(protein_string, 0)
+    Ufolded_protein = foldprotein(protein.protein_list, Ufolding_pattern)
 
-    # fold protein based on folding pattern
-    folded_protein = foldprotein(protein.protein_list, folding_pattern)
+    # visualize Ufold and print stability score
+    visualize(Ufolded_protein)
+    print(stability(Ufolded_protein))
 
-    # initiate new grid and place folded protein in it
-    grid2 = Grid(len(protein_string))
-    grid2.placeProtein(folded_protein)
+    # Random fold: randomize and visualize protein folding patterns
+    for i in range(1):
+        # get random folding pattern
+        Rfolding_pattern = randomizer(protein_string)
+        Rfolded_protein = foldprotein(protein.protein_list, Rfolding_pattern)
 
-    print()
-    grid2.printGrid()
-    print()
+        # visualize protein
+        visualize(Rfolded_protein)
 
-    multipleUfold(protein_string)
+        # print stability
+        print(stability(Rfolded_protein))
 
-    # make new folding pattern based on multipleUfold
-    patterns = multipleUfold(protein_string)
-    folding_pattern2=patterns[0]
-    folding_pattern3=patterns[1]
-    folded_protein2 = foldprotein(protein.protein_list, folding_pattern2)
-    folded_protein3 = foldprotein(protein.protein_list, folding_pattern3)
-
-    print("stability protein2 is: " + str(stability(folded_protein2)))
-
-
-    # initiate new grid and place folded protein in it
-    grid3 = Grid(len(protein_string))
-    grid3.placeProtein(folded_protein2)
-    grid4 = Grid(len(protein_string))
-    grid4.placeProtein(folded_protein3)
-
-    print()
-    grid3.printGrid()
-    print()
-
-    print()
-    grid4.printGrid()
-    print()
-
-    visualize(folded_protein)
-    visualize(folded_protein2)
-    visualize(folded_protein3)
-
+        # TODO: update figures instead of open new figures
+        plt.show(block=False)
+        plt.pause(0.5)
+        plt.close('all')
 
 
 if __name__ == "__main__":
