@@ -2,6 +2,9 @@ from classes.Grid import Grid
 from classes.Protein import Protein
 from functions.Ufold import Ufold
 from functions.foldprotein import foldprotein
+from functions.multipleUfold import multipleUfold
+from functions.visualize import visualize
+from functions.stability import stability
 from functions.randomizer import randomizer
 from functions.visualize import visualize
 from functions.stability import stability
@@ -16,21 +19,42 @@ def main():
     with open('data/protein1.txt', 'r') as file:
         protein_string = file.read()
 
-    # print protein name
-    print()
-    print(protein_string)
-    print()
-
     # create protein of class Protein
     protein = Protein(protein_string)
 
+    # create grid of class Grid
+    grid = Grid(len(protein_string))
+
+    # place protein in grid
+    grid.placeProtein(protein.protein_list)
+
+    # print initial protein and grid
+    print()
+    print(protein)
+    print()
+    grid.printGrid()
+    print()
+
+    # get folding pattern for folding type Ufold
+    folding_pattern = Ufold(protein_string,0)
     # Ufold: get folding pattern for folding type Ufold and lay over protein
     Ufolding_pattern = Ufold(protein_string, 0)
     Ufolded_protein = foldprotein(protein.protein_list, Ufolding_pattern)
+    visualize(Ufolded_protein)
+
+    # test for multipleUfold
+    folding_patterns = multipleUfold(protein_string)
+    folded_protein1 = foldprotein(protein.protein_list, folding_patterns[0])
+    visualize(folded_protein1)
+    folded_protein2 = foldprotein(protein.protein_list, folding_patterns[1])
+
+    visualize(folded_protein2)
+
+
 
     # visualize Ufold and print stability score
-    visualize(Ufolded_protein)
-    print(stability(Ufolded_protein))
+
+    #print(stability(Ufolded_protein))
 
     # Random fold: randomize and visualize protein folding patterns
     for i in range(1):
