@@ -18,14 +18,14 @@ def stability(protein):
 
     # ... as string
     for i in range(len(x)):
-        coordinates.append(str(x[i]) + str(y[i]))
+        coordinates.append(str(int(x[i])) + str(int(y[i])))
 
     # loops over aminoacids with type "H" and determines number of H-bonds
     for i in range(len(x)):
 
         for k in range(4):
-            ybond = int(coordinates[i][0]) + orientation[(k * 2) + 1]
-            xbond = int(coordinates[i][1]) + orientation[k * 2]
+            ybond = int(coordinates[i][0]) + int(orientation[(k * 2) + 1])
+            xbond = int(coordinates[i][1]) + int(orientation[k * 2])
             xy = str(ybond) + str(xbond)
 
             if i == 0:
