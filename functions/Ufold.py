@@ -30,7 +30,8 @@ def Ufold(protein, noFold):
             elif i == fold2:
                 patternFold.append('-Y')
             else:
-                patternFold.append('0')
+                direction = patternFold[i - 1]
+                patternFold.append(direction)
     elif noFold == 1:
         patternFold.append('0')
 
@@ -40,7 +41,8 @@ def Ufold(protein, noFold):
             elif i == fold2:
                 patternFold.append('+Y')
             else:
-                patternFold.append('0')
+                direction = patternFold[i - 1]
+                patternFold.append(direction)
 
 
     return patternFold

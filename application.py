@@ -35,12 +35,13 @@ def main():
     grid.printGrid()
     print()
 
-    # get folding pattern for folding type Ufold
-    folding_pattern = Ufold(protein_string,0)
     # Ufold: get folding pattern for folding type Ufold and lay over protein
     Ufolding_pattern = Ufold(protein_string, 0)
     Ufolded_protein = foldprotein(protein.protein_list, Ufolding_pattern)
+
+    # visualize Ufold and print stability score
     visualize(Ufolded_protein)
+    print(stability(Ufolded_protein))
 
     # test for multipleUfold
     folding_patterns = multipleUfold(protein_string)
@@ -50,23 +51,18 @@ def main():
 
     visualize(folded_protein2)
 
-
-
-    # visualize Ufold and print stability score
-
-    #print(stability(Ufolded_protein))
-
     # Random fold: randomize and visualize protein folding patterns
     for i in range(1):
         # get random folding pattern
         Rfolding_pattern = randomizer(protein_string)
+        print(Rfolding_pattern)
         Rfolded_protein = foldprotein(protein.protein_list, Rfolding_pattern)
 
         # visualize protein
         visualize(Rfolded_protein)
 
         # print stability
-        print(stability(Rfolded_protein))
+        #print(stability(Rfolded_protein))
 
         # TODO: update figures instead of open new figures
         plt.show(block=False)
