@@ -21,21 +21,15 @@ def stability(protein):
             for n in range(len(x)):
                 if i == 0:
                     if (x[n] == xbond and y[n] == ybond) and (x[i + 1] != xbond or y[i + 1] != ybond):
-                        print(i)
-                        print(score)
                         score = score - 1
                 elif i == len(x) - 1:
                     if (x[n] == xbond and y[n] == ybond) and (x[i - 1] != xbond or y[i - 1] != ybond):
                         score = score - 1
-                        print(i)
-                        print(score)
                 else:
                     if (x[n] == xbond and y[n] == ybond) and \
                             (x[i - 1] != xbond or y[i - 1] != ybond) and \
                             (x[i + 1] != xbond or y[i + 1] != ybond):
                         score = score - 1
-                        print(i)
-                        print(score)
 
     # returns stability
     return score / 2
