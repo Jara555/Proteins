@@ -1,4 +1,4 @@
-def Ufold(protein, noFold):
+def Ufold(protein, direction):
     """ Creates folding pattern """
 
     size = len(protein)
@@ -11,13 +11,9 @@ def Ufold(protein, noFold):
         fold1 = (size + 1) / 2
         fold2 = fold1 + 1
 
-    print(fold1)
-    print(fold2)
-
-    if noFold == 0:
-
-        for i in range(size):
-            # starting direction is +Y
+    # Make a Ufold starting from a certain direction
+    for i in range(size):
+        if direction == '+Y':
             if i == 0:
                 patternFold.append('+Y')
             elif i == fold1:
@@ -27,18 +23,33 @@ def Ufold(protein, noFold):
             else:
                 direction = patternFold[i - 1]
                 patternFold.append(direction)
-
-    elif noFold == 1:
-        patternFold.append('0')
-
-        for i in range(size - 1):
-            # starting direction
+        elif direction == '-Y':
             if i == 0:
-                patternFold.append('+Y')
+                patternFold.append('-Y')
             elif i == fold1:
                 patternFold.append('-X')
             elif i == fold2:
                 patternFold.append('+Y')
+            else:
+                direction = patternFold[i - 1]
+                patternFold.append(direction)
+        elif direction == '+X':
+            if i == 0:
+                patternFold.append('+X')
+            elif i == fold1:
+                patternFold.append('-Y')
+            elif i == fold2:
+                patternFold.append('-X')
+            else:
+                direction = patternFold[i - 1]
+                patternFold.append(direction)
+        elif direction == '-X':
+            if i == 0:
+                patternFold.append('-X')
+            elif i == fold1:
+                patternFold.append('+Y')
+            elif i == fold2:
+                patternFold.append('+X')
             else:
                 direction = patternFold[i - 1]
                 patternFold.append(direction)
