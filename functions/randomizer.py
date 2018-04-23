@@ -34,5 +34,5 @@ def randomizer(protein):
         elif orientation == 4 and patternFold[i - 1] != '+Y':
             patternFold.append('-Y')
             i += 1
-
+            
     return patternFold

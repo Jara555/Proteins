@@ -37,15 +37,15 @@ def visualize(protein, name):
     plt.title('Protein: ' + name)
     plt.tight_layout()
     plt.axis('scaled')
+    #
+    plt.ylim(min(y) - 1, max(y) + 1)
+    plt.xlim(min(x) - 1, max(x) + 1)
 
-    plt.ylim(-size, size)
-    plt.xlim(-size, size)
+    plt.xticks(np.arange(min(x), max(x) + 1, 1.0))
+    plt.yticks(np.arange(min(y), max(y) + 1, 1.0))
 
-    plt.xticks(np.arange(-size, size + 1, 1.0))
-    plt.yticks(np.arange(-size, size + 1, 1.0))
-
-    plt.axhline(0, linestyle='--', color='gray', linewidth=0.5)  # horizontal lines
-    plt.axvline(0, linestyle='--', color='gray', linewidth=0.5)  # vertical lines
+    # plt.axhline(0, linestyle='--', color='gray', linewidth=0.5)  # horizontal lines
+    # plt.axvline(0, linestyle='--', color='gray', linewidth=0.5)  # vertical lines
 
     hydrofoob = mpatches.Patch(color='red', label='H')
     polair = mpatches.Patch(color='blue', label='P')
