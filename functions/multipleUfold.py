@@ -1,7 +1,8 @@
 from functions.Ufold import Ufold
 
 def multipleUfold(protein):
-    """ Creates U-fold on multiple locations """
+    """ Creates U-fold on multiple locations
+        input is: protein-string, output is: folding patterns"""
 
     # Variables
     size = len(protein)
@@ -26,6 +27,10 @@ def multipleUfold(protein):
     # reality check
     print("oddH " + str(oddH))
     print("evenH" + str(evenH))
+
+
+
+
 
     # Find the first and second H                       # Todo: not all folding points are found yet
     for i in range(len(evenH)):
@@ -55,24 +60,25 @@ def multipleUfold(protein):
     possibilitiesSeconds = [x[1] for x in possibilities]
     possibilitieFirsts = [x[0] for x in possibilities]
     for i in range(len(possibilitieFirsts)):
-        if (possibilitieFirsts[i] >= possibilities[0][1]):
-            combinations.append((possibilities[0], possibilities[i]))       # Tuple of tuples?
+        for j in range(len(possibilitieFirsts)):
+            if (possibilitieFirsts[i] >= possibilitiesSeconds[j]):
+                combinations.append((possibilities[j], possibilities[i]))       # Tuple of tuples?
 
     # make Ufold on right points in different combinations
     print("combinations is:" + str(combinations))
     print(len(combinations))
-    for i in range(len(combinations)):
-        for j in range(len(combinations)):
-            pattern += Ufold(protein[combinations[i][j][0]:combinations[i][j][1]+1], j)
-            print("combinations[i][j] is: " + str(combinations[i][j]) + " i = " + str(i) + " j = " + str(j))
-            print("combinations[i][j][0] is: " + str(combinations[i][j][0]))
-        print(pattern)
-        patterns.append(pattern)
-        print("patterns is: " + str(patterns))
-        pattern = []
-    print("patterns is: " + str(patterns))
-
-    return patterns
+    # for i in range(len(combinations)):
+    #     for j in range(len(combinations)):
+    #         #pattern += Ufold(protein[combinations[i][j][0]:combinations[i][j][1]+1], j)
+    #         print("combinations[i][j] is: " + str(combinations[i][j]) + " i = " + str(i) + " j = " + str(j))
+    #         print("combinations[i][j][0] is: " + str(combinations[i][j][0]))
+    #     print(pattern)
+    #     patterns.append(pattern)
+    #     print("patterns is: " + str(patterns))
+    #     pattern = []
+    # print("patterns is: " + str(patterns))
+    #
+    # return patterns
 
 
 

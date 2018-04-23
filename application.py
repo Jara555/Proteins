@@ -16,41 +16,33 @@ def main():
     """ Implements all algorithms in order to most efficiently fold a protein """
 
     # open protein text file
-    with open('data/protein2.txt', 'r') as file:
+    with open('data/protein1.txt', 'r') as file:
         protein_string = file.read()
+
+    # print initial protein and grid
+    print()
+    print(protein_string)
+    print()
 
     # create protein of class Protein
     protein = Protein(protein_string)
 
-    # create grid of class Grid
-    grid = Grid(len(protein_string))
-
-    # place protein in grid
-    grid.placeProtein(protein.protein_list)
-
-    # print initial protein and grid
-    print()
-    print(protein)
-    print()
-    grid.printGrid()
-    print()
-
     # Ufold: get folding pattern for folding type Ufold and lay over protein
     Ufolding_pattern = Ufold(protein_string, 0)
+    print(Ufolding_pattern)
     Ufolded_protein = foldprotein(protein.protein_list, Ufolding_pattern)
 
     # visualize Ufold and print stability score
     visualize(Ufolded_protein)
     print(stability(Ufolded_protein))
+    print()
 
     # test for multipleUfold
-    multipleUfold(protein_string)
-    # folding_patterns = multipleUfold(protein_string)
-    # folded_protein1 = foldprotein(protein.protein_list, folding_patterns[0])
-    # visualize(folded_protein1)
-    # folded_protein2 = foldprotein(protein.protein_list, folding_patterns[1])
-    #
-    # visualize(folded_protein2)
+    folding_patterns = multipleUfold(protein_string)
+    folded_protein1 = foldprotein(protein.protein_list, folding_patterns[0])
+    visualize(folded_protein1)
+    folded_protein2 = foldprotein(protein.protein_list, folding_patterns[1])
+    visualize(folded_protein2)
 
     # Random fold: randomize and visualize protein folding patterns
     for i in range(1):

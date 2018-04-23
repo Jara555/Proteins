@@ -5,44 +5,42 @@ def Ufold(protein, noFold):
     patternFold = []
 
     if size % 2 == 0:
-        fold1 = (size/2) - 1
-        fold2 = size/2
+        fold1 = size/2
+        fold2 = fold1 + 1
     else:
-        fold2 = (size + 1) / 2
-        fold1 = fold2 - 1
+        fold1 = (size + 1) / 2
+        fold2 = fold1 + 1
 
-    # odd = []
-    # even = []
-    #
-    # for i in range(size):
-    #     if protein[i] == 1:
-    #         if i % 2 == 0:
-    #             even.append(i)
-    #         else:
-    #             odd.append(i)
+    print(fold1)
+    print(fold2)
 
     if noFold == 0:
-        patternFold.append('0')
 
-        for i in range(size - 1):
-            if i == fold1:
+        for i in range(size):
+            # starting direction is +Y
+            if i == 0:
+                patternFold.append('+Y')
+            elif i == fold1:
                 patternFold.append('+X')
             elif i == fold2:
                 patternFold.append('-Y')
             else:
                 direction = patternFold[i - 1]
                 patternFold.append(direction)
+
     elif noFold == 1:
         patternFold.append('0')
 
         for i in range(size - 1):
-            if i == fold1:
+            # starting direction
+            if i == 0:
+                patternFold.append('+Y')
+            elif i == fold1:
                 patternFold.append('-X')
             elif i == fold2:
                 patternFold.append('+Y')
             else:
                 direction = patternFold[i - 1]
                 patternFold.append(direction)
-
 
     return patternFold
