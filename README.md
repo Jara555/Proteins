@@ -1,7 +1,7 @@
 # Protein folding
 Proteins are strings of aminoacids. (Dis)fuctioning of proteins is known to be determined by the dimensional folding structure. In a simplified model, the aminoacids can be represented by H (hydrophobic) and P (polar). In this model the stability of a folding structure is measured by the amount of H-bonds present in the structure. An H-bond is defined as two Hs that are adjecent to each other in the structure, while not in the aminoacid-sequence. Each H-bonds has a score of -1. The lower the score of the total structure, the more stable the protein is and the better the folding structure is (see figure).
 
-
+![best random folding pattern of protein1](https://github.com/Jara555/Proteins/blob/master/Figures/random_protein1.png)
 
 This project tries to find an algorithm that finds the best possible folding structure for a benchmark of proteins:
 * HHPHHHPH
