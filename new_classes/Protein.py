@@ -120,6 +120,61 @@ class Protein(object):
 
         plt.show()
 
+    def makeCombinations(self):
+        """ Checks which H's can make a H-bond """
+
+        # empty lists
+        oddH = []
+        evenH = []
+        firstH = []
+        secondH = []
+        possibilities = []
+        combinations = []
+
+        # iterate through protein to find all H's and append the location to the oddH or evenH list
+        for i in range(self.length_protein):
+            if self.protein_list[i].type == 'H':
+                if i % 2 == 0:                  # i.e. even
+                    evenH.append(i)
+                else:                           # i.e. odd
+                    oddH.append(i)
+
+        # rule: the second H has to be at a later position in the protein than the first H
+        # make a list of first and second H's
+        for i in range(len(evenH)):
+            for j in range(len(oddH)):
+                if evenH[i] < oddH[j]:
+                    firstH.append(evenH[i])
+                    secondH.append(oddH[j])
+                else:
+                    firstH.append(oddH[j])
+                    secondH.append(evenH[i])
+
+        # rule: the distance between two H's must be at least 2 to be able to fold
+        # make a list of tuples representing the first and second H of a possible folding
+        for i in range(len(firstH)):
+            if (secondH[i] - firstH[i]) > 2:
+                possibilities.append((firstH[i], secondH[i]))
+
+        # get the first and the second H's of a possibility
+        possibilitiesSeconds = [x[1] for x in possibilities]  # Last H of possible fold
+        possibilitieFirsts = [x[0] for x in possibilities]  # First H of possible fold
+
+        # rule: you can make a combination if the second possibilities H's come both after the first possibility H's
+        for i in range(len(possibilitiesSeconds)):
+            for j in range(len(possibilitieFirsts)):
+                if possibilitieFirsts[j] >= possibilitiesSeconds[i]:
+                    combinations.append((possibilities[i], possibilities[j]))
+
+        # rule: you can make a combination of possibilities if the first H is smaller and the second H is larger than
+        # H's of the other possible fold
+        for i in range(len(possibilities)):
+            for j in range(len(possibilities)):
+                if possibilities[j][0] > possibilities[i][0] and possibilities[j][1] < possibilities[i][1]:
+                    combinations.append((possibilities[i], possibilities[j]))
+
+        return combinations
+
     def __str__(self):
         """ Prints the protein as a string """
 
