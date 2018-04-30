@@ -5,6 +5,7 @@ from functions.visualize import visualize
 from functions.stability import stability
 import csv
 
+
 def findRandom(protein, repeats, protein_nr, write):
     """
     Finds best random folded protein
@@ -17,8 +18,8 @@ def findRandom(protein, repeats, protein_nr, write):
     """
 
     # get protein list and string
-    protein_list = protein.protein_list
-    protein_string = protein.protein_string
+    protein_list = protein.list
+    protein_string = protein.string
 
     # declare variables
     i = 0
