@@ -61,13 +61,13 @@ class Protein(object):
             # set new coordinates to aminoacid
             self.list[index].setCoordinates(x, y)
 
-    def checkOverlap(self):
+    def checkOverlap(self, maxLength):
         """ Checks the protein for overlap"""
 
         coordinatesList = []
 
         # iterate over aminoacids
-        for aminoacid in self.list:
+        for aminoacid in self.list[0:maxLength]:
             coordinates = (aminoacid.x, aminoacid.y)
 
             # if coordinates already exist: overlap detected

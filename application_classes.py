@@ -1,37 +1,23 @@
 from classes.Protein import Protein
-from functions.findRandom import findRandom
+from classes.algorithm.Randomizer import Randomizer
+from classes.algorithm.DepthFirst import DepthFirst
 
 
 def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
-    protein_nr = 1
-
-    # open protein text file
-    data_file = ('data/protein' + str(protein_nr) + '.txt')
-    with open(data_file, 'r') as file:
-        protein_string = file.read()
-
     # create protein of class Protein
-    protein = Protein(protein_string)
+    protein = Protein(1)
 
-    # print protein string
-    print(protein)
+    # run random algorithm
+    randomAlgorithm = Randomizer(protein, 1000, 0)
+    randomAlgorithm.runRandomizer()
+    randomAlgorithm.printBestRandom()
 
-    # fold protein according to pattern
-    protein.fold(['+Y', '+Y', '+Y', '+Y', '+Y', '+Y', '+Y', '+Y'])
-
-    # check for overlap
-    if protein.checkOverlap():
-        print("Invalid")
-    else:
-        print("Valid")
-
-    # visualize protein
-    protein.visualize("test")
-
-    # randomizer!
-    findRandom(protein, 1000, protein_nr, 0)
+    # run depth first algorithm
+    depthFirstAlgorithm = DepthFirst(protein)
+    depthFirstAlgorithm.runDepthFirst()
+    depthFirstAlgorithm.printBestDepth()
 
 
 if __name__ == "__main__":
