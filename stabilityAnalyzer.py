@@ -3,17 +3,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def stabilityAnalyzer(csvname):
+# def stabilityAnalyzer(csvname):
+
+def main():
     low = 0
     score = []
-    filename = "results/" + csvname + ".csv"
+    # filename = "results/" + csvname + ".csv"
 
-    with open(filename, 'r') as csvfile:
+    with open("results/run2.csv", 'r') as csvfile:
         # determine lowest stability and adds stability to list
         next(csvfile)
         for row in csv.reader(csvfile):
             if row:
-                stability = int(abs(float(row[0])))
+                stability = int(abs(float(row[1])))
                 score.append(stability)
                 if stability > low:
                     low = stability
@@ -23,8 +25,6 @@ def stabilityAnalyzer(csvname):
     y = np.zeros(low)
     for item in score:
         y[item] = y[item] + 1
-
-    print(y)
 
     x = []
     start = 0
@@ -52,3 +52,7 @@ def stabilityAnalyzer(csvname):
         count = count + 1
 
     plt.show()
+
+
+if __name__ == "__main__":
+    main()
