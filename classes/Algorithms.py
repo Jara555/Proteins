@@ -1,12 +1,9 @@
 
-class Algorithms(object):
+
+class Algorithms:
     """ Contains all protein folding algorithms """
 
     def __init__(self, protein):
-        self.length = protein.length
-        self.string = protein.string
-
-
-
+        self.protein = protein
 
 
