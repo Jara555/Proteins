@@ -72,13 +72,13 @@ class Protein(object):
 
             # if coordinates already exist: overlap detected
             if coordinates in coordinatesList:
-                self.overlap = True
+                return True
 
             # else put in the list
             coordinatesList.append(coordinates)
 
         # if iteration finished there was no overlap
-        self.overlap = False
+        return False
 
     def stability(self):
         """ Checks the stability of the protein """
@@ -127,6 +127,8 @@ class Protein(object):
                                 (self.list[currentH + 1].x != xbond or self.list[
                                     currentH + 1].y != ybond):
                             score = score - 1
+
+        self.StabilityScore = score/2
 
     def visualize(self, name):
         """ Prints the protein in scatter plot with lines"""
