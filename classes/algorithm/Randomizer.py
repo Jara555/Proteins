@@ -33,7 +33,7 @@ class Randomizer(Algorithms):
                 self.protein.fold(self.foldPattern)
 
                 # skip if overlap detected
-                if self.protein.checkOverlap():
+                if self.protein.checkOverlap(self.protein.length):
                     continue
 
                 # get stability score of input protein
@@ -93,13 +93,12 @@ class Randomizer(Algorithms):
                 self.foldPattern.append('-Y')
                 i += 1
 
-    def printBest(self):
+    def printBestRandom(self):
         """ Prints the best found solution """
 
         # print folding pattern and stability in terminal
         print()
-        print('The highest stability found was: ' + str(self.maxStability) + ' (run ' + str(self.firstHit) + ')')
-        print()
+        print('Randomizer maximal stability: ' + str(self.maxStability))
         print(self.bestPattern)
         print()
 

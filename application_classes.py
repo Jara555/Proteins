@@ -1,5 +1,6 @@
 from classes.Protein import Protein
 from classes.algorithm.Randomizer import Randomizer
+from classes.algorithm.DepthFirst import DepthFirst
 
 
 def main():
@@ -11,7 +12,13 @@ def main():
     # run random algorithm
     randomAlgorithm = Randomizer(protein, 1000, 0)
     randomAlgorithm.runRandomizer()
-    randomAlgorithm.printBest()
+    randomAlgorithm.printBestRandom()
+
+    # run depth first algorithm
+    depthFirstAlgorithm = DepthFirst(protein)
+    depthFirstAlgorithm.runDepthFirst()
+    depthFirstAlgorithm.printBestDepth()
+
 
 if __name__ == "__main__":
     main()
