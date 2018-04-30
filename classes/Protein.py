@@ -8,11 +8,16 @@ from classes.AminoAcid import AminoAcid
 class Protein(object):
     """ Contains all protein properties and methods """
 
-    def __init__(self, string):
+    def __init__(self, number):
         """ Set properties and initializes all aminoacids """
 
+        self.number = number
+
+        # open protein text file
+        with open('data/protein' + str(number) + '.txt', 'r') as file:
+            self.string = file.read()
+
         # set properties
-        self.string = string
         self.length = len(self.string)
         self.list = []
 
