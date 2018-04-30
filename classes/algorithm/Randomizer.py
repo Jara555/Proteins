@@ -20,7 +20,7 @@ class Randomizer(Algorithms):
         # create csv file to write output to
         write_file = ('results/random' + str(self.protein.number) + '.csv')
         with open(write_file, 'w') as csvfile:
-            fieldnames = ['number', 'stability', 'foldingPattern']
+            fieldnames = ['stability', 'foldingPattern']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
 
@@ -42,7 +42,7 @@ class Randomizer(Algorithms):
                 # if write all is on, write every solution to csv
                 if self.writeOptions == 0:
                     writer.writerow(
-                        {'number': i, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
+                        {'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
 
                 # if stability score is equal or better than max stability save new
                 if self.protein.stabilityScore <= self.maxStability:
@@ -54,7 +54,7 @@ class Randomizer(Algorithms):
                     # if write all is off, write only best solutions to csv
                     if self.writeOptions == 1:
                         writer.writerow(
-                            {'number': i, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
+                            {'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
 
                 # next iteration
                 i += 1
