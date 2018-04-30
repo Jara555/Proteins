@@ -5,7 +5,7 @@ from functions.findRandom import findRandom
 def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
-    protein_nr = 1
+    protein_nr = 2
 
     # open protein text file
     data_file = ('data/protein' + str(protein_nr) + '.txt')
