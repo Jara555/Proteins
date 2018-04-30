@@ -1,4 +1,4 @@
-from old.old_classes import Protein
+from classes.Protein import Protein
 from functions.findRandom import findRandom
 
 
