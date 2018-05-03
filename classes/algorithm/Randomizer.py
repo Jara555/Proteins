@@ -72,7 +72,7 @@ class Randomizer(Algorithms):
 
                 if i % 10000 == 0:
                     print()
-                    print('Random iteration: ' + str(i))
+                    print('Random iteration: ' + str(i) + '     (stability ' + str(self.maxStability) + ')')
 
                 # next iteration
                 i += 1
@@ -118,7 +118,7 @@ class Randomizer(Algorithms):
 
             if i % 10000 == 0:
                 print()
-                print('Random iteration: ' + str(i))
+                print('Random iteration: ' + str(i) + '     (stability ' + str(self.maxStability) + ')')
 
             # next iteration
             i += 1
