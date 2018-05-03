@@ -4,7 +4,13 @@ from classes.Algorithms import Algorithms
 
 
 class DepthFirst(Algorithms):
-    """ Implements depth first algorithms in order to most efficiently fold a protein """
+    """ Implements depth first algorithms in order to most efficiently fold a protein.
+
+    superclass: Algorithms
+    method: runDepthFirst
+    method: searching: search for places for an aminoAcid
+    method: printBestDepth: Print and visualise the best foldingPattern
+    """
 
     def __init__(self, protein):
         Algorithms.__init__(self, protein)
@@ -16,6 +22,7 @@ class DepthFirst(Algorithms):
         self.bestPattern = []
 
     def runDepthFirst(self):
+        """ run depth-first algorithm."""
 
         # open csv file
         write_file = ('results/depthFirst' + str(self.protein.number) + '.csv')
@@ -29,8 +36,11 @@ class DepthFirst(Algorithms):
             self.searching(k)
 
     def searching(self, k):
-        """ Recursive search function """
+        """ Recursive search function
 
+        :param k: the aminoAcid being placed in the grid
+        :return: write foldingPatterns and associated stability to a csv-file
+        """
         for orientation in self.orientations:
             if k == self.protein.length:
                 self.foldPattern[k - 1] = orientation
@@ -61,6 +71,10 @@ class DepthFirst(Algorithms):
                 self.searching(k + 1)
 
     def printBestDepth(self):
+        """ Print and visualise the best foldingPattern found.
+
+        :return: print foldingPattern and associated stability to terminal, visualise in plot
+        """
 
         print()
         print('Depth first maximal stability: ' + str(self.maxStability))
