@@ -1,43 +1,28 @@
 from classes.Protein import Protein
 from classes.algorithm.Randomizer import Randomizer
 from classes.algorithm.DepthFirst import DepthFirst
-import time
-
 
 
 def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
-    # create protein of class Protein
-    protein = Protein(1)
-    protein.findHs()
-    print(protein.listH)
+    # TODO: Change these numbers per protein / run !!
+    number = 2
+    iterations = 1000
 
     # run random algorithm
-    randomAlgorithm = Randomizer(protein, 1000, 0)
-
-    startRand = time.time()
-    randomAlgorithm.runRandomizer()
-    endRand = time.time()
-    elapsedRand = endRand - startRand
-
-    randomAlgorithm.printBestRandom()
-
-    print('Random Time: ' + str(elapsedRand))
+    protein = Protein(number)
+    randomAlgorithm = Randomizer(protein, iterations, 1)
+    randomAlgorithm.runFastRandomizer()
 
     # run depth first algorithm
-
+    protein = Protein(number)
     depthFirstAlgorithm = DepthFirst(protein)
-
-    startDepth = time.time()
     depthFirstAlgorithm.runDepthFirst()
-    endDepth = time.time()
-    elapsedDepth = endDepth - startDepth
 
-    depthFirstAlgorithm.printBestDepth()
-
-    print('Depth First Time: ' + str(elapsedDepth))
-
+    # print solutions
+    randomAlgorithm.printBest()
+    depthFirstAlgorithm.printBest()
 
 if __name__ == "__main__":
     main()
