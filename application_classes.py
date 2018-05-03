@@ -9,32 +9,26 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # create protein of class Protein
-    protein = Protein(2)
+    protein = Protein(1)
 
     # run random algorithm
-    randomAlgorithm = Randomizer(protein, 1000, 0)
+    randomAlgorithm = Randomizer(protein, 5, 1)
+    randomAlgorithm.runFastRandomizer()
+    randomAlgorithm.printBest()
 
-    startRand = time.time()
-    randomAlgorithm.runRandomizer()
-    endRand = time.time()
-    elapsedRand = endRand - startRand
-
-    randomAlgorithm.printBestRandom()
-
-    print('Random Time: ' + str(elapsedRand))
 
     # run depth first algorithm
-
-    depthFirstAlgorithm = DepthFirst(protein)
-
-    startDepth = time.time()
-    depthFirstAlgorithm.runDepthFirst()
-    endDepth = time.time()
-    elapsedDepth = endDepth - startDepth
-
-    depthFirstAlgorithm.printBestDepth()
-
-    print('Depth First Time: ' + str(elapsedDepth))
+    #
+    # depthFirstAlgorithm = DepthFirst(protein)
+    #
+    # startDepth = time.time()
+    # depthFirstAlgorithm.runDepthFirst()
+    # endDepth = time.time()
+    # elapsedDepth = endDepth - startDepth
+    #
+    # depthFirstAlgorithm.printBestDepth()
+    #
+    # print('Depth First Time: ' + str(elapsedDepth))
 
 
 if __name__ == "__main__":

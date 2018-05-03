@@ -38,6 +38,7 @@ class DepthFirst(Algorithms):
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
+                    self.overlapCount += 1
                     continue
 
                 # get stability score of input protein
@@ -46,9 +47,10 @@ class DepthFirst(Algorithms):
                 if self.protein.stabilityScore < self.maxStability:
                     self.maxStability = self.protein.stabilityScore
                     self.bestPattern = copy.copy(self.foldPattern)
+                    self.bestProtein = copy.copy(self.protein)
 
-                # write to csv
-                self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
+                    # write to csv
+                    self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
 
             else:
                 self.foldPattern[k - 1] = orientation
@@ -56,18 +58,28 @@ class DepthFirst(Algorithms):
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
+                    self.overlapCount += 1
                     continue
 
                 self.searching(k + 1)
 
-    def printBestDepth(self):
+    def printBest(self):
+        """ Prints the best found solution """
 
+        # print info
         print()
-        print('Depth first maximal stability: ' + str(self.maxStability))
+        print('DEPTH FIRST')
+        print(' Maximal stability: ' + str(self.maxStability))
+        print(' First found in run: ' + str(self.bestRun))
+        print(' Total overlap: ' + str(self.overlapCount))
+        print(' Elapsed time: ' + "{0:.4f}".format(self.elapsed))
+        print()
+
+        # print fold pattern
+        print('Fold pattern: ')
         print(self.bestPattern)
         print()
 
         # plot protein
-        self.protein.fold(self.bestPattern)
-        self.protein.visualize(('Best random solution ' + str(self.maxStability)))
+        self.bestProtein.visualize(('Best random solution ' + str(self.maxStability)))
 
