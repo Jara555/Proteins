@@ -37,7 +37,7 @@ class Randomizer(Algorithms):
                     continue
 
                 # get stability score of input protein
-                self.protein.stability()
+                self.protein.stability(self.protein.length)
 
                 # if write all is on, write every solution to csv
                 if self.writeOptions == 0:

@@ -179,7 +179,7 @@ class Protein(object):
         # remember H-indices
         for i in range(self.length):
             if self.list[i].type == "H":
-                self.listH.append(self.list[i])
+                self.listH.append(i)
 
     def findHbonds(self):
         """ Checks which H's can make a H-bond """

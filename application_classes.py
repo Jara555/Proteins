@@ -10,6 +10,8 @@ def main():
 
     # create protein of class Protein
     protein = Protein(1)
+    protein.findHs()
+    print(protein.listH)
 
     # run random algorithm
     randomAlgorithm = Randomizer(protein, 1000, 0)

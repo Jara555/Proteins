@@ -51,7 +51,7 @@ class DepthFirst(Algorithms):
                     continue
 
                 # get stability score of input protein
-                self.protein.stability()
+                self.protein.stability(k)
 
                 if self.protein.stabilityScore < self.maxStability:
                     self.maxStability = self.protein.stabilityScore
