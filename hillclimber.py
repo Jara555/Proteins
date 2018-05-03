@@ -1,8 +1,8 @@
 from classes.Protein import Protein
 from classes.algorithm.Randomizer import Randomizer
 from classes.algorithm.DepthFirst import DepthFirst
+from classes.algorithm.HillClimber import HillClimber
 import time
-
 
 
 def main():
@@ -35,6 +35,9 @@ def main():
     depthFirstAlgorithm.printBestDepth()
 
     print('Depth First Time: ' + str(elapsedDepth))
+
+    bestHillClimber = HillClimber(protein)
+    bestHillClimber.printBestHill()
 
 
 if __name__ == "__main__":
