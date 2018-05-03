@@ -8,14 +8,14 @@ def main():
     low = 0
     score = []
 
-    with open('results/run3.csv', 'r') as csvfile:
+    with open('results/depthFirst1.csv', 'r') as csvfile:
         # determine lowest stability and adds stability to list
         next(csvfile)
         for row in csv.reader(csvfile):
             if row:
-                score.append(int(abs(float(row[1]))))
-                if int(abs(float(row[1]))) > low:
-                    low = int(abs(float(row[1])))
+                score.append(int(abs(float(row[0]))))
+                if int(abs(float(row[0]))) > low:
+                    low = int(abs(float(row[0])))
 
     # stores occurrences of stability scores
     low = low + 1

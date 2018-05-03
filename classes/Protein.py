@@ -20,6 +20,8 @@ class Protein(object):
         # set properties
         self.length = len(self.string)
         self.list = []
+        self.listH = []
+
 
         # append list with aminoacids
         for aa_index in range(self.length):
@@ -80,7 +82,7 @@ class Protein(object):
         # if iteration finished there was no overlap
         return False
 
-    def stability(self):
+    def stability(self, maxLength):
         """ Checks the stability of the protein """
 
         x = []
@@ -90,10 +92,10 @@ class Protein(object):
         currentH = 0
 
         # stores x and y coordinates of aminoacids with type "H"
-        for i in range(self.length):
-            if self.list[i].type == "H":
-                x.append(self.list[i].x)
-                y.append(self.list[i].y)
+        for aminoacid in self.list[0:maxLength]:
+            if aminoacid.type == "H":
+                x.append(aminoacid.x)
+                y.append(aminoacid.y)
 
         # loops over aminoacids with type "H" and determines number of H-bonds
         for i in range(len(x)):
@@ -128,7 +130,7 @@ class Protein(object):
                                     currentH + 1].y != ybond):
                             score = score - 1
 
-        self.StabilityScore = score/2
+        self.stabilityScore = score/2
 
     def visualize(self, name):
         """ Prints the protein in scatter plot with lines"""
@@ -170,6 +172,14 @@ class Protein(object):
         plt.legend(handles=[hydrofoob, polair])
 
         plt.show()
+
+    def findHs(self):
+        """Find the indexes of H's in the protein."""
+
+        # remember H-indices
+        for i in range(self.length):
+            if self.list[i].type == "H":
+                self.listH.append(self.list[i])
 
     def findHbonds(self):
         """ Checks which H's can make a H-bond """

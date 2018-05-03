@@ -9,7 +9,7 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # create protein of class Protein
-    protein = Protein(2)
+    protein = Protein(1)
 
     # run random algorithm
     randomAlgorithm = Randomizer(protein, 1000, 0)
