@@ -113,7 +113,7 @@ class DepthFirst(Algorithms):
 
         # plot protein
         self.protein.fold(self.bestPattern)
-        self.protein.visualize(('Best random solution ' + str(self.maxStability)))
+        self.protein.visualize(('Best depth first solution ' + str(self.maxStability)))
 
 
 
