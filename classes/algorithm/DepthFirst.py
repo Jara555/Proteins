@@ -1,5 +1,6 @@
 import copy
 import csv
+import time
 from classes.Algorithms import Algorithms
 
 
@@ -14,8 +15,12 @@ class DepthFirst(Algorithms):
         self.orientations = ['+Y', '-X', '+X', '-Y']
         self.maxStability = 0
         self.bestPattern = []
+        self.overlapCount = 0
+        self.combinations = 0
 
     def runDepthFirst(self):
+
+        start = time.time()
 
         # open csv file
         write_file = ('results/depthFirst' + str(self.protein.number) + '.csv')
@@ -28,6 +33,9 @@ class DepthFirst(Algorithms):
             k = 3
             self.searching(k)
 
+        end = time.time()
+        self.elapsed = end - start
+
     def searching(self, k):
         """ Recursive search function """
 
@@ -35,6 +43,9 @@ class DepthFirst(Algorithms):
             if k == self.protein.length:
                 self.foldPattern[k - 1] = orientation
                 self.protein.fold(self.foldPattern)
+
+                # keep track of combinations
+                self.combinations += 1
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
@@ -44,10 +55,10 @@ class DepthFirst(Algorithms):
                 # get stability score of input protein
                 self.protein.stability()
 
-                if self.protein.stabilityScore < self.maxStability:
+                if self.protein.stabilityScore <= self.maxStability:
                     self.maxStability = self.protein.stabilityScore
                     self.bestPattern = copy.copy(self.foldPattern)
-                    self.bestProtein = copy.copy(self.protein)
+                    self.bestRun = self.combinations
 
                     # write to csv
                     self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
@@ -70,7 +81,8 @@ class DepthFirst(Algorithms):
         print()
         print('DEPTH FIRST')
         print(' Maximal stability: ' + str(self.maxStability))
-        print(' First found in run: ' + str(self.bestRun))
+        print(' Total combinations tried: ' + str(self.combinations))
+        print(' First found in combination: ' + str(self.bestRun))
         print(' Total overlap: ' + str(self.overlapCount))
         print(' Elapsed time: ' + "{0:.4f}".format(self.elapsed))
         print()
@@ -81,5 +93,6 @@ class DepthFirst(Algorithms):
         print()
 
         # plot protein
-        self.bestProtein.visualize(('Best random solution ' + str(self.maxStability)))
+        self.protein.fold(self.bestPattern)
+        self.protein.visualize(('Best random solution ' + str(self.maxStability)))
 

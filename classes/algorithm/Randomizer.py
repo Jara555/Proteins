@@ -9,13 +9,18 @@ class Randomizer(Algorithms):
     """ Randomize algorithm: finding best protein solution based on random patterns """
 
     def __init__(self, protein, iterations, writeOptions):
+        """ Declare all variables """
+
         Algorithms.__init__(self, protein)
         self.iterations = iterations
         self.writeOptions = writeOptions
         self.bestPattern = []
+        self.foldPattern = []
         self.maxStability = 0
-        self.firstHit = 0
         self.overlapCount = 0
+        self.tempPattern = []
+        self.elapsed = 0
+        self.bestRun = 0
 
     def runRandomizer(self):
         """ Runs the randomizer and finds best pattern with highest stability """
@@ -51,15 +56,18 @@ class Randomizer(Algorithms):
                         {'run': i, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
 
                 # if stability score is equal or better than max stability save new
-                if self.protein.stabilityScore <= self.maxStability:
+                if self.protein.stabilityScore < self.maxStability:
                     self.maxStability = self.protein.stabilityScore
                     self.bestPattern = copy.copy(self.foldPattern)
-                    self.bestProtein = copy.copy(self.protein)
+                    self.bestRun = i
 
                     # if write all is off, write only best solutions to csv
                     if self.writeOptions == 1:
                         writer.writerow(
                             {'run': i, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
+
+                if i % 10000 == 0:
+                    print('Iteration: ' + str(i))
 
                 # next iteration
                 i += 1
@@ -88,15 +96,19 @@ class Randomizer(Algorithms):
             # get stability score of input protein
             self.protein.stability()
 
-            # if stability score is equal or better than max stability save new
+            # if stability score better than max stability save new
             if self.protein.stabilityScore < self.maxStability:
                 self.maxStability = self.protein.stabilityScore
-                self.bestPattern = copy.copy(self.foldPattern)
-                self.bestProtein = copy.copy(self.protein)
+                self.tempPattern = copy.copy(self.foldPattern)
                 self.bestRun = i
+
+            if i % 10000 == 0:
+                print('Iteration: ' + str(i))
 
             # next iteration
             i += 1
+
+        self.rewritePattern()
 
         end = time.time()
         self.elapsed = end - start
@@ -137,7 +149,7 @@ class Randomizer(Algorithms):
                 i += 1
 
     def fastGenerator(self):
-        """ Creates random folding pattern """
+        """ Creates random folding pattern while directly folding te protein """
 
         # create folding pattern list
         self.foldPattern = [0] * self.protein.length
@@ -175,6 +187,23 @@ class Randomizer(Algorithms):
                 y = y - 1
                 self.protein.list[i].setCoordinates(x, y)
                 i += 1
+                
+    def rewritePattern(self):
+        """ Rewrites to pattern of 1, 2, 3 and 4 to +X, -X, +Y, -Y """
+
+        self.bestPattern = []
+
+        for i in range(len(self.tempPattern)):
+            if self.tempPattern[i] == 0:
+                self.bestPattern.append('0')
+            elif self.tempPattern[i] == 1:
+                self.bestPattern.append('+X')
+            elif self.tempPattern[i] == 2:
+                self.bestPattern.append('-X')
+            elif self.tempPattern[i] == 3:
+                self.bestPattern.append('+Y')
+            elif self.tempPattern[i] == 4:
+                self.bestPattern.append('-Y')
 
     def printBest(self):
         """ Prints the best found solution """
@@ -183,6 +212,7 @@ class Randomizer(Algorithms):
         print()
         print('RANDOMIZER')
         print(' Maximal stability: ' + str(self.maxStability))
+        print(' Total runs: ' + str(self.iterations))
         print(' First found in run: ' + str(self.bestRun))
         print(' Total overlap: ' + str(self.overlapCount))
         print(' Elapsed time: ' + "{0:.4f}".format(self.elapsed))
@@ -194,7 +224,8 @@ class Randomizer(Algorithms):
         print()
 
         # plot protein
-        self.bestProtein.visualize(('Best random solution ' + str(self.maxStability)))
+        self.protein.fold(self.bestPattern)
+        self.protein.visualize(('Best random solution ' + str(self.maxStability)))
 
 
 

@@ -128,7 +128,7 @@ class Protein(object):
                                     currentH + 1].y != ybond):
                             score = score - 1
 
-        self.StabilityScore = score/2
+        self.stabilityScore = score/2
 
     def visualize(self, name):
         """ Prints the protein in scatter plot with lines"""
