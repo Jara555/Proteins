@@ -49,6 +49,7 @@ class Randomizer(Algorithms):
                 # skip if overlap detected
                 if self.protein.checkOverlap(self.protein.length):
                     self.overlapCount += 1
+                    i += 1
                     continue
 
                 # get stability score of input protein
@@ -105,6 +106,7 @@ class Randomizer(Algorithms):
             # skip if overlap detected
             if self.protein.checkOverlap(self.protein.length):
                 self.overlapCount += 1
+                i += 1
                 continue
 
             # get stability score of input protein
