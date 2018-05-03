@@ -27,6 +27,10 @@ class DepthFirst(Algorithms):
 
     def runDepthFirst(self):
 
+        print()
+        print("------------  Depth first started ----------------")
+        print()
+
         start = time.time()
 
         # open csv file
@@ -43,6 +47,11 @@ class DepthFirst(Algorithms):
         end = time.time()
         self.elapsed = end - start
 
+        print()
+        print()
+        print("------------  Depth first finished ----------------")
+        print()
+
     def searching(self, k):
         """ Recursive search function """
 
@@ -52,6 +61,9 @@ class DepthFirst(Algorithms):
                 self.protein.fold(self.foldPattern)
 
                 self.combinations += 1
+                if self.combinations % 10000 == 0:
+                    print()
+                    print('Depth first combination: ' + str(self.combinations))
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):

@@ -25,6 +25,10 @@ class Randomizer(Algorithms):
     def runRandomizer(self):
         """ Runs the randomizer and finds best pattern with highest stability """
 
+        print()
+        print("------------  Randomizer started ----------------")
+        print()
+
         start = time.time()
 
         # create csv file to write output to
@@ -67,7 +71,8 @@ class Randomizer(Algorithms):
                             {'run': i, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
 
                 if i % 10000 == 0:
-                    print('Iteration: ' + str(i))
+                    print()
+                    print('Random iteration: ' + str(i))
 
                 # next iteration
                 i += 1
@@ -75,9 +80,18 @@ class Randomizer(Algorithms):
             end = time.time()
             self.elapsed = end - start
 
+            print()
+            print()
+            print("------------  Randomizer finished ----------------")
+            print()
+
     def runFastRandomizer(self):
         """ Runs the randomizer and finds best pattern with highest stability
             Without writing to a csv! """
+
+        print()
+        print("------------  Randomizer started ----------------")
+        print()
 
         start = time.time()
 
@@ -103,7 +117,8 @@ class Randomizer(Algorithms):
                 self.bestRun = i
 
             if i % 10000 == 0:
-                print('Iteration: ' + str(i))
+                print()
+                print('Random iteration: ' + str(i))
 
             # next iteration
             i += 1
@@ -112,6 +127,11 @@ class Randomizer(Algorithms):
 
         end = time.time()
         self.elapsed = end - start
+
+        print()
+        print()
+        print("------------  Randomizer finished ----------------")
+        print()
 
     def generator(self):
         """ Creates random folding pattern """
