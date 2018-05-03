@@ -63,7 +63,7 @@ class DepthFirst(Algorithms):
                 self.combinations += 1
                 if self.combinations % 10000 == 0:
                     print()
-                    print('Depth first combination: ' + str(self.combinations))
+                    print('Depth first combination: ' + str(self.combinations) + '     (stability ' + str(self.maxStability) + ')')
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
