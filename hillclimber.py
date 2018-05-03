@@ -5,6 +5,7 @@ from classes.algorithm.HillClimber import HillClimber
 import time
 
 
+
 def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
