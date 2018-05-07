@@ -3,14 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# def stabilityAnalyzer(csvname):
-
-def main():
+def StabilityAnalyzer(filename):
     low = 0
     score = []
-    # filename = "results/" + csvname + ".csv"
 
-    with open("results/run2.csv", 'r') as csvfile:
+    with open("results/" + filename + ".csv", 'r') as csvfile:
         # determine lowest stability and adds stability to list
         next(csvfile)
         for row in csv.reader(csvfile):
@@ -52,7 +49,3 @@ def main():
         count = count + 1
 
     plt.show()
-
-
-if __name__ == "__main__":
-    main()
