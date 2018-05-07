@@ -17,9 +17,9 @@ def main():
     branchNbound.runBranchNBound()
     branchNbound.printBest()
     
-    depthFirst = DepthFirst(protein)
-    depthFirst.runDepthFirst()
-    depthFirst.printBest()
+    # depthFirst = DepthFirst(protein)
+    # depthFirst.runDepthFirst()
+    # depthFirst.printBest()
 
     # randomizer = Randomizer(protein, 1, 1)
     # randomizer.runRandomizer()

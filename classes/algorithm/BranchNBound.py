@@ -69,7 +69,7 @@ class BranchNBound(Algorithms):
 
         for orientation in self.orientations:
             self.combinations += 1
-            if self.combinations % 10000 == 0:
+            if self.combinations % 100000 == 0:
                 print()
                 print('BranchNBound combination: ' + str(self.combinations) + '     (stability ' + str(
                     self.maxStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')

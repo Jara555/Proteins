@@ -1,5 +1,5 @@
 from classes.Protein import Protein
-from functions.findRandom import findRandom
+from old.functions.findRandom import findRandom
 
 
 def main():
