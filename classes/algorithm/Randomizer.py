@@ -21,6 +21,7 @@ class Randomizer(Algorithms):
         self.tempPattern = []
         self.elapsed = 0
         self.bestRun = 0
+        self.bestProtein = None
 
     def runRandomizer(self):
         """ Runs the randomizer and finds best pattern with highest stability """
@@ -49,6 +50,7 @@ class Randomizer(Algorithms):
                 # skip if overlap detected
                 if self.protein.checkOverlap(self.protein.length):
                     self.overlapCount += 1
+                    i += 1
                     continue
 
                 # get stability score of input protein
@@ -102,9 +104,14 @@ class Randomizer(Algorithms):
             # get random folding pattern and fold protein according to this pattern
             self.fastGenerator()
 
+            if i % 10000 == 0:
+                print()
+                print('Random iteration: ' + str(i) + '     (stability ' + str(self.maxStability) + ')')
+
             # skip if overlap detected
             if self.protein.checkOverlap(self.protein.length):
                 self.overlapCount += 1
+                i += 1
                 continue
 
             # get stability score of input protein
@@ -114,11 +121,8 @@ class Randomizer(Algorithms):
             if self.protein.stabilityScore < self.maxStability:
                 self.maxStability = self.protein.stabilityScore
                 self.tempPattern = copy.copy(self.foldPattern)
+                self.bestProtein = copy.copy(self.protein)
                 self.bestRun = i
-
-            if i % 10000 == 0:
-                print()
-                print('Random iteration: ' + str(i) + '     (stability ' + str(self.maxStability) + ')')
 
             # next iteration
             i += 1
