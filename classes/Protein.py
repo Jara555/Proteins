@@ -8,7 +8,10 @@ class Protein(object):
     """ Contains all protein properties and methods """
 
     def __init__(self, number):
-        """ Set properties and initializes all aminoacids """
+        """ Set properties and initialize all aminoacids
+
+        :param number: protein file number
+        """
 
         self.number = number
 
@@ -31,7 +34,11 @@ class Protein(object):
             self.list.append(aminoacid)
 
     def fold(self, folding_pattern):
-        """ Folds protein according to input pattern """
+        """ Folds protein according to input pattern
+
+        :param folding_pattern: pattern followed to fold protein
+        :return: coordinates of aminoacids set in the self.list
+        """
 
         # let 1st aminoacid start at coordinates (0, 0)
         x, y = 0, 0
@@ -66,7 +73,11 @@ class Protein(object):
             self.list[index].setCoordinates(x, y)
 
     def checkOverlap(self, maxLength):
-        """ Checks the protein for overlap"""
+        """ Checks for overlap in the folded protein
+
+        :param maxLength: until where should the overlap be checked
+        :return: True if overlap is found
+        """
 
         coordinatesList = []
 
@@ -85,7 +96,11 @@ class Protein(object):
         return False
 
     def stability(self, maxLength):
-        """ Checks the stability of the protein """
+        """ Checks the stability of the protein and the index of H-bonds associated with the stability
+
+        :param maxLength: until where should the stability be checked
+        :return: self.stabilityScore and self.HBonds
+        """
 
         x = []
         y = []
@@ -152,7 +167,11 @@ class Protein(object):
         self.stabilityScore = score/2
 
     def visualize(self, name):
-        """ Prints the protein in scatter plot with lines"""
+        """ Prints the protein in scatter plot with lines
+
+        :param name: title of the plot
+        :return: a plot
+        """
 
         x = []
         y = []
@@ -193,7 +212,7 @@ class Protein(object):
         plt.show()
 
     def findHs(self):
-        """Find the indexes of H's in the protein."""
+        """ Find the indexes of H's in the protein"""
 
         # remember H-indices
         for i in range(self.length):
@@ -201,7 +220,10 @@ class Protein(object):
                 self.listH.append(i)
 
     def findHbonds(self):
-        """ Checks which H's can make a H-bond """
+        """ Checks which H's can make a H-bond
+
+        :return: self.bondPossibilities a list with tuples of H-indices
+        """
 
         # empty lists
         oddH = []
