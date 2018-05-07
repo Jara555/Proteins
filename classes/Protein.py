@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
-
 from classes.AminoAcid import AminoAcid
 
 
@@ -167,7 +166,7 @@ class Protein(object):
         # legend
         hydrofoob = mpatches.Patch(color='red', label='H')
         polair = mpatches.Patch(color='blue', label='P')
-        plt.legend(handles=[hydrofoob, polair])
+        #plt.legend(handles=[hydrofoob, polair])
 
         plt.show()
 
