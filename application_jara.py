@@ -9,7 +9,7 @@ def main():
     # TODO: Change these numbers per protein / run !!
     number = 1
 
-    iterations = 10
+    iterations = 10000
 
     # run random algorithm
     protein = Protein(number)
@@ -28,3 +28,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+

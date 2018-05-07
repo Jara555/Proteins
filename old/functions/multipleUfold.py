@@ -1,4 +1,4 @@
-from functions.Ufold import Ufold
+from old.functions import Ufold
 
 def multipleUfold(protein):
     """ Creates U-fold on multiple locations

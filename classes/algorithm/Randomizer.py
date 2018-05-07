@@ -65,6 +65,7 @@ class Randomizer(Algorithms):
                 if self.protein.stabilityScore < self.maxStability:
                     self.maxStability = self.protein.stabilityScore
                     self.bestPattern = copy.copy(self.foldPattern)
+                    self.bestProtein = copy.copy(self.protein)
                     self.bestRun = i
 
                     # if write all is off, write only best solutions to csv
@@ -211,9 +212,59 @@ class Randomizer(Algorithms):
                 y = y - 1
                 self.protein.list[i].setCoordinates(x, y)
                 i += 1
-                
+
+    def fastGenerator3D(self):
+        """ Creates random folding pattern while directly folding te protein """
+
+        # create folding pattern list
+        self.foldPattern = [0] * self.protein.length
+        self.foldPattern[1] = 3
+
+        # index counter for number of items in folding pattern list
+        x, y, z = 0, 1, 0
+        i = 2
+
+        self.protein.list[0].set3Dcoordinates(0, 0, 0)
+        self.protein.list[1].set3Dcoordinates(x, y, z)
+
+        # iterate over required folding pattern length
+        while i < self.protein.length:
+
+            orientation = randint(1, 6)
+
+            if orientation == 1 and self.foldPattern[i - 1] != 2:
+                self.foldPattern[i] = orientation
+                x = x + 1
+                self.protein.list[i].set3Dcoordinates(x, y, z)
+                i += 1
+            elif orientation == 2 and self.foldPattern[i - 1] != 1:
+                self.foldPattern[i] = orientation
+                x = x - 1
+                self.protein.list[i].set3Dcoordinates(x, y, z)
+                i += 1
+            elif orientation == 3 and self.foldPattern[i - 1] != 4:
+                self.foldPattern[i] = orientation
+                y = y + 1
+                self.protein.list[i].set3Dcoordinates(x, y, z)
+                i += 1
+            elif orientation == 4 and self.foldPattern[i - 1] != 3:
+                self.foldPattern[i] = orientation
+                y = y - 1
+                self.protein.list[i].set3Dcoordinates(x, y, z)
+                i += 1
+            elif orientation == 5 and self.foldPattern[i - 1] != 6:
+                self.foldPattern[i] = orientation
+                z = z + 1
+                self.protein.list[i].set3Dcoordinates(x, y, z)
+                i += 1
+            elif orientation == 6 and self.foldPattern[i - 1] != 5:
+                self.foldPattern[i] = orientation
+                z = z - 1
+                self.protein.list[i].set3Dcoordinates(x, y, z)
+                i += 1
+
     def rewritePattern(self):
-        """ Rewrites to pattern of 1, 2, 3 and 4 to +X, -X, +Y, -Y """
+        """ Rewrites to pattern of numbers to coordinates """
 
         self.bestPattern = []
 
@@ -228,6 +279,10 @@ class Randomizer(Algorithms):
                 self.bestPattern.append('+Y')
             elif self.tempPattern[i] == 4:
                 self.bestPattern.append('-Y')
+            elif self.tempPattern[i] == 5:
+                self.bestPattern.append('+Z')
+            elif self.tempPattern[i] == 6:
+                self.bestPattern.append('-Z')
 
     def printBest(self):
         """ Prints the best found solution """
