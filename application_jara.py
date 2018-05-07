@@ -7,18 +7,19 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # TODO: Change these numbers per protein / run !!
-    number = 3
-    iterations = 1000000
+    number = 1
+
+    iterations = 10
 
     # run random algorithm
     protein = Protein(number)
     randomAlgorithm = Randomizer(protein, iterations, 1)
     randomAlgorithm.runFastRandomizer()
 
-    # # run depth first algorithm
+    # run depth first algorithm
     # protein = Protein(number)
     # depthFirstAlgorithm = DepthFirst(protein)
-    # depthFirstAlgorithm.runDepthFirst()
+    # depthFirstAlgorithm.runFastDepthFirst()
 
     # print solutions
     randomAlgorithm.printBest()

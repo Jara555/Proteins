@@ -52,6 +52,25 @@ class DepthFirst(Algorithms):
         print("------------  Depth first finished ----------------")
         print()
 
+    def runFastDepthFirst(self):
+        print()
+        print("------------  Depth first started ----------------")
+        print()
+
+        start = time.time()
+
+        # recursive function
+        k = 3
+        self.searching(k)
+
+        end = time.time()
+        self.elapsed = end - start
+
+        print()
+        print()
+        print("------------  Depth first finished ----------------")
+        print()
+
     def searching(self, k):
         """ Recursive search function """
 
@@ -61,9 +80,10 @@ class DepthFirst(Algorithms):
                 self.protein.fold(self.foldPattern)
 
                 self.combinations += 1
-                if self.combinations % 10000 == 0:
+                if self.combinations % 100000 == 0:
                     print()
                     print('Depth first combination: ' + str(self.combinations) + '     (stability ' + str(self.maxStability) + ')')
+                    print(self.bestPattern)
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
@@ -77,8 +97,8 @@ class DepthFirst(Algorithms):
                     self.maxStability = self.protein.stabilityScore
                     self.bestPattern = copy.copy(self.foldPattern)
 
-                # write to csv
-                self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
+                    # write to csv
+                    #self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
 
             else:
                 self.foldPattern[k - 1] = orientation
