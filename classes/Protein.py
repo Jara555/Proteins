@@ -21,6 +21,7 @@ class Protein(object):
         self.length = len(self.string)
         self.list = []
         self.listH = []
+        self.HBonds = []
 
 
         # append list with aminoacids
@@ -87,15 +88,23 @@ class Protein(object):
 
         x = []
         y = []
+        a = []
+        hBonds = []
+        noDoubles = []
+
         score = 0
         orientation = [1, 0, -1, 0, 0, 1, 0, -1]
         currentH = 0
+        i = -1
 
         # stores x and y coordinates of aminoacids with type "H"
         for aminoacid in self.list[0:maxLength]:
+            i += 1
             if aminoacid.type == "H":
                 x.append(aminoacid.x)
                 y.append(aminoacid.y)
+                a.append(i)
+
 
         # loops over aminoacids with type "H" and determines number of H-bonds
         for i in range(len(x)):
@@ -118,18 +127,27 @@ class Protein(object):
                     if i == 0:
                         if (x[n] == xbond and y[n] == ybond) and (
                            self.list[currentH + 1].x != xbond or self.list[currentH + 1].y != ybond):
+                            hBonds.append((currentH, a[n]))
                             score = score - 1
                     elif i == len(x) - 1:
                         if (x[n] == xbond and y[n] == ybond) and (
                            self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond):
+                            hBonds.append((currentH, a[n]))
                             score = score - 1
                     else:
                         if (x[n] == xbond and y[n] == ybond) and \
                                 (self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond) and \
                                 (self.list[currentH + 1].x != xbond or self.list[
                                     currentH + 1].y != ybond):
+                            hBonds.append((currentH, a[n]))
                             score = score - 1
 
+        # remove double counted bonds
+        for hBond in hBonds:
+            if hBond[0] < hBond[1]:
+                noDoubles.append((hBond[0], hBond[1]))
+
+        self.HBonds = noDoubles
         self.stabilityScore = score/2
 
     def visualize(self, name):
@@ -217,24 +235,26 @@ class Protein(object):
             if (secondH[i] - firstH[i]) > 2:
                 possibilities.append((firstH[i], secondH[i]))
 
-        # get the first and the second H's of a possibility
-        possibilitiesSeconds = [x[1] for x in possibilities]  # Last H of possible fold
-        possibilitieFirsts = [x[0] for x in possibilities]  # First H of possible fold
+        self.combinations = possibilities
 
-        # rule: you can make a combination if the second possibilities H's come both after the first possibility H's
-        for i in range(len(possibilitiesSeconds)):
-            for j in range(len(possibilitieFirsts)):
-                if possibilitieFirsts[j] >= possibilitiesSeconds[i]:
-                    combinations.append((possibilities[i], possibilities[j]))
+        # # get the first and the second H's of a possibility
+        # possibilitiesSeconds = [x[1] for x in possibilities]  # Last H of possible fold
+        # possibilitieFirsts = [x[0] for x in possibilities]  # First H of possible fold
+        #
+        # # rule: you can make a combination if the second possibilities H's come both after the first possibility H's
+        # for i in range(len(possibilitiesSeconds)):
+        #     for j in range(len(possibilitieFirsts)):
+        #         if possibilitieFirsts[j] >= possibilitiesSeconds[i]:
+        #             combinations.append((possibilities[i], possibilities[j]))
+        #
+        # # rule: you can make a combination of possibilities if the first H is smaller and the second H is larger than
+        # # H's of the other possible fold
+        # for i in range(len(possibilities)):
+        #     for j in range(len(possibilities)):
+        #         if possibilities[j][0] > possibilities[i][0] and possibilities[j][1] < possibilities[i][1]:
+        #             combinations.append((possibilities[i], possibilities[j]))
 
-        # rule: you can make a combination of possibilities if the first H is smaller and the second H is larger than
-        # H's of the other possible fold
-        for i in range(len(possibilities)):
-            for j in range(len(possibilities)):
-                if possibilities[j][0] > possibilities[i][0] and possibilities[j][1] < possibilities[i][1]:
-                    combinations.append((possibilities[i], possibilities[j]))
 
-        self.combinations = combinations
 
     def __str__(self):
         """ Prints the protein as a string """

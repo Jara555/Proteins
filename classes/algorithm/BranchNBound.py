@@ -6,7 +6,7 @@ from classes.Algorithms import Algorithms
 
 
 class BranchNBound(Algorithms):
-    """ Implements depth first algorithms in order to most efficiently fold a protein """
+    """ Implements branch 'n bound algorithms in order to most efficiently fold a protein """
 
     def __init__(self, protein):
 
@@ -28,7 +28,7 @@ class BranchNBound(Algorithms):
     def runBranchNBound(self):
 
         print()
-        print("------------  Branch and Bound started ----------------")
+        print("------------  Branch 'n Bound started ----------------")
         print()
 
         start = time.time()
@@ -49,21 +49,22 @@ class BranchNBound(Algorithms):
 
         print()
         print()
-        print("------------  Branch and Bound finished ----------------")
+        print("------------  Branch 'n Bound finished ----------------")
         print()
 
     def searching(self, k):
         """ Recursive search function """
 
         for orientation in self.orientations:
+            self.combinations += 1
+            if self.combinations % 10000 == 0:
+                print()
+                print('BranchNBound combination: ' + str(self.combinations) + '     (stability ' + str(
+                    self.maxStability) + ')')
+
             if k == self.protein.length:
                 self.foldPattern[k - 1] = orientation
                 self.protein.fold(self.foldPattern)
-
-                self.combinations += 1
-                if self.combinations % 10000 == 0:
-                    print()
-                    print('BranchNBound combination: ' + str(self.combinations) + '     (stability ' + str(self.maxStability) + ')')
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
@@ -89,7 +90,24 @@ class BranchNBound(Algorithms):
                     self.overlapCount += 1
                     continue
 
-                # prune if ...
+                # prune if potStability < maxStability
+                self.protein.stability(k)       # check which and how many h-bonds are present
+                bondOptions = copy.copy(self.protein.combinations)    # make copy of all possible H-bonds
+                newBondOptions = []
+
+                # remove the H-bonds that are in the protein already
+                for hBond in self.protein.HBonds:
+                    bondOptions.remove(hBond)
+
+                # make a new list of only hBonds with second H after k (still possible)
+                for hBond in bondOptions:
+                    if hBond[1] > k:
+                        newBondOptions.append(hBond)
+
+                potStability = self.protein.stabilityScore + (-1 * len(newBondOptions))  # calculate potential stability
+
+                if potStability > self.maxStability:   # prone if potStability < maxStability
+                    continue
 
                 self.searching(k + 1)
 
@@ -101,9 +119,9 @@ class BranchNBound(Algorithms):
 
         # print info
         print()
-        print('BRANCHNBOUND')
+        print("BRANCH 'N BOUND")
         print(' Maximal stability: ' + str(self.maxStability))
-        print(' First found in combination: ' + str(self.combinations))
+        print(' Total combinations: ' + str(self.combinations))
         print(' Total overlap: ' + str(self.overlapCount))
         print(' Elapsed time: ' + "{0:.4f}".format(self.elapsed))
         print()
@@ -115,7 +133,7 @@ class BranchNBound(Algorithms):
 
         # plot protein
         self.protein.fold(self.bestPattern)
-        self.protein.visualize(('Best branchNbound solution ' + str(self.maxStability)))
+        self.protein.visualize(("Best branch 'n bound solution " + str(self.maxStability)))
 
 
 
