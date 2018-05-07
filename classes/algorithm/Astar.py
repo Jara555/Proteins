@@ -54,7 +54,9 @@ class State_String(State):
         if not self.children:
             for i in range(len(self.goal) - 1):
                 val = self.value
+                print(val)
                 val = val[:i] + val[i + 1] + val[i] + val[i + 2:]
+                print(val)
                 child = State_String(val, self)
                 self.children.append(child)
 
