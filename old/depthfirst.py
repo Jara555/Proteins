@@ -56,10 +56,11 @@ def searching(foldingPattern, length, k, orientations, writer, protein):
         else:
             foldingPattern[k - 1] = orientation
 
-            protein.fold(foldingPattern)
+            proteinTemp = Protein(protein.list[0:k-1].type)
+            proteinTemp.fold(foldingPattern[0:k-1])
 
             # skip if overlap detected
-            if protein.checkOverlap():
+            if proteinTemp[0:k-1].checkOverlap():
                 continue
 
             searching(foldingPattern, length, k + 1, orientations, writer, protein)
