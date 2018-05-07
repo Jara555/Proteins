@@ -6,9 +6,13 @@ from classes.Algorithms import Algorithms
 
 
 class BranchNBound(Algorithms):
-    """ Implements branch 'n bound algorithms in order to most efficiently fold a protein """
+    """ Implements branch 'n bound algorithms in order to efficiently fold a protein """
 
     def __init__(self, protein):
+        """ Set and initiate all properties.
+
+        :param protein: protein you want to fold
+        """
 
         Algorithms.__init__(self, protein)
 
@@ -26,6 +30,10 @@ class BranchNBound(Algorithms):
         self.elapsed = 0
 
     def runBranchNBound(self):
+        """ run the branch 'n bound algorithm
+
+        :return: .csv file with the best folding patterns and associated stabilities
+        """
 
         print()
         print("------------  Branch 'n Bound started ----------------")
@@ -53,14 +61,18 @@ class BranchNBound(Algorithms):
         print()
 
     def searching(self, k):
-        """ Recursive search function """
+        """ Recursive search function
+
+        :param k: the aminoacid currently being placed
+        :return: calculates self.bestPattern and self.maxStability
+        """
 
         for orientation in self.orientations:
             self.combinations += 1
             if self.combinations % 10000 == 0:
                 print()
                 print('BranchNBound combination: ' + str(self.combinations) + '     (stability ' + str(
-                    self.maxStability) + ')')
+                    self.maxStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
 
             if k == self.protein.length:
                 self.foldPattern[k - 1] = orientation
@@ -90,23 +102,23 @@ class BranchNBound(Algorithms):
                     self.overlapCount += 1
                     continue
 
-                # prune if potStability < maxStability
-                self.protein.stability(k)       # check which and how many h-bonds are present
-                bondOptions = copy.copy(self.protein.combinations)    # make copy of all possible H-bonds
+                # pruning: initiate
+                self.protein.stability(k)
+                bondOptions = copy.copy(self.protein.bondPossibilities)
                 newBondOptions = []
 
                 # remove the H-bonds that are in the protein already
                 for hBond in self.protein.HBonds:
                     bondOptions.remove(hBond)
 
-                # make a new list of only hBonds with second H after k (still possible)
+                # make a new list of only hBonds with second H after k (still potential H-bonds)
                 for hBond in bondOptions:
                     if hBond[1] > k:
                         newBondOptions.append(hBond)
 
+                # prone if potStability > maxStability
                 potStability = self.protein.stabilityScore + (-1 * len(newBondOptions))  # calculate potential stability
-
-                if potStability > self.maxStability:   # prone if potStability < maxStability
+                if potStability > self.maxStability:
                     continue
 
                 self.searching(k + 1)
