@@ -3,6 +3,7 @@ import matplotlib.patches as mpatches
 import numpy as np
 import copy
 from classes.AminoAcid import AminoAcid
+from mpl_toolkits.mplot3d import Axes3D
 
 
 class Protein(object):
@@ -208,7 +209,66 @@ class Protein(object):
         # legend
         hydrofoob = mpatches.Patch(color='red', label='H')
         polair = mpatches.Patch(color='blue', label='P')
-        #plt.legend(handles=[hydrofoob, polair])
+        plt.legend(handles=[hydrofoob, polair])
+
+        plt.show()
+
+    def visualize3D(self, name):
+        """ Prints the protein in scatter plot with lines
+
+        :param name: title of the plot
+        :return: a plot
+        """
+
+        x = []
+        y = []
+        z = []
+        color = []
+
+        # put x and y coordinates of aminoacid in x and y lists
+        for aminoacid in self.list:
+            x.append(aminoacid.x)
+            y.append(aminoacid.y)
+            z.append(aminoacid.z)
+
+            # creates color list for H = red and P = blue
+            if aminoacid.type == 'H':
+                color.append('red')
+            else:
+                color.append('blue')
+
+        # print coordinates in terminal
+        print()
+        print('Protein coordinates:')
+        print(x)
+        print(y)
+        print(z)
+        print()
+
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+
+        # scatter plot with line
+        ax.plot(x, y, z, 'C3', zorder=1, lw=2, color='black')
+        ax.scatter(x, y, z, s=50, zorder=2, color=color)
+
+        # layout
+        plt.title('Protein: ' + name), plt.tight_layout(), plt.axis('scaled')
+
+        # limits
+        ax.set_ylim(min(y) - 1, max(y) + 1)
+        ax.set_xlim(min(x) - 1, max(x) + 1)
+        ax.set_zlim(min(z) - 1, max(z) + 1)
+
+        # ticks
+        ax.set_xticks(np.arange(min(x), max(x) + 1, 1.0))
+        ax.set_yticks(np.arange(min(y), max(y) + 1, 1.0))
+        ax.set_zticks(np.arange(min(z), max(z) + 1, 1.0))
+
+        # legend
+        hydrofoob = mpatches.Patch(color='red', label='H')
+        polair = mpatches.Patch(color='blue', label='P')
+        plt.legend(handles=[hydrofoob, polair])
 
         plt.show()
 

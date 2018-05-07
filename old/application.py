@@ -1,10 +1,10 @@
 from old.old_classes import Protein
-from functions.Ufold import Ufold
-from functions.foldprotein import foldprotein
-from functions.multipleUfold import multipleUfold
-from functions.randomizer import randomizer
-from functions.visualize import visualize
-from functions.stability import stability
+from old.functions import Ufold
+from old.functions.foldprotein import foldprotein
+from old.functions import multipleUfold
+from old.functions.randomizer import randomizer
+from old.functions import visualize
+from old.functions import stability
 
 import matplotlib.pyplot as plt
 

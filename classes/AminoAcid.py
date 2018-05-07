@@ -7,10 +7,17 @@ class AminoAcid(object):
         self.type = type
 
     def setCoordinates(self, x, y):
-        """ Initializes coordinates of the aminoacid """
+        """ Initializes 2D coordinates of the aminoacid """
 
         self.x = x
         self.y = y
+
+    def set3Dcoordinates(self, x, y, z):
+        """ Initializes 3D coordinates of the aminoacid """
+
+        self.x = x
+        self.y = y
+        self.z = z
 
 
 

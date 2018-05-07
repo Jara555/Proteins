@@ -1,8 +1,8 @@
-from functions.randomizer import randomizer
-from functions.foldprotein import foldprotein
-from functions.overlap import overlap
-from functions.visualize import visualize
-from functions.stability import stability
+from old.functions.randomizer import randomizer
+from old.functions.foldprotein import foldprotein
+from old.functions.overlap import overlap
+from old.functions import visualize
+from old.functions import stability
 import csv
 
 
