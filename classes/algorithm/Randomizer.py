@@ -115,7 +115,7 @@ class Randomizer(Algorithms):
                 continue
 
             # get stability score of input protein
-            self.protein.stability()
+            self.protein.stability(self.protein.length)
 
             # if stability score better than max stability save new
             if self.protein.stabilityScore < self.maxStability:

@@ -8,15 +8,15 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # protein number
-    number = 4
+    number = 3
 
     # initialize values for randomizer
-    iterationsRand = 1000
+    iterationsRand = 100
     writeOptionsRand = 1
 
     # initialize values for hill climber
-    iterationsHill = 100000
-    writeOptionsHill = 0
+    iterationsHill = 1000000
+    writeOptionsHill = 1
 
     # create protein
     protein = Protein(number)
@@ -31,12 +31,9 @@ def main():
     bestHillClimber.runHillClimber()
     bestHillClimber.printBestHill()
 
-    # analyze stabilityscores
-    filename = "hillclimber4"
-    StabilityAnalyzer(filename)
-
-
-
+    # analyze stability scores
+    # filename = "hillclimber3"
+    # StabilityAnalyzer(filename)
 
 if __name__ == "__main__":
     main()
