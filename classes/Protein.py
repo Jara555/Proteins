@@ -16,11 +16,13 @@ class Protein(object):
         with open('data/protein' + str(number) + '.txt', 'r') as file:
             self.string = file.read()
 
-        # set properties
+        # initiate properties
         self.length = len(self.string)
         self.list = []
         self.listH = []
         self.HBonds = []
+        self.stabilityScore = 0
+        self.bondPossibilities = []
 
 
         # append list with aminoacids
@@ -234,7 +236,7 @@ class Protein(object):
             if (secondH[i] - firstH[i]) > 2:
                 possibilities.append((firstH[i], secondH[i]))
 
-        self.combinations = possibilities
+        self.bondPossibilities = possibilities
 
         # # get the first and the second H's of a possibility
         # possibilitiesSeconds = [x[1] for x in possibilities]  # Last H of possible fold
