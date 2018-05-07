@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
+import copy
 from classes.AminoAcid import AminoAcid
 
 
@@ -259,6 +260,7 @@ class Protein(object):
                 possibilities.append((firstH[i], secondH[i]))
 
         self.bondPossibilities = possibilities
+        self.listH = evenH + oddH
 
         # # get the first and the second H's of a possibility
         # possibilitiesSeconds = [x[1] for x in possibilities]  # Last H of possible fold
@@ -283,3 +285,42 @@ class Protein(object):
         """ Prints the protein as a string """
 
         return self.string
+
+    def prune(self, maxLength, maxStability):
+        """ Check if the protein can be pruned
+
+        :param maxLength: the aminoacid you reached in the protein and after which you might want to prune
+        :param maxStability: the max stability found for this protein so far
+        :return: True if potential stability > maxStability (attention: negative values!)
+        """
+
+        # pruning: initiate
+        self.stability(maxLength)
+        bondOptions = copy.copy(self.bondPossibilities)
+        newBondOptions = []
+
+        # remove the H-bonds that are in the protein already
+        for hBond in self.HBonds:
+            bondOptions.remove(hBond)
+
+        # make a new list of only hBonds with second H after k (still potential H-bonds)
+        for hBond in bondOptions:
+            if hBond[1] >= k:
+                newBondOptions.append(hBond)
+
+        # for index in self.listH:
+        #     w = 0
+        #     q = 0
+        #     for hBond in reversed(newBondOptions):
+        #         # while (q != len(newBondOptions) | w != 2):
+        #         if index in hBond:  # 10 should be index
+        #             print(hBond)
+        #             # w += 1                  # make new list with max 2 times one number (3 times for first and last)
+        #             q += 1
+
+        # prune if potential Stability > maxStability
+        potStability = self.stabilityScore + (-1 * len(newBondOptions))  # calculate potential stability
+        if potStability > maxStability:
+            return True
+
+        return False

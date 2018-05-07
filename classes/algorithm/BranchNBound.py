@@ -20,12 +20,13 @@ class BranchNBound(Algorithms):
         self.foldPattern[0] = '0'
         self.foldPattern[1] = '+Y'
 
-        self.orientations = ['+Y', '-X', '+X', '-Y']
+        self.orientations = ['+Y', '-Y', '+X', '-X']        # 1='+Y' 2='-Y' 3='+X' 4='-X'
         self.bestPattern = []
         self.writer = None
 
         self.maxStability = 0
         self.overlapCount = 0
+        self.pruneCount = 0
         self.combinations = 0
         self.elapsed = 0
 
@@ -69,7 +70,7 @@ class BranchNBound(Algorithms):
 
         for orientation in self.orientations:
             self.combinations += 1
-            if self.combinations % 10000 == 0:
+            if self.combinations % 100000 == 0:
                 print()
                 print('BranchNBound combination: ' + str(self.combinations) + '     (stability ' + str(
                     self.maxStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
@@ -91,7 +92,7 @@ class BranchNBound(Algorithms):
                     self.bestPattern = copy.copy(self.foldPattern)
 
                 # write to csv
-                self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
+                #self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
 
             else:
                 self.foldPattern[k - 1] = orientation
@@ -102,26 +103,14 @@ class BranchNBound(Algorithms):
                     self.overlapCount += 1
                     continue
 
-                # pruning: initiate
-                self.protein.stability(k)
-                bondOptions = copy.copy(self.protein.bondPossibilities)
-                newBondOptions = []
-
-                # remove the H-bonds that are in the protein already
-                for hBond in self.protein.HBonds:
-                    bondOptions.remove(hBond)
-
-                # make a new list of only hBonds with second H after k (still potential H-bonds)
-                for hBond in bondOptions:
-                    if hBond[1] > k:
-                        newBondOptions.append(hBond)
-
-                # prone if potStability > maxStability
-                potStability = self.protein.stabilityScore + (-1 * len(newBondOptions))  # calculate potential stability
-                if potStability > self.maxStability:
+                # go to next orientation
+                if self.protein.prune(k, self.maxStability):
+                    self.pruneCount += 1
                     continue
 
                 self.searching(k + 1)
+
+
 
     def printBest(self):
         """ Print and visualise the best foldingPattern found.
@@ -135,6 +124,7 @@ class BranchNBound(Algorithms):
         print(' Maximal stability: ' + str(self.maxStability))
         print(' Total combinations: ' + str(self.combinations))
         print(' Total overlap: ' + str(self.overlapCount))
+        print(' Total times pruned ' + str(self.pruneCount))
         print(' Elapsed time: ' + "{0:.4f}".format(self.elapsed))
         print()
 

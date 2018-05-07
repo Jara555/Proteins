@@ -9,17 +9,17 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # create protein of class Protein
-    protein = Protein(3)
+    protein = Protein(2)
 
     protein.findHbonds()
 
     branchNbound = BranchNBound(protein)
     branchNbound.runBranchNBound()
     branchNbound.printBest()
-    
-    depthFirst = DepthFirst(protein)
-    depthFirst.runDepthFirst()
-    depthFirst.printBest()
+
+    # depthFirst = DepthFirst(protein)
+    # depthFirst.runDepthFirst()
+    # depthFirst.printBest()
 
     # randomizer = Randomizer(protein, 1, 1)
     # randomizer.runRandomizer()
