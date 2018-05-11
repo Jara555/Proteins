@@ -8,8 +8,14 @@ from classes.Algorithms import Algorithms
 class Randomizer(Algorithms):
     """ Randomize algorithm: finding best protein solution based on random patterns """
 
-    def __init__(self, protein, iterations, writeOptions):
-        """ Declare all variables """
+    def __init__(self, protein, iterations, writeOptions, dimensions):
+        """ Set and initiate all properties.
+
+        :param protein: protein being folded
+        :param iterations: how many random folding patterns should be generated
+        :param writeOptions: 0 for write all solutions to .CSV-file, 1 for write only best solutions to .CSV-file
+        :param dimensions: 2 for 2D or 3 for 3D
+        """
 
         Algorithms.__init__(self, protein)
         self.iterations = iterations
@@ -22,6 +28,7 @@ class Randomizer(Algorithms):
         self.elapsed = 0
         self.bestRun = 0
         self.bestProtein = None
+        self.dimensions = dimensions
 
     def runRandomizer(self):
         """ Runs the randomizer and finds best pattern with highest stability """
@@ -33,7 +40,7 @@ class Randomizer(Algorithms):
         start = time.time()
 
         # create csv file to write output to
-        write_file = ('results/random' + str(self.protein.number) + '.csv')
+        write_file = ('results/random' + str(self.protein.number) + '.' + str(self.dimensions) +  '.csv')
         with open(write_file, 'w') as csvfile:
             fieldnames = ['run', 'stability', 'foldingPattern']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -45,7 +52,7 @@ class Randomizer(Algorithms):
             while i <= self.iterations:
                 # get random folding pattern and fold protein according to this pattern
                 self.generator()
-                self.protein.fold(self.foldPattern)
+                self.protein.fold(self.foldPattern, self.dimensions)
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(self.protein.length):
@@ -54,7 +61,7 @@ class Randomizer(Algorithms):
                     continue
 
                 # get stability score of input protein
-                self.protein.stability(self.protein.length)
+                self.protein.stability(self.protein.length, self.dimensions)
 
                 # if write all is on, write every solution to csv
                 if self.writeOptions == 0:
@@ -152,7 +159,10 @@ class Randomizer(Algorithms):
         while i <= size:
 
             # get random orientation index
-            orientation = randint(1, 4)
+            if self.dimensions == 2:
+                orientation = randint(1, 4)
+            if self.dimensions == 3:
+                orientation = randint(1, 6)
 
             # first element should always start at 0, 0
             if i == 0:
@@ -171,6 +181,12 @@ class Randomizer(Algorithms):
                 i += 1
             elif orientation == 4 and self.foldPattern[i - 1] != '+Y':
                 self.foldPattern.append('-Y')
+                i += 1
+            elif orientation == 5 and self.foldPattern[i - 1] != '-Z':
+                self.foldPattern.append('+Z')
+                i += 1
+            elif orientation == 3 and self.foldPattern[i - 1] != '+Z':
+                self.foldPattern.append('-Z')
                 i += 1
 
     def fastGenerator(self):
@@ -303,8 +319,8 @@ class Randomizer(Algorithms):
         print()
 
         # plot protein
-        self.protein.fold(self.bestPattern)
-        self.protein.visualize(('Best random solution ' + str(self.maxStability)))
+        self.protein.fold(self.bestPattern, self.dimensions)
+        self.protein.visualize(('Best random solution ' + str(self.maxStability)), self.dimensions)
 
 
 

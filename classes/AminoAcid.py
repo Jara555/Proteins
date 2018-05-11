@@ -5,6 +5,9 @@ class AminoAcid(object):
         """ Initializes type of the aminoacid """
 
         self.type = type
+        self.x = 0
+        self.y = 0
+        self.z = 0
 
     def setCoordinates(self, x, y):
         """ Initializes 2D coordinates of the aminoacid """

@@ -8,10 +8,11 @@ from classes.Algorithms import Algorithms
 class BranchNBound(Algorithms):
     """ Implements branch 'n bound algorithms in order to efficiently fold a protein """
 
-    def __init__(self, protein):
+    def __init__(self, protein, dimensions):
         """ Set and initiate all properties.
 
-        :param protein: protein you want to fold
+        :param protein: protein being folded
+        :param dimensions: 2 for 2D or 3 for 3D
         """
 
         Algorithms.__init__(self, protein)
@@ -19,8 +20,12 @@ class BranchNBound(Algorithms):
         self.foldPattern = ['+Y']*self.protein.length
         self.foldPattern[0] = '0'
         self.foldPattern[1] = '+Y'
+        self.dimensions = dimensions
 
-        self.orientations = ['+Y', '-Y', '+X', '-X']        # 1='+Y' 2='-Y' 3='+X' 4='-X'
+        if self.dimensions == 2:
+            self.orientations = ['+Y', '-Y', '+X', '-X']
+        elif self.dimensions == 3:
+            self.orientations = ['+Y', '-Y', '+X', '-X', '+Z', '-Z']
         self.bestPattern = []
         self.writer = None
 
@@ -35,7 +40,7 @@ class BranchNBound(Algorithms):
     def runBranchNBound(self):
         """ run the branch 'n bound algorithm
 
-        :return: .csv file with the best folding patterns and associated stabilities
+        :return: .csv file with the best folding patterns and associated stability's
         """
 
         print()
@@ -45,7 +50,7 @@ class BranchNBound(Algorithms):
         start = time.time()
 
         # open csv file
-        write_file = ('results/BranchNBound' + str(self.protein.number) + '.csv')
+        write_file = ('results/BranchNBound' + str(self.protein.number) + '.' + str(self.dimensions) + 'D.csv')
         with open(write_file, 'w') as csvfile:
             fieldnames = ['stability', 'foldPattern']
             self.writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -79,7 +84,7 @@ class BranchNBound(Algorithms):
 
             if k == self.protein.length:
                 self.foldPattern[k - 1] = orientation
-                self.protein.fold(self.foldPattern)
+                self.protein.fold(self.foldPattern, self.dimensions)
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
@@ -87,18 +92,18 @@ class BranchNBound(Algorithms):
                     continue
 
                 # get stability score of input protein
-                self.protein.stability(k)
+                self.protein.stability(k, self.dimensions)
 
                 if self.protein.stabilityScore < self.maxStability:
                     self.maxStability = self.protein.stabilityScore
                     self.bestPattern = copy.copy(self.foldPattern)
 
                 # write to csv
-                #self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
+                self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
 
             else:
                 self.foldPattern[k - 1] = orientation
-                self.protein.fold(self.foldPattern)
+                self.protein.fold(self.foldPattern, self.dimensions)
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
@@ -106,7 +111,7 @@ class BranchNBound(Algorithms):
                     continue
 
                 # go to next orientation
-                if self.protein.prune(k, self.maxStability):
+                if self.protein.prune(k, self.maxStability, self.dimensions):
                     self.pruneCount += 1
                     continue
 
@@ -136,8 +141,8 @@ class BranchNBound(Algorithms):
         print()
 
         # plot protein
-        self.protein.fold(self.bestPattern)
-        self.protein.visualize(("Best branch 'n bound solution " + str(self.maxStability)))
+        self.protein.fold(self.bestPattern, self.dimensions)
+        self.protein.visualize(("Best branch 'n bound solution " + str(self.maxStability)), self.dimensions)
 
 
 
