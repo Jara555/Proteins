@@ -30,6 +30,8 @@ class BranchNBound(Algorithms):
         self.combinations = 0
         self.elapsed = 0
 
+        self.protein.findHbonds()
+
     def runBranchNBound(self):
         """ run the branch 'n bound algorithm
 

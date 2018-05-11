@@ -365,7 +365,7 @@ class Protein(object):
 
         # make a new list of only hBonds with second H after k (still potential H-bonds)
         for hBond in bondOptions:
-            if hBond[1] >= k:
+            if hBond[1] >= maxLength:
                 newBondOptions.append(hBond)
 
         # for index in self.listH:
@@ -378,9 +378,9 @@ class Protein(object):
         #             # w += 1                  # make new list with max 2 times one number (3 times for first and last)
         #             q += 1
 
-        # prune if potential Stability > maxStability
+        # prune if potential Stability >= maxStability
         potStability = self.stabilityScore + (-1 * len(newBondOptions))  # calculate potential stability
-        if potStability > maxStability:
+        if potStability >= maxStability:
             return True
 
         return False
