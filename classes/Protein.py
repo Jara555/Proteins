@@ -13,6 +13,7 @@ class Protein(object):
         """ Set properties and initialize all aminoacids
 
         :param number: protein file number
+        :param dimensions: 2 for 2D or 3 for 3D
         """
 
         # initialize input variables
@@ -44,7 +45,6 @@ class Protein(object):
         """ Folds protein according to input pattern 2D
 
         :param folding_pattern: pattern followed to fold protein
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: coordinates of aminoacids set in the self.list
         """
 
@@ -113,7 +113,7 @@ class Protein(object):
             z = []
             a = []
             i = -1
-            currentType = 0;
+            currentType = 0
 
             # set orientations
             orientation = self.setOrientations()
@@ -167,12 +167,14 @@ class Protein(object):
                                 score = score + stabilityEffect[type]
 
         # remove double counted bonds
-        # for type in range(len(aminoType)):
-        #     for bond in self.bonds:
-        #         if bond[type][0] < bond[type][1]:
-        #             noDoubles[type].append((bond[type][0], bond[type][1]))
-        #     self.bonds[type] = noDoubles[type]
+        for type in range(len(aminoType)):
+            print(type)
+            for bond in self.bonds[type]:
+                print(bond)
+                if bond[0] < bond[1]:
+                    noDoubles[type].append((bond[0], bond[1]))
 
+        self.bonds = noDoubles
         self.stabilityScore = score / 2
 
     def setOrientations(self):
@@ -192,7 +194,6 @@ class Protein(object):
         """ Prints the protein in scatter plot with lines in 3D
 
         :param name: title of the plot
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: a plot
         """
 
@@ -334,7 +335,6 @@ class Protein(object):
 
         :param maxLength: the aminoacid you reached in the protein and after which you might want to prune
         :param maxStability: the max stability found for this protein so far
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: True if potential stability > maxStability (attention: negative values!)
         """
 
