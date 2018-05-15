@@ -147,7 +147,9 @@ class Protein(object):
 
                     for n in range(len(x)):
                         if i == 0:
-                            if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (self.list[currentType + 1].x != xbond or self.list[currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
+                            if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
+                                    self.list[currentType + 1].x != xbond or self.list[currentType + 1].y != ybond or
+                                    self.list[currentType + 1].z != zbond):
                                 self.bonds[type].append((currentType, a[n]))
                                 score = score + stabilityEffect[type]
                         elif i == len(x) - 1:
@@ -160,9 +162,10 @@ class Protein(object):
                         else:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
                                     (self.list[currentType - 1].x != xbond or self.list[currentType - 1].y != ybond or
-                                     self.list[currentType - 1].z != zbond) and (self.list[currentType + 1].x != xbond or
-                                                        self.list[currentType + 1].y != ybond or
-                                                                              self.list[currentType + 1].z != zbond):
+                                     self.list[currentType - 1].z != zbond) and (
+                                    self.list[currentType + 1].x != xbond or
+                                    self.list[currentType + 1].y != ybond or
+                                    self.list[currentType + 1].z != zbond):
                                 self.bonds[type].append((currentType, a[n]))
                                 score = score + stabilityEffect[type]
 
@@ -174,6 +177,7 @@ class Protein(object):
 
         self.bonds = noDoubles
         self.stabilityScore = score / 2
+
 
     def setOrientations(self):
         # set all possible orientations

@@ -2,14 +2,15 @@ from classes.Protein import Protein
 from classes.algorithm.BranchNBound import BranchNBound
 from classes.algorithm.Randomizer import Randomizer
 from classes.algorithm.DepthFirst import DepthFirst
+from Experiment import Experiment
 
 
 def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # TODO: Change these numbers per protein / run !!
-    number = 2
-    iterations = 1000
+    number = 3
+    iterations = 100000
     dimensions = 2
     writeCsv = "OFF"
 
@@ -32,6 +33,9 @@ def main():
     randomAlgorithm.printBest()
     # depthFirstAlgorithm.printBest()
     # branchNBoundAlgorithm.printBest()
+
+    #analyzer = Experiment("random1.2", "random1.3", "run2", "run1")
+    #analyzer.stability()
 
 if __name__ == "__main__":
     main()
