@@ -27,7 +27,7 @@ class Protein(object):
         self.length = len(self.string)
         self.list = []
         self.listH = []
-        self.HBonds = []
+        self.bonds = []
         self.stabilityScore = 0
         self.bondPossibilities = []
 
@@ -99,7 +99,7 @@ class Protein(object):
         stabilityEffect = [-1, -5]
         bondsH = []
         bondsC = []
-        bonds = [bondsH, bondsC]
+        self.bonds = [bondsH, bondsC]
         noDoublesH = []
         noDoublesC = []
         noDoubles = [noDoublesH, noDoublesC]
@@ -148,14 +148,14 @@ class Protein(object):
                     for n in range(len(x)):
                         if i == 0:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (self.list[currentType + 1].x != xbond or self.list[currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
-                                bonds[type].append((currentType, a[n]))
+                                self.bonds[type].append((currentType, a[n]))
                                 score = score + stabilityEffect[type]
                         elif i == len(x) - 1:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
                                     self.list[currentType - 1].x != xbond or self.list[
                                     currentType - 1].y != ybond or self.list[currentType - 1].z != zbond):
                                 # do the following
-                                bonds[type].append((currentType, a[n]))
+                                self.bonds[type].append((currentType, a[n]))
                                 score = score + stabilityEffect[type]
                         else:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
@@ -163,15 +163,15 @@ class Protein(object):
                                      self.list[currentType - 1].z != zbond) and (self.list[currentType + 1].x != xbond or
                                                         self.list[currentType + 1].y != ybond or
                                                                               self.list[currentType + 1].z != zbond):
-                                bonds[type].append((currentType, a[n]))
+                                self.bonds[type].append((currentType, a[n]))
                                 score = score + stabilityEffect[type]
 
         # remove double counted bonds
-        # for i in range(2):
-        #     for bond in bonds:
-        #         if bond[i][0] < bond[i][1]:
-        #             noDoubles[i].append((bond[i][0], bond[i][1]))
-        # self.HBonds = noDoubles
+        # for type in range(len(aminoType)):
+        #     for bond in self.bonds:
+        #         if bond[type][0] < bond[type][1]:
+        #             noDoubles[type].append((bond[type][0], bond[type][1]))
+        #     self.bonds[type] = noDoubles[type]
 
         self.stabilityScore = score / 2
 
