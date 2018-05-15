@@ -1,7 +1,7 @@
 import copy
 import csv
 import time
-from random import random
+import random
 
 from classes.Algorithms import Algorithms
 
@@ -42,7 +42,10 @@ class Randomizer(Algorithms):
         self.protein.list[1].setCoordinates(0, 1, 0)
 
         # starting fold pattern
-        self.foldPattern = ['0'] + (['+Y'] * (self.protein.length - 1))
+        self.foldPattern = ['+Y'] * self.protein.length
+        self.foldPattern[0] = '0'
+
+        print(self.foldPattern)
 
     def runRandomizer(self):
         """ Runs the randomizer to find a pattern with highest stability """
@@ -121,9 +124,9 @@ class Randomizer(Algorithms):
         x, y, z = 0, 1, 0
 
         # iterate over folding pattern
-        while i <= self.protein.length:
+        while i < self.protein.length:
             # pick random orientation
-            orientation = random.choice(self.orientations)
+            orientation = self.orientations[random.randrange(len(self.orientations))]
 
             # set coordinates to orientation + quick overlap check with previous aminoacid
             if orientation == '+X' and self.foldPattern[i - 1] != '-X':
@@ -161,12 +164,16 @@ class Randomizer(Algorithms):
 
         # print fold pattern
         print('Fold pattern: ')
-        print(self.bestPattern)
-        print()
+        if self.bestPattern:
+            print(self.bestPattern)
+            print()
 
-        # plot protein
-        self.protein.fold(self.bestPattern)
-        self.protein.visualize(('Best random solution ' + str(self.bestStability)))
+            # plot protein
+            self.protein.fold(self.bestPattern)
+            self.protein.visualize(('Best random solution ' + str(self.bestStability)))
+
+        else:
+            print('... No best pattern found...')
 
 
 
