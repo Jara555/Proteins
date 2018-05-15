@@ -1,7 +1,7 @@
 import copy
 import csv
 import time
-from random import random
+import random
 
 from classes.Algorithms import Algorithms
 
@@ -11,10 +11,10 @@ class Randomizer(Algorithms):
 
     def __init__(self, protein, iterations, writeCsv):
         """ Set and initiate all properties.
+
         :param protein: protein being folded
         :param iterations: how many random folding patterns should be generated
-        :param writeOptions: 0 for write all solutions to .CSV-file, 1 for write only best solutions to .CSV-file
-        :param dimensions: 2 for 2D or 3 for 3D
+        :param writeCsv: ON to write results to CSV, OFF to not write results to CSV
         """
 
         # input properties
@@ -42,7 +42,10 @@ class Randomizer(Algorithms):
         self.protein.list[1].setCoordinates(0, 1, 0)
 
         # starting fold pattern
-        self.foldPattern = ['0'] + (['+Y'] * (self.protein.length - 1))
+        self.foldPattern = ['+Y'] * self.protein.length
+        self.foldPattern[0] = '0'
+
+        print(self.foldPattern)
 
     def runRandomizer(self):
         """ Runs the randomizer to find a pattern with highest stability """
@@ -56,7 +59,7 @@ class Randomizer(Algorithms):
 
         # write to csv file
         if self.writeCsv == "ON":
-            write_file = ('results/random' + str(self.protein.number) + '-' + str(self.protein.dimensions) + '.csv')
+            write_file = ('results/random' + str(self.protein.number) + '-' + str(self.protein.dimensions) + 'D.csv')
             with open(write_file, 'w') as csvfile:
                 fieldnames = ['run', 'stability', 'foldingPattern']
                 self.writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -121,9 +124,9 @@ class Randomizer(Algorithms):
         x, y, z = 0, 1, 0
 
         # iterate over folding pattern
-        while i <= self.protein.length:
+        while i < self.protein.length:
             # pick random orientation
-            orientation = random.choice(self.orientations)
+            orientation = self.orientations[random.randrange(len(self.orientations))]
 
             # set coordinates to orientation + quick overlap check with previous aminoacid
             if orientation == '+X' and self.foldPattern[i - 1] != '-X':
@@ -161,12 +164,16 @@ class Randomizer(Algorithms):
 
         # print fold pattern
         print('Fold pattern: ')
-        print(self.bestPattern)
-        print()
+        if self.bestPattern:
+            print(self.bestPattern)
+            print()
 
-        # plot protein
-        self.protein.fold(self.bestPattern)
-        self.protein.visualize(('Best random solution ' + str(self.bestStability)))
+            # plot protein
+            self.protein.fold(self.bestPattern)
+            self.protein.visualize(('Best random solution ' + str(self.bestStability)))
+
+        else:
+            print('... No best pattern found...')
 
 
 
