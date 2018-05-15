@@ -8,26 +8,23 @@ def main():
 
     # TODO: Change these numbers per protein / run !!
     number = 1
-
-    iterations = 10000
+    randomIterations = 1000
+    dimensions = 3
+    writeCsv = "ON"
 
     # run random algorithm
-    protein = Protein(number)
-    randomAlgorithm = Randomizer(protein, iterations, 1)
-    randomAlgorithm.runFastRandomizer()
+    protein = Protein(number, dimensions)
+    randomAlgorithm = Randomizer(protein, randomIterations, writeCsv)
+    randomAlgorithm.runRandomizer()
 
     # run depth first algorithm
-    # protein = Protein(number)
-    # depthFirstAlgorithm = DepthFirst(protein)
-    # depthFirstAlgorithm.runFastDepthFirst()
+    protein = Protein(number)
+    depthFirstAlgorithm = DepthFirst(protein, dimensions)
+    depthFirstAlgorithm.runDepthFirst()
 
     # print solutions
     randomAlgorithm.printBest()
-
-    # depthFirstAlgorithm.printBest()
+    depthFirstAlgorithm.printBest()
 
 if __name__ == "__main__":
     main()
-
-
-
