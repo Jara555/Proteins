@@ -43,42 +43,27 @@ class Protein(object):
         :return: coordinates of aminoacids set in the self.list
         """
 
-        if self.dimensions == 3:
-            print(folding_pattern)
-            self.fold3D(folding_pattern, self.dimensions)
+        # starting coordinates
+        x, y, z = 0, 0, 0
 
-        # let 1st aminoacid start at coordinates (0, 0)
-        if self.dimensions == 2:
-            x, y = 0, 0
-            self.list[0].setCoordinates(x, y)
+        # iterate over aminoacids in protein
+        for index in range(self.length):
+            # set orientation to folding pattern
+            if folding_pattern[index] == '+X':
+                x += 1
+            elif folding_pattern[index] == '-X':
+                x -= 1
+            elif folding_pattern[index] == '+Y':
+                y += 1
+            elif folding_pattern[index] == '-Y':
+                y -= 1
+            elif folding_pattern[index] == '+Z':
+                z += 1
+            elif folding_pattern[index] == '-Z':
+                z -= 1
 
-            # set all possible orientations
-            plusY = [0, 1]
-            minY = [0, -1]
-            plusX = [1, 0]
-            minX = [-1, 0]
-
-            # set default orientation
-            orientation = plusY
-
-            # iterate over aminoacids in protein (skipping the 1st)
-            for index in range(1, self.length):
-                # set orientation to folding pattern
-                if folding_pattern[index] == '+X':
-                    orientation = plusX
-                elif folding_pattern[index] == '-X':
-                    orientation = minX
-                elif folding_pattern[index] == '+Y':
-                    orientation = plusY
-                elif folding_pattern[index] == '-Y':
-                    orientation = minY
-
-                # set new coordinates based on orientation
-                x = x + orientation[0]
-                y = y + orientation[1]
-
-                # set new coordinates to aminoacid
-                self.list[index].setCoordinates(x, y)
+            # set new coordinates to aminoacid
+            self.list[index].setCoordinates(x, y, z)
 
     def fold3D(self, folding_pattern):
         """ Folds protein according to input pattern in 3D
