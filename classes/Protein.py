@@ -243,6 +243,11 @@ class Protein(object):
         ax.set_yticks(np.arange(min(y), max(y) + 1, 1.0))
         ax.set_zticks(np.arange(min(z), max(z) + 1, 1.0))
 
+        # turn off tick labels
+        ax.set_yticklabels([])
+        ax.set_xticklabels([])
+        ax.set_zticklabels([])
+
         # legend
         hydrofoob = mpatches.Patch(color='red', label='H')
         polair = mpatches.Patch(color='blue', label='P')
