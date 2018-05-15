@@ -3,21 +3,36 @@ from classes.algorithm.HillClimber import HillClimber
 from classes.algorithm.BranchNBound import BranchNBound
 from classes.algorithm.DepthFirst import DepthFirst
 from classes.algorithm.Randomizer import Randomizer
+from classes.algorithm.HillClimber import HillClimber
 import time
 
 def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # create protein of class Protein
-    protein = Protein(3)
+    protein = Protein(4)
+    iterationsRandom = 1000
+    iterationsHill = 100000
+    dimensions = 3
+    writeoptions = 0
 
-    protein.findHbonds()
+    randomizer = Randomizer(protein, iterationsRandom, 1, dimensions)
+    randomizer.runRandomizer()
 
-    branchNbound = BranchNBound(protein)
-    branchNbound.runBranchNBound()
-    branchNbound.printBest()
+    hillclimber = HillClimber(protein, randomizer.bestPattern, iterationsHill, writeoptions, dimensions)
+    hillclimber.runHillClimber()
+    hillclimber.printBestHill()
 
-    # depthFirst = DepthFirst(protein)
+    # foldpattern = ['0', '+Y', '+Z', '-Y', '-Y', '-Y', '-X', '+Y']
+    #
+    # protein.fold(foldpattern, dimensions)
+    # protein.stability(protein.length, dimensions)
+    # print(protein.stabilityScore)
+    # protein.visualize("protein 3, bestScore = " + str(protein.stabilityScore), dimensions)
+
+
+
+    # depthFirst = DepthFirst(protein, dimensions)
     # depthFirst.runDepthFirst()
     # depthFirst.printBest()
 
@@ -25,9 +40,17 @@ def main():
     # depthFirst.runDepthFirst()
     # depthFirst.printBest()
 
-    # randomizer = Randomizer(protein, 1, 1)
+    # randomizer = Randomizer(protein, iterations, 1, dimensions)
     # randomizer.runRandomizer()
     # randomizer.printBest()
+
+    # maxStability = randomizer.maxStability
+    #
+    # branchNBound = BranchNBound(protein, dimensions)
+    # branchNBound.runBranchNBound()
+    # branchNBound.printBest()
+
+
     #
     # protein.fold(['0', '+Y', '-X', '-X', '-X', '-X', '-X', '-Y', '-Y', '-X', '-Y', '-Y', '-X', '+Y', '+X']
 

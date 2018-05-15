@@ -6,7 +6,7 @@ import csv
 
 
 class HillClimber(Algorithms):
-    """ Implements hill climber algorithms in order to efficiently fold a protein."""
+    """ Implements hill climber algorithm in order to efficiently fold a protein."""
 
     def __init__(self, protein, bestPattern, iterations, writeOptions, dimensions):
         """ Set and initiate all properties.
@@ -28,7 +28,6 @@ class HillClimber(Algorithms):
         self.elapsedTime = 0
         self.initialPattern = bestPattern
         self.foldPattern = []
-        #self.foldPattern = bestPattern
         self.copyPattern = []
         self.initialStability = 0
         self.dimensions = dimensions
@@ -71,8 +70,8 @@ class HillClimber(Algorithms):
 
                     # prints progress per 1000 iterations
                     self.run += 1
-                    if self.run % 50000 == 0:
-                        print("Hill climber iteration: " + str(self.run) + "(stability " + str(self.maxStability) + ")")
+                    if self.run % 40000 == 0:
+                        print("Hill climber iteration: " + str(self.run/4) + "(stability " + str(self.maxStability) + ")")
 
                     # initialize random amino acid and direction
                     #randomDirection = randint(0, 3)
