@@ -183,125 +183,66 @@ class Protein(object):
         return orientation
 
     def visualize(self, name):
-        """ Prints the protein in scatter plot with lines in 2D
-
-        :param name: title of the plot
-        :param dimensions: 2 for 2D or 3 for 3D
-        :return: a plot
-        """
-        # if dimensions = 3, wrong method, go to self.visualize3D
-        if self.dimensions == 3:
-            self.visualize3D(name, self.dimensions)
-
-        if self.dimensions == 2:
-            x = []
-            y = []
-            color = []
-
-            # put x and y coordinates of aminoacid in x and y lists
-            for aminoacid in self.list:
-                x.append(aminoacid.x)
-                y.append(aminoacid.y)
-
-                # creates color list for H = red and P = blue
-                if aminoacid.type == 'H':
-                    color.append('red')
-                elif aminoacid.type == 'P':
-                    color.append('blue')
-                else:
-                    color.append('orange')
-
-
-            # print coordinates in terminal
-            print()
-            print('Protein coordinates:')
-            print(x)
-            print(y)
-            print()
-
-            # scatter plot with line
-            plt.plot(x, y, 'C3', zorder=1, lw=2, color='black')
-            plt.scatter(x, y, s=50, zorder=2, color=color)
-
-            # layout
-            plt.title('Protein: ' + name), plt.tight_layout(), plt.axis('scaled')
-            plt.ylim(min(y) - 1, max(y) + 1), plt.xlim(min(x) - 1, max(x) + 1)
-            plt.xticks(np.arange(min(x), max(x) + 1, 1.0)), plt.yticks(np.arange(min(y), max(y) + 1, 1.0))
-
-            # legend
-            hydrofoob = mpatches.Patch(color='red', label='H')
-            polair = mpatches.Patch(color='blue', label='P')
-            cysteine = mpatches.Patch(color='orange', label='C')
-            plt.legend(handles=[hydrofoob, polair, cysteine])
-
-            plt.show()
-
-    def visualize3D(self, name, dimensions):
         """ Prints the protein in scatter plot with lines in 3D
 
         :param name: title of the plot
         :param dimensions: 2 for 2D or 3 for 3D
         :return: a plot
         """
-        # if dimensions = 2, wrong method, go to self.visualize
-        if self.dimensions == 2:
-            self.visualize(self, name, self.dimensions)
 
-        if self.dimensions == 3:
-            x = []
-            y = []
-            z = []
-            color = []
+        # empty lists for coordinates and color
+        x, y, z = [], [], []
+        color = []
 
-            # put x and y coordinates of aminoacid in x and y lists
-            for aminoacid in self.list:
-                x.append(aminoacid.x)
-                y.append(aminoacid.y)
-                z.append(aminoacid.z)
+        # put x and y coordinates of aminoacid in x and y lists
+        for aminoacid in self.list:
+            x.append(aminoacid.x)
+            y.append(aminoacid.y)
+            z.append(aminoacid.z)
 
-                # creates color list for H = red and P = blue
-                if aminoacid.type == 'H':
-                    color.append('red')
-                elif aminoacid.type == 'P':
-                    color.append('blue')
-                elif aminoacid.type == 'C':
-                    color.append('orange')
+            # creates color list for H = red, P = blue, C = orange
+            if aminoacid.type == 'H':
+                color.append('red')
+            elif aminoacid.type == 'P':
+                color.append('blue')
+            elif aminoacid.type == 'C':
+                color.append('orange')
 
-            # print coordinates in terminal
-            print()
-            print('Protein coordinates:')
-            print(x)
-            print(y)
-            print(z)
-            print()
+        # print coordinates in terminal
+        print()
+        print('Protein coordinates:')
+        print(x)
+        print(y)
+        print(z)
+        print()
 
-            fig = plt.figure()
-            ax = fig.gca(projection='3d')
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
 
-            # scatter plot with line
-            ax.plot(x, y, z, 'C3', zorder=1, lw=2, color='black')
-            ax.scatter(x, y, z, s=50, zorder=2, color=color)
+        # scatter plot with line
+        ax.plot(x, y, z, 'C3', zorder=1, lw=2, color='black')
+        ax.scatter(x, y, z, s=50, zorder=2, color=color)
 
-            # layout
-            plt.title('Protein: ' + name), plt.tight_layout(), plt.axis('scaled')
+        # layout
+        plt.title(name)
 
-            # limits
-            ax.set_ylim(min(y) - 1, max(y) + 1)
-            ax.set_xlim(min(x) - 1, max(x) + 1)
-            ax.set_zlim(min(z) - 1, max(z) + 1)
+        # limits
+        ax.set_ylim(min(y) - 1, max(y) + 1)
+        ax.set_xlim(min(x) - 1, max(x) + 1)
+        ax.set_zlim(min(z) - 1, max(z) + 1)
 
-            # ticks
-            ax.set_xticks(np.arange(min(x), max(x) + 1, 1.0))
-            ax.set_yticks(np.arange(min(y), max(y) + 1, 1.0))
-            ax.set_zticks(np.arange(min(z), max(z) + 1, 1.0))
+        # ticks
+        ax.set_xticks(np.arange(min(x), max(x) + 1, 1.0))
+        ax.set_yticks(np.arange(min(y), max(y) + 1, 1.0))
+        ax.set_zticks(np.arange(min(z), max(z) + 1, 1.0))
 
-            # legend
-            hydrofoob = mpatches.Patch(color='red', label='H')
-            polair = mpatches.Patch(color='blue', label='P')
-            cysteine = mpatches.Patch(color='orange', label='C')
-            plt.legend(handles=[hydrofoob, polair, cysteine])
+        # legend
+        hydrofoob = mpatches.Patch(color='red', label='H')
+        polair = mpatches.Patch(color='blue', label='P')
+        cysteine = mpatches.Patch(color='orange', label='C')
+        plt.legend(handles=[hydrofoob, polair, cysteine])
 
-            plt.show()
+        plt.show()
 
     def findHs(self):
         """ Find the indexes of H's in the protein, both for 2D and 3D"""
