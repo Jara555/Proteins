@@ -168,9 +168,7 @@ class Protein(object):
 
         # remove double counted bonds
         for type in range(len(aminoType)):
-            print(type)
             for bond in self.bonds[type]:
-                print(bond)
                 if bond[0] < bond[1]:
                     noDoubles[type].append((bond[0], bond[1]))
 
@@ -319,37 +317,43 @@ class Protein(object):
 
         :param maxLength: the aminoacid you reached in the protein and after which you might want to prune
         :param maxStability: the max stability found for this protein so far
-        :return: True if potential stability > maxStability (attention: negative values!)
+        :return: True if potential stability worse than maxStability
         """
 
         # pruning: initiate
         self.stability(maxLength)
         bondOptions = copy.copy(self.bondPossibilities)
-        newBondOptions = []
+        newBondOptions = [[], []]
+        aminoType = ["H", "C"]
+        stabilityEffect = [-1, -5]
 
-        # remove the H-bonds that are in the protein already
-        for hBond in self.HBonds:
-            bondOptions.remove(hBond)
+        for type in range(len(aminoType)):
 
-        # make a new list of only hBonds with second H after k (still potential H-bonds)
-        for hBond in bondOptions:
-            if hBond[1] >= maxLength:
-                newBondOptions.append(hBond)
+            # remove the bonds that are in the protein already
+            for bond in self.bonds[type]:
+                bondOptions[type].remove(bond)
 
-        # for index in self.listH:
-        #     w = 0
-        #     q = 0
-        #     for hBond in reversed(newBondOptions):
-        #         # while (q != len(newBondOptions) | w != 2):
-        #         if index in hBond:  # 10 should be index
-        #             print(hBond)
-        #             # w += 1                  # make new list with max 2 times one number (3 times for first and last)
-        #             q += 1
+            # make a new list of only bonds with second aminoacid after k (still potential bonds)
+            for bond in bondOptions[type]:
+                if bond[1] >= maxLength:
+                    newBondOptions[type].append(bond)
+
+            # for index in self.listH:
+            #     w = 0
+            #     q = 0
+            #     for hBond in reversed(newBondOptions):
+            #         # while (q != len(newBondOptions) | w != 2):
+            #         if index in hBond:  # 10 should be index
+            #             print(hBond)
+            #             # w += 1                  # make new list with max 2 times one number (3 times for first and last)
+            #             q += 1
 
         # prune if potential Stability >= maxStability
-        potStability = self.stabilityScore + (-1 * len(newBondOptions))  # calculate potential stability
+        potStability = self.stabilityScore + (stabilityEffect[0] * len(newBondOptions[0]) +
+                (stabilityEffect[1] * len(newBondOptions[1])))  # calculate potential stability
+
         if potStability >= maxStability:
+
             return True
 
         return False
-
