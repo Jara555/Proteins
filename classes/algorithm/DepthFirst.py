@@ -1,110 +1,44 @@
 import copy
-import csv
-import time
 
-from classes.Algorithms import Algorithms
+from classes.Algorithm import Algorithm
 
 
-class DepthFirst(Algorithms):
-    """ Implements depth first algorithm in order to most efficiently fold a protein"""
+class DepthFirst(Algorithm):
+    """ Implements Depth First algorithm in order to efficiently fold a protein """
 
-    def __init__(self, protein, dimensions):
-        """ Set and initiate all properties.
+    def __init__(self, protein, writeCsv):
+        """
+        Set and initiate all properties.
 
-        :param protein: protein being folded
-        :param dimensions: 2 for 2D or 3 for 3D
+        :param protein: protein to be fold
+        :param writeCsv: writes solutions to .csv file when ON
+
         """
 
-        Algorithms.__init__(self, protein)
-
-        self.foldPattern = ['+Y']*self.protein.length
-        self.foldPattern[0] = '0'
-        self.foldPattern[1] = '+Y'
-        self.dimensions = dimensions
-
-        if self.dimensions == 2:
-            self.orientations = ['+Y', '-X', '+X', '-Y']
-        elif self.dimensions == 3:
-            self.orientations = ['+Y', '-X', '+X', '-Y', '+Z', '-Z']
-        self.bestPattern = []
-        self.writer = None
-
-        self.maxStability = 0
-        self.overlapCount = 0
-        self.combinations = 0
-        self.elapsed = 0
-
-    def runDepthFirst(self):
-        """ run the Depth First algorithm. Guarantees best solution.
-
-        :return: .csv file with the best folding patterns and associated stability's
-        """
-
-        print()
-        print("------------  Depth first started ----------------")
-        print()
-
-        start = time.time()
-
-        # open csv file
-        write_file = ('results/depthFirst' + str(self.protein.number) + '.' + str(self.dimensions) + 'D.csv')
-        with open(write_file, 'w') as csvfile:
-            fieldnames = ['stability', 'foldPattern']
-            self.writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            self.writer.writeheader()
-
-            # recursive function
-            k = 3
-            self.searching(k)
-
-        end = time.time()
-        self.elapsed = end - start
-
-        print()
-        print()
-        print("------------  Depth first finished ----------------")
-        print()
-
-    def runFastDepthFirst(self):
-        """ Run the Depth First Algortihm with guaranteed best solution. Writes nothing to .csv file.
-
-        :return: nothing
-        """
-
-        print()
-        print("------------  Depth first started ----------------")
-        print()
-
-        start = time.time()
-
-        # recursive function
-        k = 3
-        self.searching(k)
-
-        end = time.time()
-        self.elapsed = end - start
-
-        print()
-        print()
-        print("------------  Depth first finished ----------------")
-        print()
+        # set class properties
+        Algorithm.__init__(self, protein, writeCsv)
+        self.name = "Depth First"
+        self.iterations = 0
 
     def searching(self, k):
         """ Recursive search function
 
         :param k: the aminoacid currently being placed
-        :return: calculates self.bestPattern and self.maxStability
+        :return: the found best folding Pattern and Stability
+
         """
         for orientation in self.orientations:
+            self.iterations += 1
+
+            # terminal output
+            if self.iterations % 100000 == 0:
+                print()
+                print('BranchNBound combination: ' + str(self.iterations) + '     (stability ' + str(
+                    self.bestStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
+
             if k == self.protein.length:
                 self.foldPattern[k - 1] = orientation
-                self.protein.fold(self.foldPattern, self.dimensions)
-
-                self.combinations += 1
-                if self.combinations % 100000 == 0:
-                    print()
-                    print('Depth first combination: ' + str(self.combinations) + '     (stability ' + str(self.maxStability) + ')')
-                    print(self.bestPattern)
+                self.protein.fold(self.foldPattern)
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
@@ -112,18 +46,20 @@ class DepthFirst(Algorithms):
                     continue
 
                 # get stability score of input protein
-                self.protein.stability(k, self.dimensions)
+                self.protein.stability(k)
 
-                if self.protein.stabilityScore < self.maxStability:
-                    self.maxStability = self.protein.stabilityScore
+                if self.protein.stabilityScore < self.bestStability:
+                    self.bestStability = self.protein.stabilityScore
                     self.bestPattern = copy.copy(self.foldPattern)
+                    self.bestRun = self.iterations
 
-                    # write to csv
-                    # self.writer.writerow({'stability': self.protein.stabilityScore, 'foldPattern': self.foldPattern})
+                # write to csv
+                if self.writeCsv == "ON":
+                    self.writer.writerow({'run': self.iterations, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
 
             else:
                 self.foldPattern[k - 1] = orientation
-                self.protein.fold(self.foldPattern, self.dimensions)
+                self.protein.fold(self.foldPattern)
 
                 # skip if overlap detected
                 if self.protein.checkOverlap(k):
@@ -132,29 +68,6 @@ class DepthFirst(Algorithms):
 
                 self.searching(k + 1)
 
-    def printBest(self):
-        """ Print and visualise the best foldingPattern found.
-
-        :return: print foldingPattern and associated stability to terminal, visualise in plot
-        """
-
-        # print info
-        print()
-        print('DEPTH FIRST')
-        print(' Maximal stability: ' + str(self.maxStability))
-        print(' First found in combination: ' + str(self.combinations))
-        print(' Total overlap: ' + str(self.overlapCount))
-        print(' Elapsed time: ' + "{0:.4f}".format(self.elapsed))
-        print()
-
-        # print fold pattern
-        print('Fold pattern: ')
-        print(self.bestPattern)
-        print()
-
-        # plot protein
-        self.protein.fold(self.bestPattern, self.dimensions)
-        self.protein.visualize(('Best depth first solution ' + str(self.maxStability)), self.dimensions)
 
 
 

@@ -15,25 +15,30 @@ class Protein(object):
         :param number: protein file number
         """
 
+        # initialize input variables
         self.number = number
+        self.dimensions = dimensions
 
         # open protein text file
         with open('data/protein' + str(number) + '.txt', 'r') as file:
             self.string = file.read()
 
-        # initiate properties
+        # set class properties
         self.length = len(self.string)
         self.list = []
         self.listH = []
         self.HBonds = []
         self.stabilityScore = 0
         self.bondPossibilities = []
-        self.dimensions  = dimensions
 
         # append list with aminoacids
         for aa_index in range(self.length):
             aminoacid = AminoAcid(self.string[aa_index])
             self.list.append(aminoacid)
+
+        # first 2 aminoacids have always same coordinates ['0', 'Y', ... ]
+        self.list[0].setCoordinates(0, 0, 0)
+        self.list[1].setCoordinates(0, 1, 0)
 
     def fold(self, folding_pattern):
         """ Folds protein according to input pattern 2D

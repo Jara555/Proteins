@@ -9,17 +9,18 @@ def main():
     # TODO: Change these numbers per protein / run !!
     number = 1
     iterations = 1000
-    dimensions = 3
+    dimensions = 2
+    writeCsv = "OFF"
 
     # run random algorithm
-    protein = Protein(number)
-    randomAlgorithm = Randomizer(protein, iterations, 1, dimensions)
-    randomAlgorithm.runRandomizer()
+    protein = Protein(number, dimensions)
+    randomAlgorithm = Randomizer(protein, writeCsv, iterations)
+    randomAlgorithm.runAlgorithm()
 
     # run depth first algorithm
-    protein = Protein(number)
-    depthFirstAlgorithm = DepthFirst(protein, dimensions)
-    depthFirstAlgorithm.runDepthFirst()
+    protein = Protein(number, dimensions)
+    depthFirstAlgorithm = DepthFirst(protein, writeCsv)
+    depthFirstAlgorithm.runAlgorithm()
 
     # print solutions
     randomAlgorithm.printBest()
