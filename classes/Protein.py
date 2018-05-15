@@ -398,7 +398,7 @@ class Protein(object):
                     color.append('red')
                 elif aminoacid.type == 'P':
                     color.append('blue')
-                else:
+                elif aminoacid.type == 'C':
                     color.append('orange')
 
             # print coordinates in terminal

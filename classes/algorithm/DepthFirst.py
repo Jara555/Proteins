@@ -6,7 +6,7 @@ from classes.Algorithms import Algorithms
 
 
 class DepthFirst(Algorithms):
-    """ Implements depth first algorithm in order to most efficiently fold a protein """
+    """ Implements depth first algorithm in order to most efficiently fold a protein"""
 
     def __init__(self, protein, dimensions):
         """ Set and initiate all properties.
