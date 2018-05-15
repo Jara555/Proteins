@@ -31,8 +31,7 @@ class Algorithm:
         self.foldPattern[0] = '0'
 
     def runAlgorithm(self):
-        """
-        run the algorithm
+        """ run the algorithm
 
         :return: when ON returns .csv file with the best folding patterns
                  and associated stability's

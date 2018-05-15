@@ -113,7 +113,7 @@ class Protein(object):
             z = []
             a = []
             i = -1
-            currentType = 0;
+            currentType = 0
 
             # set orientations
             orientation = self.setOrientations()
@@ -167,12 +167,14 @@ class Protein(object):
                                 score = score + stabilityEffect[type]
 
         # remove double counted bonds
-        # for type in range(len(aminoType)):
-        #     for bond in self.bonds:
-        #         if bond[type][0] < bond[type][1]:
-        #             noDoubles[type].append((bond[type][0], bond[type][1]))
-        #     self.bonds[type] = noDoubles[type]
+        for type in range(len(aminoType)):
+            print(type)
+            for bond in self.bonds[type]:
+                print(bond)
+                if bond[0] < bond[1]:
+                    noDoubles[type].append((bond[0], bond[1]))
 
+        self.bonds = noDoubles
         self.stabilityScore = score / 2
 
     def setOrientations(self):
