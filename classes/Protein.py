@@ -97,7 +97,7 @@ class Protein(object):
         score = 0
 
         # checks stability score for C-bonds and H-bonds
-        for type in range(len(aminoType)):
+        for type in range(1):
 
             x = []
             y = []
@@ -116,6 +116,9 @@ class Protein(object):
                     y.append(aminoacid.y)
                     z.append(aminoacid.z)
                     a.append(i)
+
+            for i in range(len(x)):
+                print(x[i],end="")
 
             # loops over amino acids with type "H" or "C" and determines number of bonds
             for i in range(len(x)):
@@ -142,14 +145,14 @@ class Protein(object):
                                     currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
                                 # do the following
                                 bonds.append((currentType, a[n]))
-                                score = score - stabilityEffect[i]
+                                score = score - stabilityEffect[type]
                         elif i == len(x) - 1:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
                                     self.list[currentType - 1].x != xbond or self.list[
                                     currentType - 1].y != ybond or self.list[currentType - 1].z != zbond):
                                 # do the following
                                 bonds.append((currentType, a[n]))
-                                score = score - stabilityEffect[i]
+                                score = score - stabilityEffect[type]
                         else:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
                                     (self.list[currentType - 1].x != xbond or self.list[
@@ -159,7 +162,7 @@ class Protein(object):
                                         self.list[currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
                                 # do the following
                                 bonds.append((currentType, a[n]))
-                                score = score - stabilityEffect[i]
+                                score = score - stabilityEffect[type]
 
         self.stabilityScore = score / 2
 
