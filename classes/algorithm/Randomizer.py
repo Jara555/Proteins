@@ -40,7 +40,7 @@ class Randomizer(Algorithms):
         start = time.time()
 
         # create csv file to write output to
-        write_file = ('results/random' + str(self.protein.number) + '.' + str(self.dimensions) +  '.csv')
+        write_file = ('results/random' + str(self.protein.number) + '.' + str(self.dimensions) + 'D.csv')
         with open(write_file, 'w') as csvfile:
             fieldnames = ['run', 'stability', 'foldingPattern']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
