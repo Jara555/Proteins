@@ -9,18 +9,13 @@ class AminoAcid(object):
         self.y = 0
         self.z = 0
 
-    def setCoordinates(self, x, y):
-        """ Initializes 2D coordinates of the aminoacid """
-
-        self.x = x
-        self.y = y
-
-    def set3Dcoordinates(self, x, y, z):
-        """ Initializes 3D coordinates of the aminoacid """
+    def setCoordinates(self, x, y, z=0):
+        """ Initializes coordinates of the aminoacid """
 
         self.x = x
         self.y = y
         self.z = z
+
 
 
 
