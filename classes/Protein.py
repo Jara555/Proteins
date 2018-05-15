@@ -171,9 +171,7 @@ class Protein(object):
 
         # remove double counted bonds
         for type in range(len(aminoType)):
-            print(type)
             for bond in self.bonds[type]:
-                print(bond)
                 if bond[0] < bond[1]:
                     noDoubles[type].append((bond[0], bond[1]))
 
