@@ -9,7 +9,7 @@ from mpl_toolkits.mplot3d import Axes3D
 class Protein(object):
     """ Contains all protein properties and methods """
 
-    def __init__(self, number):
+    def __init__(self, number, dimensions):
         """ Set properties and initialize all aminoacids
 
         :param number: protein file number
@@ -28,13 +28,14 @@ class Protein(object):
         self.HBonds = []
         self.stabilityScore = 0
         self.bondPossibilities = []
+        self.dimensions  = dimensions
 
         # append list with aminoacids
         for aa_index in range(self.length):
             aminoacid = AminoAcid(self.string[aa_index])
             self.list.append(aminoacid)
 
-    def fold(self, folding_pattern, dimensions):
+    def fold(self, folding_pattern):
         """ Folds protein according to input pattern 2D
 
         :param folding_pattern: pattern followed to fold protein
@@ -42,11 +43,12 @@ class Protein(object):
         :return: coordinates of aminoacids set in the self.list
         """
 
-        if dimensions == 3:
-            self.fold3D(folding_pattern, dimensions)
+        if self.dimensions == 3:
+            print(folding_pattern)
+            self.fold3D(folding_pattern, self.dimensions)
 
         # let 1st aminoacid start at coordinates (0, 0)
-        if dimensions == 2:
+        if self.dimensions == 2:
             x, y = 0, 0
             self.list[0].setCoordinates(x, y)
 
@@ -78,7 +80,7 @@ class Protein(object):
                 # set new coordinates to aminoacid
                 self.list[index].setCoordinates(x, y)
 
-    def fold3D(self, folding_pattern, dimensions):
+    def fold3D(self, folding_pattern):
         """ Folds protein according to input pattern in 3D
 
         :param folding_pattern: pattern followed to fold protein
@@ -87,11 +89,11 @@ class Protein(object):
         """
 
         # if dimensions = 2, wrong method, go to self.fold
-        if dimensions == 2:
-            self.fold(self, folding_pattern, dimensions)
+        if self.dimensions == 2:
+            self.fold(self, folding_pattern, self.dimensions)
 
         # let 1st aminoacid start at coordinates (0, 0, 0)
-        if dimensions == 3:
+        if self.dimensions == 3:
             x = 0
             y = 0
             z = 0
@@ -154,7 +156,92 @@ class Protein(object):
         # if iteration finished there was no overlap
         return False
 
-    def stability(self, maxLength, dimensions):
+    #def stabilityDef(self, maxLength):
+        # aminoType = ["H", "C"]
+        # stabilityEffect = [-1, -5]
+        # a = []
+        # bonds = []
+        # noDoubles = []
+        #
+        # # set all possible orientations
+        # plusY = [0, 1, 0]
+        # minY = [0, -1, 0]
+        # plusX = [1, 0, 0]
+        # minX = [-1, 0, 0]
+        # if self.dimensions == 2:
+        #     plusZ = [0, 0, 0]
+        #     minZ = [0, 0, 0]
+        # else:
+        #     plusZ = [0, 0, 1]
+        #     minZ = [0, 0, -1]
+        #
+        # score = 0
+        # orientation = [plusX, minX, plusY, minY, plusZ, minZ]
+        #
+        # for i in range(len(aminoType)):
+        #
+        #     x = []
+        #     y = []
+        #     z = []
+        #
+        #     for aminoacid in self.list[0:maxLength]:
+        #
+        #         # stores x and y coordinates of amino acids with either type "H" or "C"
+        #         for aminoacid in self.list[0:maxLength]:
+        #             i += 1
+        #             if aminoacid.type == aminoType[i]:
+        #                 x.append(aminoacid.x)
+        #                 y.append(aminoacid.y)
+        #                 z.append(aminoacid.z)
+        #                 a.append(i)
+        #
+        #         # loops over amino acids with type "H" or "C" and determines number of bonds
+        #         for i in range(len(x)):
+        #
+        #             # determine index of current "C" or "H" in protein
+        #             counter = 0
+        #             for index in range(self.length):
+        #                 if self.string[index] == aminoType[i]:
+        #                     if counter == i:
+        #                         currentType = index
+        #                         break
+        #                     counter = counter + 1
+        #
+        #                     # iterates over orientations and checks for H- or C-bonds
+        #                     for k in range(6):
+        #                         xbond = x[i] + orientation[k][0]
+        #                         ybond = y[i] + orientation[k][1]
+        #                         zbond = z[i] + orientation[k][2]
+        #
+        #                         for n in range(len(x)):
+        #                             if i == 0:
+        #                                 if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
+        #                                         self.list[currentType + 1].x != xbond or self.list[
+        #                                         currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
+        #                                     # do the following
+        #                                     bonds.append((currentType, a[n]))
+        #                                     score = score - stabilityEffect[i]
+        #                             elif i == len(x) - 1:
+        #                                 if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
+        #                                         self.list[currentType - 1].x != xbond or self.list[
+        #                                         currentType - 1].y != ybond or
+        #                                         self.list[currentType - 1].z != zbond):
+        #                                     # do the following
+        #                                     bonds.append((currentType, a[n]))
+        #                                     score = score - stabilityEffect[i]
+        #                             else:
+        #                                 if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
+        #                                         (self.list[currentType - 1].x != xbond or self.list[
+        #                                         currentType - 1].y != ybond or
+        #                                         self.list[currentType - 1].z != zbond) and (
+        #                                         self.list[currentType + 1].x != xbond or
+        #                                         self.list[currentType + 1].y != ybond or self.list[
+        #                                             currentType + 1].z != zbond):
+        #                                     # do the following
+        #                                     bonds.append((currentType, a[n]))
+        #                                     score = score - stabilityEffect[i]
+
+    def stability(self, maxLength):
         """ Checks the stability of the protein and the index of H-bonds associated with the stability in 2D
 
         :param maxLength: until where should the stability be checked
@@ -162,158 +249,172 @@ class Protein(object):
         :return: self.stabilityScore and self.HBonds
         """
         # if dimensions = 3, wrong method, go to self.stability3D
-        if dimensions == 3:
-            self.stability3D(maxLength, dimensions)
+        if self.dimensions == 3:
+            self.stability3D(maxLength, self.dimensions)
         else:
-            x = []
-            y = []
-            a = []
-            hBonds = []
-            noDoubles = []
+            aminoType = ["H", "C"]
+            stabiltiyEffect = [-1, 5]
 
-            score = 0
-            orientation = [1, 0, -1, 0, 0, 1, 0, -1]
-            currentH = 0
-            i = -1
+            for num in range(1):
+                x = []
+                y = []
+                a = []
+                hBonds = []
+                noDoubles = []
 
-            # stores x and y coordinates of aminoacids with type "H"
-            for aminoacid in self.list[0:maxLength]:
-                i += 1
-                if aminoacid.type == "H":
-                    x.append(aminoacid.x)
-                    y.append(aminoacid.y)
-                    a.append(i)
+                score = 0
+                orientation = [1, 0, -1, 0, 0, 1, 0, -1]
+                currentH = 0
+                i = -1
 
-            # loops over aminoacids with type "H" and determines number of H-bonds
-            for i in range(len(x)):
-                # determine index of H in protein
-                counter = 0
+                # stores x and y coordinates of aminoacids with type "H"
+                for aminoacid in self.list[0:maxLength]:
+                    i += 1
+                    if aminoacid.type == aminoType[num]:
+                        x.append(aminoacid.x)
+                        y.append(aminoacid.y)
+                        a.append(i)
 
-                for index in range(self.length):
-                    if self.string[index] == "H":
-                        if counter == i:
-                            currentH = index
-                            break
-                        counter = counter + 1
+                # loops over aminoacids with type "H" and determines number of H-bonds
+                for i in range(len(x)):
+                    # determine index of H in protein
+                    counter = 0
 
-                # iterates over orientations and checks for H-bonds
-                for k in range(4):
-                    xbond = x[i] + orientation[(k * 2)]
-                    ybond = y[i] + orientation[(k * 2) + 1]
+                    for index in range(self.length):
+                        if self.string[index] == aminoType[num]:
+                            if counter == i:
+                                currentH = index
+                                break
+                            counter = counter + 1
 
-                    for n in range(len(x)):
-                        if i == 0:
-                            if (x[n] == xbond and y[n] == ybond) and (
-                               self.list[currentH + 1].x != xbond or self.list[currentH + 1].y != ybond):
-                                hBonds.append((currentH, a[n]))
-                                score = score - 1
-                        elif i == len(x) - 1:
-                            if (x[n] == xbond and y[n] == ybond) and (
-                               self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond):
-                                hBonds.append((currentH, a[n]))
-                                score = score - 1
-                        else:
-                            if (x[n] == xbond and y[n] == ybond) and \
-                                    (self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond) and \
-                                    (self.list[currentH + 1].x != xbond or self.list[
-                                        currentH + 1].y != ybond):
-                                hBonds.append((currentH, a[n]))
-                                score = score - 1
+                    # iterates over orientations and checks for H-bonds
+                    for k in range(4):
+                        xbond = x[i] + orientation[(k * 2)]
+                        ybond = y[i] + orientation[(k * 2) + 1]
 
-            # remove double counted bonds
-            for hBond in hBonds:
-                if hBond[0] < hBond[1]:
-                    noDoubles.append((hBond[0], hBond[1]))
+                        for n in range(len(x)):
+                            if i == 0:
+                                if (x[n] == xbond and y[n] == ybond) and (
+                                   self.list[currentH + 1].x != xbond or self.list[currentH + 1].y != ybond):
+                                    hBonds.append((currentH, a[n]))
+                                    score = score - stabiltiyEffect[num]
+                            elif i == len(x) - 1:
+                                if (x[n] == xbond and y[n] == ybond) and (
+                                   self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond):
+                                    hBonds.append((currentH, a[n]))
+                                    score = score - stabiltiyEffect[num]
+                            else:
+                                if (x[n] == xbond and y[n] == ybond) and \
+                                        (self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond) and \
+                                        (self.list[currentH + 1].x != xbond or self.list[
+                                            currentH + 1].y != ybond):
+                                    hBonds.append((currentH, a[n]))
+                                    score = score - stabiltiyEffect[num]
 
-            self.HBonds = noDoubles
+                    # remove double counted bonds
+                    for hBond in hBonds:
+                        if hBond[0] < hBond[1]:
+                            noDoubles.append((hBond[0], hBond[1]))
+
+                    self.HBonds = noDoubles
             self.stabilityScore = score/2
 
-    def stability3D(self, maxLength, dimensions):
+    def stability3D(self, maxLength):
         """ Checks the stability of the protein and the index of H-bonds associated with the stability in 3D
 
         :param maxLength: until where should the stability be checked
         :param dimensions: 2 for 2D or 3 for 3D
         :return: self.stabilityScore and self.HBonds
         """
+
+        # aminoType = ["H", "C"]
+        # stabilityEffect = [-1, -5]
+
+        # for num in range(len(aminoType)):
+
         # if dimensions = 2, wrong method, go to self.stability
-        if dimensions == 2:
-            self.stability(maxLength, dimensions)
+        if self.dimensions == 2:
+            self.stability(maxLength, self.dimensions)
 
-        if dimensions == 3:
-            x = []
-            y = []
-            z = []
-            a = []
-            hBonds = []
-            noDoubles = []
+        aminoType = ["H", "C"]
+        stabiltiyEffect = [-1, 5]
 
-            # set all possible orientations
-            plusY = [0, 1, 0]
-            minY = [0, -1, 0]
-            plusX = [1, 0, 0]
-            minX = [-1, 0, 0]
-            plusZ = [0, 0, 1]
-            minZ = [0, 0, -1]
+        for num in range(2):
+            if self.dimensions == 3:
+                x = []
+                y = []
+                z = []
+                a = []
+                hBonds = []
+                noDoubles = []
 
-            score = 0
-            orientation = [plusX, minX, plusY, minY, plusZ, minZ]
-            currentH = 0
-            i = -1
+                # set all possible orientations
+                plusY = [0, 1, 0]
+                minY = [0, -1, 0]
+                plusX = [1, 0, 0]
+                minX = [-1, 0, 0]
+                plusZ = [0, 0, 1]
+                minZ = [0, 0, -1]
 
-            # stores x and y coordinates of aminoacids with type "H"
-            for aminoacid in self.list[0:maxLength]:
-                i += 1
-                if aminoacid.type == "H":
-                    x.append(aminoacid.x)
-                    y.append(aminoacid.y)
-                    z.append(aminoacid.z)
-                    a.append(i)
+                score = 0
+                orientation = [plusX, minX, plusY, minY, plusZ, minZ]
+                currentH = 0
+                i = -1
 
-            # loops over aminoacids with type "H" and determines number of H-bonds
-            for i in range(len(x)):
-                # determine index of H in protein
-                counter = 0
+                # stores x and y coordinates of aminoacids with type "H"
+                for aminoacid in self.list[0:maxLength]:
+                    i += 1
+                    if aminoacid.type == aminoType[num]:
+                        x.append(aminoacid.x)
+                        y.append(aminoacid.y)
+                        z.append(aminoacid.z)
+                        a.append(i)
 
-                for index in range(self.length):
-                    if self.string[index] == "H":
-                        if counter == i:
-                            currentH = index
-                            break
-                        counter = counter + 1
+                # loops over aminoacids with type "H" and determines number of H-bonds
+                for i in range(len(x)):
+                    # determine index of H in protein
+                    counter = 0
 
-                # iterates over orientations and checks for H-bonds
-                for k in range(6):
-                    xbond = x[i] + orientation[k][0]
-                    ybond = y[i] + orientation[k][1]
-                    zbond = z[i] + orientation[k][2]
+                    for index in range(self.length):
+                        if self.string[index] == aminoType[num]:
+                            if counter == i:
+                                currentH = index
+                                break
+                            counter = counter + 1
 
-                    for n in range(len(x)):
-                        if i == 0:
-                            if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
-                               self.list[currentH + 1].x != xbond or self.list[currentH + 1].y != ybond or
-                                    self.list[currentH + 1].z != zbond):
-                                hBonds.append((currentH, a[n]))
-                                score = score - 1
-                        elif i == len(x) - 1:
-                            if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
-                               self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond or
-                                    self.list[currentH - 1].z != zbond):
-                                hBonds.append((currentH, a[n]))
-                                score = score - 1
-                        else:
-                            if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
-                                    (self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond or
-                                        self.list[currentH - 1].z != zbond) and (self.list[currentH + 1].x != xbond or
-                                        self.list[currentH + 1].y != ybond or self.list[currentH + 1].z != zbond):
-                                hBonds.append((currentH, a[n]))
-                                score = score - 1
+                    # iterates over orientations and checks for H-bonds
+                    for k in range(6):
+                        xbond = x[i] + orientation[k][0]
+                        ybond = y[i] + orientation[k][1]
+                        zbond = z[i] + orientation[k][2]
 
-            # remove double counted bonds
-            for hBond in hBonds:
-                if hBond[0] < hBond[1]:
-                    noDoubles.append((hBond[0], hBond[1]))
+                        for n in range(len(x)):
+                            if i == 0:
+                                if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
+                                   self.list[currentH + 1].x != xbond or self.list[currentH + 1].y != ybond or
+                                        self.list[currentH + 1].z != zbond):
+                                    hBonds.append((currentH, a[n]))
+                                    score = score - stabiltiyEffect[num]
+                            elif i == len(x) - 1:
+                                if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
+                                   self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond or
+                                        self.list[currentH - 1].z != zbond):
+                                    hBonds.append((currentH, a[n]))
+                                    score = score - stabiltiyEffect[num]
+                            else:
+                                if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
+                                        (self.list[currentH - 1].x != xbond or self.list[currentH - 1].y != ybond or
+                                            self.list[currentH - 1].z != zbond) and (self.list[currentH + 1].x != xbond or
+                                            self.list[currentH + 1].y != ybond or self.list[currentH + 1].z != zbond):
+                                    hBonds.append((currentH, a[n]))
+                                    score = score - stabiltiyEffect[num]
 
-            self.HBonds = noDoubles
+                # remove double counted bonds
+                for hBond in hBonds:
+                    if hBond[0] < hBond[1]:
+                        noDoubles.append((hBond[0], hBond[1]))
+
+                self.HBonds = noDoubles
             self.stabilityScore = score/2
 
     def visualize(self, name, dimensions):
@@ -324,10 +425,10 @@ class Protein(object):
         :return: a plot
         """
         # if dimensions = 3, wrong method, go to self.visualize3D
-        if dimensions == 3:
-            self.visualize3D(name, dimensions)
+        if self.dimensions == 3:
+            self.visualize3D(name, self.dimensions)
 
-        if dimensions == 2:
+        if self.dimensions == 2:
             x = []
             y = []
             color = []
@@ -378,10 +479,10 @@ class Protein(object):
         :return: a plot
         """
         # if dimensions = 2, wrong method, go to self.visualize
-        if dimensions == 2:
-            self.visualize(self, name, dimensions)
+        if self.dimensions == 2:
+            self.visualize(self, name, self.dimensions)
 
-        if dimensions == 3:
+        if self.dimensions == 3:
             x = []
             y = []
             z = []
@@ -521,7 +622,7 @@ class Protein(object):
         """
 
         # pruning: initiate
-        self.stability(maxLength, dimensions)
+        self.stability(maxLength, self.dimensions)
         bondOptions = copy.copy(self.bondPossibilities)
         newBondOptions = []
 
