@@ -97,12 +97,16 @@ class Protein(object):
         # set variables
         aminoType = ["H", "C"]
         stabilityEffect = [-1, -5]
-        bonds = []
-        #noDoubles = []
+        bondsH = []
+        bondsC = []
+        bonds = [bondsH, bondsC]
+        noDoublesH = []
+        noDoublesC = []
+        noDoubles = [noDoublesH, noDoublesC]
         score = 0
 
         # checks stability score for C-bonds and H-bonds
-        for type in range(1):
+        for type in range(2):
 
             x = []
             y = []
@@ -122,10 +126,6 @@ class Protein(object):
                     y.append(aminoacid.y)
                     z.append(aminoacid.z)
                     a.append(i)
-
-            print(x)
-            print(y)
-            print(z)
 
             # loops over amino acids with type "H" or "C" and determines number of bonds
             for i in range(len(x)):
@@ -148,14 +148,14 @@ class Protein(object):
                     for n in range(len(x)):
                         if i == 0:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (self.list[currentType + 1].x != xbond or self.list[currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
-                                bonds.append((currentType, a[n]))
+                                bonds[type].append((currentType, a[n]))
                                 score = score + stabilityEffect[type]
                         elif i == len(x) - 1:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
                                     self.list[currentType - 1].x != xbond or self.list[
                                     currentType - 1].y != ybond or self.list[currentType - 1].z != zbond):
                                 # do the following
-                                bonds.append((currentType, a[n]))
+                                bonds[type].append((currentType, a[n]))
                                 score = score + stabilityEffect[type]
                         else:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
@@ -163,8 +163,15 @@ class Protein(object):
                                      self.list[currentType - 1].z != zbond) and (self.list[currentType + 1].x != xbond or
                                                         self.list[currentType + 1].y != ybond or
                                                                               self.list[currentType + 1].z != zbond):
-                                bonds.append((currentType, a[n]))
+                                bonds[type].append((currentType, a[n]))
                                 score = score + stabilityEffect[type]
+
+        # remove double counted bonds
+        # for i in range(2):
+        #     for bond in bonds:
+        #         if bond[i][0] < bond[i][1]:
+        #             noDoubles[i].append((bond[i][0], bond[i][1]))
+        # self.HBonds = noDoubles
 
         self.stabilityScore = score / 2
 
