@@ -13,6 +13,7 @@ class Protein(object):
         """ Set properties and initialize all aminoacids
 
         :param number: protein file number
+        :param dimensions: 2 for 2D or 3 for 3D
         """
 
         self.number = number
@@ -28,7 +29,7 @@ class Protein(object):
         self.HBonds = []
         self.stabilityScore = 0
         self.bondPossibilities = []
-        self.dimensions  = dimensions
+        self.dimensions = dimensions
 
         # append list with aminoacids
         for aa_index in range(self.length):
@@ -39,7 +40,6 @@ class Protein(object):
         """ Folds protein according to input pattern 2D
 
         :param folding_pattern: pattern followed to fold protein
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: coordinates of aminoacids set in the self.list
         """
 
