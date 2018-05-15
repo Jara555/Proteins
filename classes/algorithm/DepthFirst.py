@@ -7,12 +7,11 @@ class DepthFirst(Algorithm):
     """ Implements Depth First algorithm in order to efficiently fold a protein """
 
     def __init__(self, protein, writeCsv, maxIterations=None):
-        """
-        Set and initiate all properties.
+        """ Set and initiate all properties.
 
         :param protein: protein to be fold
         :param writeCsv: writes solutions to .csv file when ON
-
+        :param maxIterations: stop after maxIterations
         """
 
         #initialize input varialbes
@@ -28,7 +27,6 @@ class DepthFirst(Algorithm):
 
         :param k: the aminoacid currently being placed
         :return: the found best folding Pattern and Stability
-
         """
         for orientation in self.orientations:
             self.iterations += 1

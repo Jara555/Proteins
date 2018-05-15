@@ -12,7 +12,7 @@ class BranchNBound(Algorithm):
 
         :param protein: protein to be fold
         :param writeCsv: writes solutions to .csv file when ON
-
+        :param maxIterations: stop after maxIterations
         """
 
         #initialize input varialbes
@@ -22,7 +22,7 @@ class BranchNBound(Algorithm):
         Algorithm.__init__(self, protein, writeCsv)
         self.name = "Branch N Bound"
         self.pruneCount = 0
-        self.protein.findHbonds()
+        self.protein.findbonds()
         self.iterations = 0
 
     def searching(self, k):

@@ -259,66 +259,50 @@ class Protein(object):
             if self.list[i].type == "H":
                 self.listH.append(i)
 
-    def findHbonds(self):
-        """ Checks which H's can make a H-bond, both for 2D and 3D
+    def findbonds(self):
+        """ Checks which H/C's can make a HH-bond and CC-bond, both for 2D and 3D
 
-        :return: self.bondPossibilities a list with tuples of H-indices
+        :return: self.bondPossibilities a list with 2 lists of tuples of H-indices en C-indices
         """
 
-        # empty lists
-        oddH = []
-        evenH = []
-        firstH = []
-        secondH = []
-        possibilities = []
-        combinations = []
+        aminoType = ["H", "C"]
 
-        # iterate through protein to find all H's and append the location to the oddH or evenH list
-        for i in range(self.length):
-            if self.list[i].type == 'H':
-                if i % 2 == 0:  # i.e. even
-                    evenH.append(i)
-                else:  # i.e. odd
-                    oddH.append(i)
+        # empty lists combining for two aminotypes
+        odd = [[], []]
+        even = [[], []]
+        first = [[], []]
+        second = [[], []]
+        possibilities = [[], []]
+        self.possibilities = [[], []]
 
-        # rule: the second H has to be at a later position in the protein than the first H
-        # make a list of first and second H's
-        for i in range(len(evenH)):
-            for j in range(len(oddH)):
-                if evenH[i] < oddH[j]:
-                    firstH.append(evenH[i])
-                    secondH.append(oddH[j])
-                else:
-                    firstH.append(oddH[j])
-                    secondH.append(evenH[i])
+        for type in range(len(aminoType)):
 
-        # rule: the distance between two H's must be at least 2 to be able to fold
-        # make a list of tuples representing the first and second H of a possible folding
-        for i in range(len(firstH)):
-            if (secondH[i] - firstH[i]) > 2:
-                possibilities.append((firstH[i], secondH[i]))
+            # iterate through protein to find all H's and append the location to the oddH or evenH list
+            for i in range(self.length):
+                if self.list[i].type == aminoType[type]:
+                    if i % 2 == 0:  # i.e. even
+                        even[type].append(i)
+                    else:  # i.e. odd
+                        odd[type].append(i)
 
-        self.bondPossibilities = possibilities
-        self.listH = evenH + oddH
+            # rule: the second H/C of a bond has to be at a later position in the protein than the first H/C
+            # make a list of first and second H/C's
+            for i in range(len(even[type])):
+                for j in range(len(odd[type])):
+                    if even[type][i] < odd[type][j]:
+                        first[type].append(even[type][i])
+                        second[type].append(odd[type][j])
+                    else:
+                        first[type].append(odd[type][j])
+                        second[type].append(even[type][i])
 
-        # # get the first and the second H's of a possibility
-        # possibilitiesSeconds = [x[1] for x in possibilities]  # Last H of possible fold
-        # possibilitieFirsts = [x[0] for x in possibilities]  # First H of possible fold
-        #
-        # # rule: you can make a combination if the second possibilities H's come both after the first possibility H's
-        # for i in range(len(possibilitiesSeconds)):
-        #     for j in range(len(possibilitieFirsts)):
-        #         if possibilitieFirsts[j] >= possibilitiesSeconds[i]:
-        #             combinations.append((possibilities[i], possibilities[j]))
-        #
-        # # rule: you can make a combination of possibilities if the first H is smaller and the second H is larger than
-        # # H's of the other possible fold
-        # for i in range(len(possibilities)):
-        #     for j in range(len(possibilities)):
-        #         if possibilities[j][0] > possibilities[i][0] and possibilities[j][1] < possibilities[i][1]:
-        #             combinations.append((possibilities[i], possibilities[j]))
+            # rule: the distance between two H/C's must be at least 2 to be able to fold
+            # make a list of tuples representing the first and second H/C of a possible folding
+            for i in range(len(first[type])):
+                if (second[type][i] - first[type][i]) > 2:
+                    possibilities[type].append((first[type][i], second[type][i]))
 
-
+            self.bondPossibilities = possibilities
 
     def __str__(self):
         """ Prints the protein as a string """
