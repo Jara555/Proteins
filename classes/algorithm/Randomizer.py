@@ -14,8 +14,7 @@ class Randomizer(Algorithms):
 
         :param protein: protein being folded
         :param iterations: how many random folding patterns should be generated
-        :param writeOptions: 0 for write all solutions to .CSV-file, 1 for write only best solutions to .CSV-file
-        :param dimensions: 2 for 2D or 3 for 3D
+        :param writeCsv: ON to write results to CSV, OFF to not write results to CSV
         """
 
         # input properties
