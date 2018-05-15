@@ -104,6 +104,7 @@ class Protein(object):
             z = []
             a = []
             i = -1
+            currentType = 0;
 
             # set orientations
             orientation = self.setOrientations()
@@ -117,8 +118,9 @@ class Protein(object):
                     z.append(aminoacid.z)
                     a.append(i)
 
-            for i in range(len(x)):
-                print(x[i],end="")
+            print(x)
+            print(y)
+            print(z)
 
             # loops over amino acids with type "H" or "C" and determines number of bonds
             for i in range(len(x)):
@@ -140,29 +142,24 @@ class Protein(object):
 
                     for n in range(len(x)):
                         if i == 0:
-                            if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
-                                    self.list[currentType + 1].x != xbond or self.list[
-                                    currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
-                                # do the following
+                            if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (self.list[currentType + 1].x != xbond or self.list[currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
                                 bonds.append((currentType, a[n]))
-                                score = score - stabilityEffect[type]
+                                score = score + stabilityEffect[type]
                         elif i == len(x) - 1:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
                                     self.list[currentType - 1].x != xbond or self.list[
                                     currentType - 1].y != ybond or self.list[currentType - 1].z != zbond):
                                 # do the following
                                 bonds.append((currentType, a[n]))
-                                score = score - stabilityEffect[type]
+                                score = score + stabilityEffect[type]
                         else:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
-                                    (self.list[currentType - 1].x != xbond or self.list[
-                                        currentType - 1].y != ybond or
-                                        self.list[currentType - 1].z != zbond) and (
-                                        self.list[currentType + 1].x != xbond or
-                                        self.list[currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
-                                # do the following
+                                    (self.list[currentType - 1].x != xbond or self.list[currentType - 1].y != ybond or
+                                     self.list[currentType - 1].z != zbond) and (self.list[currentType + 1].x != xbond or
+                                                        self.list[currentType + 1].y != ybond or
+                                                                              self.list[currentType + 1].z != zbond):
                                 bonds.append((currentType, a[n]))
-                                score = score - stabilityEffect[type]
+                                score = score + stabilityEffect[type]
 
         self.stabilityScore = score / 2
 
@@ -172,14 +169,11 @@ class Protein(object):
         minY = [0, -1, 0]
         plusX = [1, 0, 0]
         minX = [-1, 0, 0]
-        if self.dimensions == 2:
-            plusZ = [0, 0, 0]
-            minZ = [0, 0, 0]
-        else:
-            plusZ = [0, 0, 1]
-            minZ = [0, 0, -1]
+        plusZ = [0, 0, 1]
+        minZ = [0, 0, -1]
 
         orientation = [plusX, minX, plusY, minY, plusZ, minZ]
+
         return orientation
 
     def visualize(self, name):

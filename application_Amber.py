@@ -7,8 +7,8 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # TODO: Change these numbers per protein / run !!
-    number = 1
-    iterations = 2
+    number = 6
+    iterations = 100
     dimensions = 2
     write = "OFF"
 
