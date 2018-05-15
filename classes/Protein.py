@@ -326,7 +326,7 @@ class Protein(object):
 
         # pruning: initiate
         self.stability(maxLength)
-        bondOptions = copy.copy(self.bondPossibilities)
+        bondOptions = copy.deepcopy(self.bondPossibilities)
         newBondOptions = [[], []]
         aminoType = ["H", "C"]
         stabilityEffect = [-1, -5]

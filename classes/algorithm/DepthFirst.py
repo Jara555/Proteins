@@ -34,7 +34,7 @@ class DepthFirst(Algorithm):
             # terminal output
             if self.iterations % 100000 == 0:
                 print()
-                print('BranchNBound combination: ' + str(self.iterations) + '     (stability ' + str(
+                print('Depth First combination: ' + str(self.iterations) + '     (stability ' + str(
                     self.bestStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
 
             if self.maxIterations:
