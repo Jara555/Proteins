@@ -29,11 +29,7 @@ def multipleUfold(protein):
     print("oddH " + str(oddH))
     print("evenH" + str(evenH))
 
-
-
-
-
-    # find the first and second H                       # Todo: not all folding points are found yet
+    # find the first and second H
     for i in range(len(evenH)):
         for j in range(len(oddH)):
             if evenH[i] < oddH[j]:

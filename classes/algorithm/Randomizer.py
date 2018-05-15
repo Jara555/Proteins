@@ -11,10 +11,10 @@ class Randomizer(Algorithms):
 
     def __init__(self, protein, iterations, writeCsv):
         """ Set and initiate all properties.
+
         :param protein: protein being folded
         :param iterations: how many random folding patterns should be generated
-        :param writeOptions: 0 for write all solutions to .CSV-file, 1 for write only best solutions to .CSV-file
-        :param dimensions: 2 for 2D or 3 for 3D
+        :param writeCsv: ON to write results to CSV, OFF to not write results to CSV
         """
 
         # input properties
@@ -59,7 +59,7 @@ class Randomizer(Algorithms):
 
         # write to csv file
         if self.writeCsv == "ON":
-            write_file = ('results/random' + str(self.protein.number) + '-' + str(self.protein.dimensions) + '.csv')
+            write_file = ('results/random' + str(self.protein.number) + '-' + str(self.protein.dimensions) + 'D.csv')
             with open(write_file, 'w') as csvfile:
                 fieldnames = ['run', 'stability', 'foldingPattern']
                 self.writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
