@@ -13,6 +13,7 @@ class Protein(object):
         """ Set properties and initialize all aminoacids
 
         :param number: protein file number
+        :param dimensions: 2 for 2D or 3 for 3D
         """
 
         self.number = number
@@ -28,7 +29,7 @@ class Protein(object):
         self.HBonds = []
         self.stabilityScore = 0
         self.bondPossibilities = []
-        self.dimensions  = dimensions
+        self.dimensions = dimensions
 
         # append list with aminoacids
         for aa_index in range(self.length):
@@ -39,7 +40,6 @@ class Protein(object):
         """ Folds protein according to input pattern 2D
 
         :param folding_pattern: pattern followed to fold protein
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: coordinates of aminoacids set in the self.list
         """
 
@@ -84,7 +84,6 @@ class Protein(object):
         """ Folds protein according to input pattern in 3D
 
         :param folding_pattern: pattern followed to fold protein
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: coordinates of aminoacids set in the self.list
         """
 
@@ -245,7 +244,6 @@ class Protein(object):
         """ Checks the stability of the protein and the index of H-bonds associated with the stability in 2D
 
         :param maxLength: until where should the stability be checked
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: self.stabilityScore and self.HBonds
         """
         # if dimensions = 3, wrong method, go to self.stability3D
@@ -323,7 +321,6 @@ class Protein(object):
         """ Checks the stability of the protein and the index of H-bonds associated with the stability in 3D
 
         :param maxLength: until where should the stability be checked
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: self.stabilityScore and self.HBonds
         """
 
@@ -417,11 +414,10 @@ class Protein(object):
                 self.HBonds = noDoubles
             self.stabilityScore = score/2
 
-    def visualize(self, name, dimensions):
+    def visualize(self, name):
         """ Prints the protein in scatter plot with lines in 2D
 
         :param name: title of the plot
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: a plot
         """
         # if dimensions = 3, wrong method, go to self.visualize3D
@@ -471,11 +467,10 @@ class Protein(object):
 
             plt.show()
 
-    def visualize3D(self, name, dimensions):
+    def visualize3D(self, name):
         """ Prints the protein in scatter plot with lines in 3D
 
         :param name: title of the plot
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: a plot
         """
         # if dimensions = 2, wrong method, go to self.visualize
@@ -612,12 +607,11 @@ class Protein(object):
 
         return self.string
 
-    def prune(self, maxLength, maxStability, dimensions):
+    def prune(self, maxLength, maxStability):
         """ Check if the protein can be pruned, both for 2D and 3D
 
         :param maxLength: the aminoacid you reached in the protein and after which you might want to prune
         :param maxStability: the max stability found for this protein so far
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: True if potential stability > maxStability (attention: negative values!)
         """
 
