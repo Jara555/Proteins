@@ -14,7 +14,7 @@ def main():
     # run random algorithm
     protein = Protein(number, dimensions)
     randomAlgorithm = Randomizer(protein, iterations, 1)
-    randomAlgorithm.runFastRandomizer()
+    randomAlgorithm.runRandomizer()
 
     # run depth first algorithm
     # protein = Protein(number)
