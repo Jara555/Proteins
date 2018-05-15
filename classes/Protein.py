@@ -16,25 +16,30 @@ class Protein(object):
         :param dimensions: 2 for 2D or 3 for 3D
         """
 
+        # initialize input variables
         self.number = number
+        self.dimensions = dimensions
 
         # open protein text file
         with open('data/protein' + str(number) + '.txt', 'r') as file:
             self.string = file.read()
 
-        # initiate properties
+        # set class properties
         self.length = len(self.string)
         self.list = []
         self.listH = []
-        self.HBonds = []
+        self.bonds = []
         self.stabilityScore = 0
         self.bondPossibilities = []
-        self.dimensions = dimensions
 
         # append list with aminoacids
         for aa_index in range(self.length):
             aminoacid = AminoAcid(self.string[aa_index])
             self.list.append(aminoacid)
+
+        # first 2 aminoacids have always same coordinates ['0', 'Y', ... ]
+        self.list[0].setCoordinates(0, 0, 0)
+        self.list[1].setCoordinates(0, 1, 0)
 
     def fold(self, folding_pattern):
         """ Folds protein according to input pattern 2D
@@ -92,18 +97,23 @@ class Protein(object):
         # set variables
         aminoType = ["H", "C"]
         stabilityEffect = [-1, -5]
-        bonds = []
-        #noDoubles = []
+        bondsH = []
+        bondsC = []
+        self.bonds = [bondsH, bondsC]
+        noDoublesH = []
+        noDoublesC = []
+        noDoubles = [noDoublesH, noDoublesC]
         score = 0
 
         # checks stability score for C-bonds and H-bonds
-        for type in range(len(aminoType)):
+        for type in range(2):
 
             x = []
             y = []
             z = []
             a = []
             i = -1
+            currentType = 0;
 
             # set orientations
             orientation = self.setOrientations()
@@ -137,29 +147,31 @@ class Protein(object):
 
                     for n in range(len(x)):
                         if i == 0:
-                            if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
-                                    self.list[currentType + 1].x != xbond or self.list[
-                                    currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
-                                # do the following
-                                bonds.append((currentType, a[n]))
-                                score = score - stabilityEffect[i]
+                            if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (self.list[currentType + 1].x != xbond or self.list[currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
+                                self.bonds[type].append((currentType, a[n]))
+                                score = score + stabilityEffect[type]
                         elif i == len(x) - 1:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
                                     self.list[currentType - 1].x != xbond or self.list[
                                     currentType - 1].y != ybond or self.list[currentType - 1].z != zbond):
                                 # do the following
-                                bonds.append((currentType, a[n]))
-                                score = score - stabilityEffect[i]
+                                self.bonds[type].append((currentType, a[n]))
+                                score = score + stabilityEffect[type]
                         else:
                             if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
-                                    (self.list[currentType - 1].x != xbond or self.list[
-                                        currentType - 1].y != ybond or
-                                        self.list[currentType - 1].z != zbond) and (
-                                        self.list[currentType + 1].x != xbond or
-                                        self.list[currentType + 1].y != ybond or self.list[currentType + 1].z != zbond):
-                                # do the following
-                                bonds.append((currentType, a[n]))
-                                score = score - stabilityEffect[i]
+                                    (self.list[currentType - 1].x != xbond or self.list[currentType - 1].y != ybond or
+                                     self.list[currentType - 1].z != zbond) and (self.list[currentType + 1].x != xbond or
+                                                        self.list[currentType + 1].y != ybond or
+                                                                              self.list[currentType + 1].z != zbond):
+                                self.bonds[type].append((currentType, a[n]))
+                                score = score + stabilityEffect[type]
+
+        # remove double counted bonds
+        # for type in range(len(aminoType)):
+        #     for bond in self.bonds:
+        #         if bond[type][0] < bond[type][1]:
+        #             noDoubles[type].append((bond[type][0], bond[type][1]))
+        #     self.bonds[type] = noDoubles[type]
 
         self.stabilityScore = score / 2
 
@@ -169,136 +181,73 @@ class Protein(object):
         minY = [0, -1, 0]
         plusX = [1, 0, 0]
         minX = [-1, 0, 0]
-        if self.dimensions == 2:
-            plusZ = [0, 0, 0]
-            minZ = [0, 0, 0]
-        else:
-            plusZ = [0, 0, 1]
-            minZ = [0, 0, -1]
+        plusZ = [0, 0, 1]
+        minZ = [0, 0, -1]
 
         orientation = [plusX, minX, plusY, minY, plusZ, minZ]
+
         return orientation
 
     def visualize(self, name):
-        """ Prints the protein in scatter plot with lines in 2D
-
-        :param name: title of the plot
-        :param dimensions: 2 for 2D or 3 for 3D
-        :return: a plot
-        """
-        # if dimensions = 3, wrong method, go to self.visualize3D
-        if self.dimensions == 3:
-            self.visualize3D(name, self.dimensions)
-
-        if self.dimensions == 2:
-            x = []
-            y = []
-            color = []
-
-            # put x and y coordinates of aminoacid in x and y lists
-            for aminoacid in self.list:
-                x.append(aminoacid.x)
-                y.append(aminoacid.y)
-
-                # creates color list for H = red and P = blue
-                if aminoacid.type == 'H':
-                    color.append('red')
-                elif aminoacid.type == 'P':
-                    color.append('blue')
-                else:
-                    color.append('orange')
-
-
-            # print coordinates in terminal
-            print()
-            print('Protein coordinates:')
-            print(x)
-            print(y)
-            print()
-
-            # scatter plot with line
-            plt.plot(x, y, 'C3', zorder=1, lw=2, color='black')
-            plt.scatter(x, y, s=50, zorder=2, color=color)
-
-            # layout
-            plt.title('Protein: ' + name), plt.tight_layout(), plt.axis('scaled')
-            plt.ylim(min(y) - 1, max(y) + 1), plt.xlim(min(x) - 1, max(x) + 1)
-            plt.xticks(np.arange(min(x), max(x) + 1, 1.0)), plt.yticks(np.arange(min(y), max(y) + 1, 1.0))
-
-            # legend
-            hydrofoob = mpatches.Patch(color='red', label='H')
-            polair = mpatches.Patch(color='blue', label='P')
-            cysteine = mpatches.Patch(color='orange', label='C')
-            plt.legend(handles=[hydrofoob, polair, cysteine])
-
-            plt.show()
-
-    def visualize3D(self, name, dimensions):
         """ Prints the protein in scatter plot with lines in 3D
 
         :param name: title of the plot
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: a plot
         """
-        # if dimensions = 2, wrong method, go to self.visualize
-        if self.dimensions == 2:
-            self.visualize(self, name, self.dimensions)
 
-        if self.dimensions == 3:
-            x = []
-            y = []
-            z = []
-            color = []
+        # empty lists for coordinates and color
+        x, y, z = [], [], []
+        color = []
 
-            # put x and y coordinates of aminoacid in x and y lists
-            for aminoacid in self.list:
-                x.append(aminoacid.x)
-                y.append(aminoacid.y)
-                z.append(aminoacid.z)
+        # put x and y coordinates of aminoacid in x and y lists
+        for aminoacid in self.list:
+            x.append(aminoacid.x)
+            y.append(aminoacid.y)
+            z.append(aminoacid.z)
 
-                # creates color list for H = red and P = blue
-                if aminoacid.type == 'H':
-                    color.append('red')
-                elif aminoacid.type == 'P':
-                    color.append('blue')
-                elif aminoacid.type == 'C':
-                    color.append('orange')
+            # creates color list for H = red, P = blue, C = orange
+            if aminoacid.type == 'H':
+                color.append('red')
+            elif aminoacid.type == 'P':
+                color.append('blue')
+            elif aminoacid.type == 'C':
+                color.append('orange')
 
-            # print coordinates in terminal
-            print()
-            print('Protein coordinates:')
-            print(x)
-            print(y)
-            print(z)
-            print()
+        # print coordinates in terminal
+        print()
+        print('Protein coordinates:')
+        print(x)
+        print(y)
+        print(z)
+        print()
 
-            fig = plt.figure()
-            ax = fig.gca(projection='3d')
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
 
-            # scatter plot with line
-            ax.plot(x, y, z, 'C3', zorder=1, lw=2, color='black')
-            ax.scatter(x, y, z, s=50, zorder=2, color=color)
+        # scatter plot with line
+        ax.plot(x, y, z, 'C3', zorder=1, lw=2, color='black')
+        ax.scatter(x, y, z, s=50, zorder=2, color=color)
 
-            # layout
-            plt.title('Protein: ' + name), plt.tight_layout(), plt.axis('scaled')
+        # layout
+        plt.title(name)
 
-            # limits
-            ax.set_ylim(min(y) - 1, max(y) + 1)
-            ax.set_xlim(min(x) - 1, max(x) + 1)
-            ax.set_zlim(min(z) - 1, max(z) + 1)
+        # limits
+        ax.set_ylim(min(y) - 1, max(y) + 1)
+        ax.set_xlim(min(x) - 1, max(x) + 1)
+        ax.set_zlim(min(z) - 1, max(z) + 1)
 
-            # ticks
-            ax.set_xticks(np.arange(min(x), max(x) + 1, 1.0))
-            ax.set_yticks(np.arange(min(y), max(y) + 1, 1.0))
-            ax.set_zticks(np.arange(min(z), max(z) + 1, 1.0))
+        # ticks
+        ax.set_xticks(np.arange(min(x), max(x) + 1, 1.0))
+        ax.set_yticks(np.arange(min(y), max(y) + 1, 1.0))
+        ax.set_zticks(np.arange(min(z), max(z) + 1, 1.0))
 
-            # legend
-            hydrofoob = mpatches.Patch(color='red', label='H')
-            polair = mpatches.Patch(color='blue', label='P')
-            cysteine = mpatches.Patch(color='orange', label='C')
-            plt.legend(handles=[hydrofoob, polair, cysteine])
+        # legend
+        hydrofoob = mpatches.Patch(color='red', label='H')
+        polair = mpatches.Patch(color='blue', label='P')
+        cysteine = mpatches.Patch(color='orange', label='C')
+        plt.legend(handles=[hydrofoob, polair, cysteine])
 
-            plt.show()
+        plt.show()
 
     def findHs(self):
         """ Find the indexes of H's in the protein, both for 2D and 3D"""
@@ -374,17 +323,16 @@ class Protein(object):
 
         return self.string
 
-    def prune(self, maxLength, maxStability, dimensions):
+    def prune(self, maxLength, maxStability):
         """ Check if the protein can be pruned, both for 2D and 3D
 
         :param maxLength: the aminoacid you reached in the protein and after which you might want to prune
         :param maxStability: the max stability found for this protein so far
-        :param dimensions: 2 for 2D or 3 for 3D
         :return: True if potential stability > maxStability (attention: negative values!)
         """
 
         # pruning: initiate
-        self.stability(maxLength, self.dimensions)
+        self.stability(maxLength)
         bondOptions = copy.copy(self.bondPossibilities)
         newBondOptions = []
 

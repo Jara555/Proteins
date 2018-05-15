@@ -2,7 +2,7 @@ import copy
 import csv
 import time
 from random import randint
-from classes.Algorithms import Algorithms
+from classes.Algorithm import Algorithms
 
 
 class Randomizer(Algorithms):
