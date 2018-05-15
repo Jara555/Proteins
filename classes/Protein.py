@@ -317,7 +317,7 @@ class Protein(object):
 
         return self.string
 
-    def prune(self, maxLength, maxStability, dimensions):
+    def prune(self, maxLength, maxStability):
         """ Check if the protein can be pruned, both for 2D and 3D
 
         :param maxLength: the aminoacid you reached in the protein and after which you might want to prune
@@ -327,7 +327,7 @@ class Protein(object):
         """
 
         # pruning: initiate
-        self.stability(maxLength, self.dimensions)
+        self.stability(maxLength)
         bondOptions = copy.copy(self.bondPossibilities)
         newBondOptions = []
 

@@ -1,3 +1,4 @@
+import copy
 import random
 
 from classes.Algorithm import Algorithm
@@ -35,19 +36,19 @@ class Randomizer(Algorithm):
                 self.overlapCount += 1
                 continue
 
-            # # get stability score
-            # self.protein.stability(self.protein.length)
-            #
+            # get stability score
+            self.protein.stability(self.protein.length)
+
             # if ON write every pattern to csv
             if self.writeCsv == "ON":
                 self.writer.writerow(
                     {'run': i, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
 
-            # # if stability score is better write to best
-            # if self.protein.stabilityScore < self.bestStability:
-            #     self.bestStability = self.protein.stabilityScore
-            #     self.bestPattern = copy.copy(self.foldPattern)
-            #     self.bestRun = i
+            # if stability score is better write to best
+            if self.protein.stabilityScore < self.bestStability:
+                self.bestStability = self.protein.stabilityScore
+                self.bestPattern = copy.copy(self.foldPattern)
+                self.bestRun = i
 
             if i % (self.iterations * 0.05) == 0:
                 print('Random iteration: ' + str(i) + '     (stability ' + str(
