@@ -29,7 +29,7 @@ This code used three two classes: Protein and AminoAcid. These can together with
 To run the code with the standardconfiguration (e.g. protein HHPHHHPH) use the following instruction:
 
 ```
-python application.py
+python MAIN.py
 ```
 
 ## Authors
