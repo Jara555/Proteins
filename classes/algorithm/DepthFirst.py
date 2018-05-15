@@ -6,7 +6,7 @@ from classes.Algorithm import Algorithm
 class DepthFirst(Algorithm):
     """ Implements Depth First algorithm in order to efficiently fold a protein """
 
-    def __init__(self, protein, writeCsv):
+    def __init__(self, protein, writeCsv, maxIterations=None):
         """
         Set and initiate all properties.
 
@@ -14,6 +14,9 @@ class DepthFirst(Algorithm):
         :param writeCsv: writes solutions to .csv file when ON
 
         """
+
+        #initialize input varialbes
+        self.maxIterations = maxIterations
 
         # set class properties
         Algorithm.__init__(self, protein, writeCsv)
@@ -35,6 +38,10 @@ class DepthFirst(Algorithm):
                 print()
                 print('BranchNBound combination: ' + str(self.iterations) + '     (stability ' + str(
                     self.bestStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
+
+            if self.maxIterations:
+                if self.iterations > self.maxIterations:
+                    return
 
             if k == self.protein.length:
                 self.foldPattern[k - 1] = orientation

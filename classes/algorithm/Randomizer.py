@@ -31,6 +31,11 @@ class Randomizer(Algorithm):
             # generate random fold in protein
             self.generator()
 
+            # terminal output
+            if i % (self.iterations * 0.05) == 0:
+                print('Random iteration: ' + str(i) + '     (stability ' + str(
+                    self.bestStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
+
             # check overlap
             if self.protein.checkOverlap(self.protein.length):
                 self.overlapCount += 1
@@ -49,10 +54,6 @@ class Randomizer(Algorithm):
                 self.bestStability = self.protein.stabilityScore
                 self.bestPattern = copy.copy(self.foldPattern)
                 self.bestRun = i
-
-            if i % (self.iterations * 0.05) == 0:
-                print('Random iteration: ' + str(i) + '     (stability ' + str(
-                    self.bestStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
 
             # next iteration
             i += 1
