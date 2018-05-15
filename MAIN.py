@@ -13,6 +13,9 @@ def main():
     dimensions = 2
     writeCsv = "OFF"
 
+    # TODO: Optional parameter for branch n bound or depth first to limit the amount of iterations
+    maxIterations = 1000000
+
     # run random algorithm
     protein = Protein(number, dimensions)
     randomAlgorithm = Randomizer(protein, writeCsv, iterations)

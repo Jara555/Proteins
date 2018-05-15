@@ -6,20 +6,23 @@ from classes.Algorithm import Algorithm
 class BranchNBound(Algorithm):
     """ Implements Branch 'N Bound algorithm in order to efficiently fold a protein """
 
-    def __init__(self, protein, writeCsv):
+    def __init__(self, protein, writeCsv, maxIterations=None):
         """
         Set and initiate all properties.
 
         :param protein: protein to be fold
         :param writeCsv: writes solutions to .csv file when ON
-
+        :param maxIterations: stop after maxIterations
         """
+
+        #initialize input varialbes
+        self.maxIterations = maxIterations
 
         # set class properties
         Algorithm.__init__(self, protein, writeCsv)
         self.name = "Branch N Bound"
         self.pruneCount = 0
-        self.protein.findHbonds()
+        self.protein.findbonds()
         self.iterations = 0
 
     def searching(self, k):
@@ -38,6 +41,10 @@ class BranchNBound(Algorithm):
                 print()
                 print('BranchNBound combination: ' + str(self.iterations) + '     (stability ' + str(
                     self.bestStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
+
+            if self.maxIterations:
+                if self.iterations > self.maxIterations:
+                    return
 
             if k == self.protein.length:
                 self.foldPattern[k - 1] = orientation
