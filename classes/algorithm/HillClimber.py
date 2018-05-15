@@ -1,5 +1,5 @@
 from random import randint
-from classes.Algorithms import Algorithms
+from classes.Algorithm import Algorithms
 import copy
 import time
 import csv
