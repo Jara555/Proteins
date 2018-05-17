@@ -91,12 +91,15 @@ class Algorithm:
     def checkBest(self, length=None):
         """ Checks if stability is lower and saves these new values """
 
+        print("HALLO HIILLCLIMBER")
+        print(str(self.protein.stabilityScore))
+
         if not length:
             length = self.protein.length
 
         self.protein.stability(length)
 
-        if self.protein.stabilityScore < self.bestStability:
+        if self.protein.stabilityScore <= self.bestStability:
             self.bestStability = self.protein.stabilityScore
             self.bestPattern = copy.copy(self.foldPattern)
             self.bestRun = self.iterations
@@ -123,6 +126,7 @@ class Algorithm:
 
         if self.iterations % printNow == 0:
             print(str(self.name) + " iteration: " + str(self.iterations) +
+                  "    ----    Stability: " + str(self.protein.stabilityScore) +
                   "    ----    Stability: " + str(self.bestStability) +
                   "    ----    Pattern: " + str(self.bestPattern))
 

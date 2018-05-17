@@ -147,7 +147,8 @@ class Protein(object):
                             score = self.updateStability(i, n, a, aminoType, currentType, score)
                     else:
                         if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
-                                (self.list[currentType - 1].x != xbond or self.list[currentType - 1].y != ybond or
+                                (self.list[currentType - 1].x != xbond or
+                                 self.list[currentType - 1].y != ybond or
                                  self.list[currentType - 1].z != zbond) and (
                                  self.list[currentType + 1].x != xbond or
                                  self.list[currentType + 1].y != ybond or

@@ -43,17 +43,20 @@ class HillClimber(Algorithm):
         # initialize stability values
         self.initialValues()
 
+        iterationRange = int(self.maxIterations / (self.protein.dimensions * 2))
+
         # loop over max iterations
-        for i in range(int(self.maxIterations/4)):
+        for i in range(iterationRange):
+
+            # initialize random amino acid
+            randomAmino = randint(0, self.protein.length - 1)
+
             # loop over orientations
             for j in range(len(self.orientations)):
 
                 # keep track of iterations and print progress
                 self.iterations += 1
                 self.printProgress()
-
-                # initialize random amino acid
-                randomAmino = randint(0, self.protein.length - 1)
 
                 # save copy of current folding pattern
                 self.copyPattern = copy.copy(self.foldPattern)
@@ -70,7 +73,10 @@ class HillClimber(Algorithm):
                 if self.stabilityCheck():
                     self.checkBest()
                 else:
-                    self.proteinFold()
+                    # change back
+                    for k in range(self.protein.length):
+                        self.foldPattern[k] = self.copyPattern[k]
+                    self.protein.fold(self.foldPattern)
 
                 # if ON write every pattern to csv
                 self.writeCsvRow()
