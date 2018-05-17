@@ -1,10 +1,7 @@
 from classes.Protein import Protein
-from classes.algorithm.HillClimber import HillClimber
-from classes.algorithm.BranchNBound import BranchNBound
-from classes.algorithm.DepthFirst import DepthFirst
 from classes.algorithm.Randomizer import Randomizer
 from classes.algorithm.HillClimber import HillClimber
-import time
+
 
 def main():
     """ Implements random algorithms in order to most efficiently fold a protein """

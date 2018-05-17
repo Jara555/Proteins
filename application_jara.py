@@ -1,13 +1,14 @@
 from classes.Protein import Protein
 from classes.algorithm.BranchNBound import BranchNBound
-from classes.algorithm.Randomizer import Randomizer
 from classes.algorithm.DepthFirst import DepthFirst
+from classes.algorithm.HillClimber import HillClimber
+from classes.algorithm.Randomizer import Randomizer
 
 
 def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
-    # TODO: Change these numbers per protein / run !!
+    # TODO: Change these numbers per protein run !!
     proteinNumber = 1
     dimensions = 2
     writeCsv = "OFF"
@@ -28,10 +29,19 @@ def main():
     branchNBoundAlgorithm = BranchNBound(protein, writeCsv, maxIterations=None)
     branchNBoundAlgorithm.runAlgorithm()
 
-    #print solutions
+    # TODO: Use a (random?) pattern as start of hillclimber
+    startPattern = randomAlgorithm.bestPattern
+
+    # run hill climber algorithm
+    protein = Protein(proteinNumber, dimensions)
+    hillClimberAlgorithm = HillClimber(protein, writeCsv, maxIterations, startPattern)
+    hillClimberAlgorithm.runAlgorithm()
+
+    # print solutions
     randomAlgorithm.printBest()
     depthFirstAlgorithm.printBest()
     branchNBoundAlgorithm.printBest()
+    hillClimberAlgorithm.printBest()
 
 if __name__ == "__main__":
     main()

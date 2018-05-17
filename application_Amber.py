@@ -1,8 +1,5 @@
 from classes.Protein import Protein
-from classes.algorithm.BranchNBound import BranchNBound
 from classes.algorithm.Randomizer import Randomizer
-from classes.algorithm.DepthFirst import DepthFirst
-from Experiment import Experiment
 
 
 def main():

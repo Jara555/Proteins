@@ -1,14 +1,13 @@
 from random import randint
-from classes.Algorithm import Algorithms
+from classes.Algorithm import Algorithm
 import copy
-import time
-import csv
 
 
-class HillClimber(Algorithms):
-    """ Implements hill climber algorithm in order to efficiently fold a protein."""
+class HillClimber(Algorithm):
+    """ Subclass of Algorithm:
+    Implements hill climber algorithm in order to efficiently fold a protein."""
 
-    def __init__(self, protein, bestPattern, iterations, writeOptions, dimensions):
+    def __init__(self, protein, writeCsv, maxIterations, startPattern):
         """ Set and initiate all properties.
 
         :param protein: protein being folded
@@ -17,158 +16,101 @@ class HillClimber(Algorithms):
         :param writeOptions: 0 for write all solutions to .CSV-file, 1 for write only best solutions to .CSV-file
         :param dimensions: 2 for 2D or 3 for 3D
         """
-        Algorithms.__init__(self, protein)
-        self.iterations = iterations
-        self.writeOptions = writeOptions
-        self.bestPattern = bestPattern
-        self.maxStability = 0
-        self.bestRun = 0
-        self.overlapCount = 0
-        self.run = 0
-        self.elapsedTime = 0
-        self.initialPattern = bestPattern
+
+        # initialize input variables
+        self.maxIterations = maxIterations
+        self.startPattern = startPattern
+
+        # set class properties
+        Algorithm.__init__(self, protein, writeCsv)
+        self.name = "HillClimber"
+
+        # declare other variables
         self.foldPattern = []
         self.copyPattern = []
         self.initialStability = 0
-        self.dimensions = dimensions
 
-    def runHillClimber(self):
+    def run(self, param=None):
         """ Runs algorithm and find pattern with higher stability, can be local minimum.
 
         :return: .csv file with the best folding patterns and associated stability's
         """
 
-        print()
-        print("------------  Hill Climber started ----------------")
-        print()
+        # initialize patterns
+        self.bestPattern = self.startPattern
+        self.proteinFold()
 
-        start = time.time()
+        # initialize stability values
+        self.initialValues()
 
-        # create csv file to write output to
-        write_file = ('results/hillclimber' + str(self.protein.number) + '.' + str(self.dimensions) + 'D.csv')
-        with open(write_file, 'w') as csvfile:
-            fieldnames = ['run', 'stability', 'foldingPattern']
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writeheader()
+        # loop over max iterations
+        for i in range(int(self.maxIterations/4)):
+            # loop over orientations
+            for j in range(len(self.orientations)):
 
-            # initialize folding pattern
-            self.proteinFold(self.bestPattern)
+                # keep track of iterations and print progress
+                self.iterations += 1
+                self.printProgress()
 
-            # initialize stability values
-            self.initialValues()
+                # initialize random amino acid
+                randomAmino = randint(0, self.protein.length - 1)
 
-            # initializes directions
-            if self.dimensions == 2:
-                direction = ['+X', '-X', '+Y', '-Y']
-            if self.dimensions == 3:
-                direction = ['+X', '-X', '+Y', '-Y', '+Z', '-Z']
+                # save copy of current folding pattern
+                self.copyPattern = copy.copy(self.foldPattern)
 
-            # runs hill climber i times
-            for i in range(self.iterations):
+                # change orientation of a random amino acid
+                self.foldPattern[randomAmino] = self.orientations[j]
+                self.protein.fold(self.foldPattern)
 
-                for j in range(len(direction)):
+                # skip if overlap detected
+                if self.skipOverlap():
+                    continue
 
-                    # prints progress per 1000 iterations
-                    self.run += 1
-                    if self.run % 40000 == 0:
-                        print("Hill climber iteration: " + str(self.run/4) + "(stability " + str(self.maxStability) + ")")
+                # check for lower stability
+                if self.stabilityCheck():
+                    self.checkBest()
+                else:
+                    self.proteinFold()
 
-                    # initialize random amino acid and direction
-                    #randomDirection = randint(0, 3)
-                    randomAmino = randint(0, self.protein.length - 1)
+                # if ON write every pattern to csv
+                self.writeCsvRow()
 
-                    # saves copy of current folding pattern
-                    self.copyPattern = copy.copy(self.foldPattern)
-
-                    # changes direction of a random amino acid
-                    self.foldPattern[randomAmino] = direction[j]
-                    self.protein.fold(self.foldPattern, self.dimensions)
-
-                    # skip if overlap detected
-                    if self.protein.checkOverlap(self.protein.length):
-                        self.overlapCount += 1
-                        continue
-
-                    # check stability
-                    self.protein.stability(self.protein.length, self.dimensions)
-                    self.stabilityCheck(i)
-
-                    # if write all is on, write every solution to csv
-                    if self.writeOptions == 0:
-                        writer.writerow(
-                            {'run': i, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
-
-        end = time.time()
-        self.elapsedTime = end - start
-
-        print("------------  Hill Climber finished ----------------")
-
-    def printBestHill(self):
-        """ Print and visualise the initial and best foldingPattern found.
-
-        :return: print foldingPatterns and associated stability's to terminal, visualise in plot
-        """
-
-        # print info
-        print()
-        print(' HILL CLIMBER')
-        print(' Maximal stability: ' + str(self.maxStability))
-        print(' Total runs: ' + str(self.iterations))
-        print(' First found in run: ' + str(self.bestRun))
-        print(' Total overlap: ' + str(self.overlapCount))
-        print(' Elapsed time: ' + "{0:.4f}".format(self.elapsedTime))
-        print()
-
-        # print fold pattern
-        print('Initial fold pattern (stability ' + str(self.initialStability) + '): ')
-        print(self.initialPattern)
-        print()
-        print('Best fold pattern: (stability ' + str(self.maxStability) + '): ')
-        print(self.bestPattern)
-        print()
-
-        # plot proteins
-        self.protein.fold(self.initialPattern, self.dimensions)
-        self.protein.visualize(
-            str(self.protein.number) + '. Initial folding (stability ' + str(self.initialStability) + ')',
-            self.dimensions)
-        self.protein.fold(self.bestPattern, self.dimensions)
-        self.protein.visualize((str(self.protein.number) + '. Best HillClimber solution ' + str(self.maxStability)),
-            self.dimensions)
-
-    def proteinFold(self, bestPattern):
+    def proteinFold(self):
         """ Folds protein.
 
         :param bestPattern: the best folding pattern so far
         """
 
-        for k in range(self.protein.length):
-            self.foldPattern.append(bestPattern[k])
-        self.protein.fold(self.foldPattern, self.dimensions)
+        # loop over protein length
+        for i in range(self.protein.length):
+            # append best pattern to fold pattern
+            self.foldPattern.append(self.bestPattern[i])
 
-    def stabilityCheck(self, iteration):
-        """ Checks whether stability score is equal or better than max stability save new.
+        # fold protein
+        self.protein.fold(self.foldPattern)
+
+    def stabilityCheck(self):
+        """ Returns true when stability score is lower or equal to max stability.
 
         !:param iteration: the iteration of this check
+        :return boolean: true when stability score is lower
         """
 
-        if self.protein.stabilityScore <= self.maxStability:
-            self.maxStability = self.protein.stabilityScore
-            self.bestPattern = copy.copy(self.foldPattern)
-            self.bestRun = iteration
+        # if stability is lower return true
+        if self.protein.stabilityScore <= self.bestStability:
+            return True
         else:
-            for k in range(self.protein.length):
-                self.foldPattern[k] = self.copyPattern[k]
-            self.protein.fold(self.foldPattern, self.dimensions)
+            return False
 
     def initialValues(self):
         """ Stores initial values. """
 
-        self.protein.fold(self.foldPattern, self.dimensions)
-        self.protein.stability(self.protein.length, self.dimensions)
+        # fold protein and check stability
+        self.protein.fold(self.foldPattern)
+        self.protein.stability(self.protein.length)
 
         # stores initial stablility
         self.initialStability = self.protein.stabilityScore
 
         # stores initial stability as maximum stability
-        self.maxStability = self.protein.stabilityScore
+        self.bestStability = self.protein.stabilityScore

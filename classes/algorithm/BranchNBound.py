@@ -1,10 +1,9 @@
-import copy
-
-from classes.Algorithm import Algorithm
+from classes.algorithm.DepthFirst import DepthFirst
 
 
-class BranchNBound(Algorithm):
-    """ Implements Branch 'N Bound algorithm in order to efficiently fold a protein """
+class BranchNBound(DepthFirst):
+    """ Subclass of DepthFirst algorithm:
+    Implements Branch 'N Bound algorithm in order to efficiently fold a protein """
 
     def __init__(self, protein, writeCsv, maxIterations=None):
         """
@@ -19,67 +18,20 @@ class BranchNBound(Algorithm):
         self.maxIterations = maxIterations
 
         # set class properties
-        Algorithm.__init__(self, protein, writeCsv)
-        self.name = "Branch N Bound"
+        DepthFirst.__init__(self, protein, writeCsv)
+        self.name = "BranchNBound"
+
         self.protein.findbonds()
 
-    def run(self, k):
-        """ Recursive search function
+    def prune(self, k):
 
-        :param k: the aminoacid currently being placed
-        :return: the found best folding Pattern and Stability
+        # go to next orientation
+        if self.protein.prune(k, self.bestStability):
+            self.pruneCount += 1
+            return True
+        else:
+            return False
 
-        """
-
-        for orientation in self.orientations:
-            self.iterations += 1
-
-            # terminal output
-            if self.iterations % 100000 == 0:
-                print()
-                print('BranchNBound combination: ' + str(self.iterations) + '     (stability ' + str(
-                    self.bestStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
-
-            if self.maxIterations:
-                if self.iterations > self.maxIterations:
-                    return
-
-            if k == self.protein.length:
-                self.foldPattern[k - 1] = orientation
-                self.protein.fold(self.foldPattern)
-
-                # skip if overlap detected
-                if self.protein.checkOverlap(k):
-                    self.overlapCount += 1
-                    continue
-
-                # get stability score of input protein
-                self.protein.stability(k)
-
-                if self.protein.stabilityScore < self.bestStability:
-                    self.bestStability = self.protein.stabilityScore
-                    self.bestPattern = copy.copy(self.foldPattern)
-                    self.bestRun = self.iterations
-
-                # write to csv
-                if self.writeCsv == "ON":
-                    self.writer.writerow({'run': self.iterations, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
-
-            else:
-                self.foldPattern[k - 1] = orientation
-                self.protein.fold(self.foldPattern)
-
-                # skip if overlap detected
-                if self.protein.checkOverlap(k):
-                    self.overlapCount += 1
-                    continue
-
-                # go to next orientation
-                if self.protein.prune(k, self.bestStability):
-                    self.pruneCount += 1
-                    continue
-
-                self.run(k + 1)
 
 
 
