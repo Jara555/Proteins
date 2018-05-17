@@ -7,32 +7,32 @@ from classes.Algorithm import Algorithm
 class Randomizer(Algorithm):
     """ Implements Randomizer algorithm in order to efficiently fold a protein """
 
-    def __init__(self, protein, writeCsv, iterations):
+    def __init__(self, protein, writeCsv, maxIterations):
         """
         Set and initiate all properties.
 
         :param protein: protein to be fold
         :param writeCsv: writes solutions to .csv file when ON
-        :param iterations: number of random folding patterns to be generated
+        :param maxIterations: number of random folding patterns to be generated
 
         """
 
         # initialize input variables
-        self.iterations = iterations
+        self.maxIterations = maxIterations
 
         # set class properties
         Algorithm.__init__(self, protein, writeCsv)
         self.name = "Randomizer"
 
-    def runRandomizer(self):
+    def run(self, param=None):
         """ Runs the iterative core of the randomizer """
 
-        for i in range(0, self.iterations):
+        for i in range(0, self.maxIterations):
             # generate random fold in protein
             self.generator()
 
             # terminal output
-            if i % (self.iterations * 0.05) == 0:
+            if i % (self.maxIterations * 0.05) == 0:
                 print('Random iteration: ' + str(i) + '     (stability ' + str(
                     self.bestStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
 

@@ -16,6 +16,8 @@ class Algorithm:
         self.bestStability = 0
         self.bestRun = 0
         self.overlapCount = 0
+        self.iterations = 0
+        self.pruneCount = 0
         self.elapsed = 0
         self.writer = None
         self.name = "Algorithm"
@@ -45,6 +47,9 @@ class Algorithm:
         # start timer
         start = time.time()
 
+        # index used for recursive algorithms
+        k = 3
+
         # write to csv file
         if self.writeCsv == "ON":
             write_file = ('results/' + str(self.name) + str(self.protein.number) + '-' + str(self.protein.dimensions) + 'D.csv')
@@ -54,12 +59,12 @@ class Algorithm:
                 self.writer.writeheader()
 
                 # start iteration
-                self.pickAlgorithm()
+                self.run(k)
 
         # do not write to csv file
         elif self.writeCsv == "OFF":
             # start iteration
-            self.pickAlgorithm()
+            self.run(k)
 
         # end timer
         end = time.time()
@@ -68,15 +73,6 @@ class Algorithm:
         print()
         print("------------   " + str(self.name) + " finished   ----------------")
         print()
-
-    def pickAlgorithm(self):
-
-        if self.name == "Randomizer":
-            self.runRandomizer()
-        elif self.name == "Branch N Bound" \
-                or self.name == "Depth First":
-            k = 3
-            self.searching(k)
 
     def printBest(self):
         """ Prints all running info and the best solution found """

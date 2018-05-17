@@ -21,11 +21,9 @@ class BranchNBound(Algorithm):
         # set class properties
         Algorithm.__init__(self, protein, writeCsv)
         self.name = "Branch N Bound"
-        self.pruneCount = 0
         self.protein.findbonds()
-        self.iterations = 0
 
-    def searching(self, k):
+    def run(self, k):
         """ Recursive search function
 
         :param k: the aminoacid currently being placed
@@ -81,7 +79,7 @@ class BranchNBound(Algorithm):
                     self.pruneCount += 1
                     continue
 
-                self.searching(k + 1)
+                self.run(k + 1)
 
 
 

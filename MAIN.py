@@ -8,30 +8,27 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # TODO: Change these numbers per protein / run !!
-    number = 2
-    iterations = 1000
+    proteinNumber = 1
     dimensions = 2
     writeCsv = "OFF"
-
-    # TODO: Optional parameter for branch n bound or depth first to limit the amount of iterations
-    maxIterations = 1000000
+    maxIterations = 1000
 
     # run random algorithm
-    protein = Protein(number, dimensions)
-    randomAlgorithm = Randomizer(protein, writeCsv, iterations)
+    protein = Protein(proteinNumber, dimensions)
+    randomAlgorithm = Randomizer(protein, writeCsv, maxIterations)
     randomAlgorithm.runAlgorithm()
 
     # run depth first algorithm
-    protein = Protein(number, dimensions)
-    depthFirstAlgorithm = DepthFirst(protein, writeCsv)
+    protein = Protein(proteinNumber, dimensions)
+    depthFirstAlgorithm = DepthFirst(protein, writeCsv, maxIterations=None)
     depthFirstAlgorithm.runAlgorithm()
 
     # run branch n bound algorithm
-    protein = Protein(number, dimensions)
-    branchNBoundAlgorithm = BranchNBound(protein, writeCsv)
+    protein = Protein(proteinNumber, dimensions)
+    branchNBoundAlgorithm = BranchNBound(protein, writeCsv, maxIterations=None)
     branchNBoundAlgorithm.runAlgorithm()
 
-    # print solutions
+    #print solutions
     randomAlgorithm.printBest()
     depthFirstAlgorithm.printBest()
     branchNBoundAlgorithm.printBest()
