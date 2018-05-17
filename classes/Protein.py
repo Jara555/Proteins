@@ -265,7 +265,7 @@ class Protein(object):
 
         # scatter plot with line
         ax.plot(x, y, z, 'C3', zorder=1, lw=2, color='black')
-        ax.scatter(x, y, z, s=50, zorder=2, color=color)
+        ax.scatter(x, y, z, s=200, zorder=2, color=color)
 
         # layout
         plt.title(name)

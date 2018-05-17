@@ -123,8 +123,7 @@ class Algorithm:
 
         if self.iterations % printNow == 0:
             print(str(self.name) + " iteration: " + str(self.iterations) +
-                  "    ----    Stability: " + str(self.bestStability) +
-                  "    ----    Pattern: " + str(self.bestPattern))
+                  "    ----    Stability: " + str(self.bestStability))
 
     def writeCsvRow(self):
         """ Writes rows to CSV file """
