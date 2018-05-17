@@ -64,7 +64,7 @@ class DepthFirst(Algorithm):
 
                 # if instance of branchNbound: use pruning
                 if self.name == "BranchNBound":
-                    if self.prune(k):
+                    if self.pruneBranchNBound(k):
                         continue
 
                 # skip if overlap detected

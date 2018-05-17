@@ -23,7 +23,7 @@ class BranchNBound(DepthFirst):
 
         self.protein.findbonds()
 
-    def prune(self, k):
+    def pruneBranchNBound(self, k):
 
         # go to next orientation
         if self.protein.prune(k, self.bestStability):

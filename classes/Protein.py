@@ -344,7 +344,7 @@ class Protein(object):
         for type in range(len(aminoType)):
 
             # remove the bonds that are in the protein already
-            for bond in self.bonds[type]:
+            for bond in self.bonds:
                 bondOptions[type].remove(bond)
 
             # make a new list of only bonds with second aminoacid after k (still potential bonds)
