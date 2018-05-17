@@ -245,7 +245,7 @@ class Protein(object):
                 ybond.append(self.list[self.bonds[i][j][1]].y)
                 zbond.append(self.list[self.bonds[i][j][0]].z)
                 zbond.append(self.list[self.bonds[i][j][1]].z)
-                ax.plot(xbond, ybond, zbond, lw=1, color=colorBonds[i], linestyle='--')
+                ax.plot(xbond, ybond, zbond, linestyle=':', color=colorBonds[i])
                 xbond, ybond, zbond = [], [], []
 
         # scatter plot with line
@@ -274,8 +274,8 @@ class Protein(object):
         hydrofoob = mpatches.Patch(color='red', label='H')
         polair = mpatches.Patch(color='blue', label='P')
         cysteine = mpatches.Patch(color='orange', label='C')
-        Hbond = mpatches.Patch(color="red", ls='--', fill=False, label="stability -1")
-        Cbond = mpatches.Patch(color="orange", ls='--', fill=False, label="stability -5")
+        Hbond, = ax.plot(xbond, ybond, zbond, lw=1, color="red", linestyle=':', label="stability -1")
+        Cbond, = ax.plot(xbond, ybond, zbond, lw=1, color="orange", linestyle=':', label="stability - 5")
         plt.legend(handles=[hydrofoob, polair, cysteine, Hbond, Cbond])
 
         plt.show()
