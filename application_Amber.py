@@ -9,7 +9,7 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # TODO: Change these numbers per protein run !!
-    proteinNumber = 6
+    proteinNumber = 5
     dimensions = 2
     writeCsv = "ON"
     maxIterations = 10000

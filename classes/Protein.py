@@ -92,28 +92,20 @@ class Protein(object):
         return False
 
     def stability(self, maxLength):
+        """ Determines stability score of protein based on the bonds between "C" and "H" amino types.
+        :param: length (i.e. number of aminoacid) of which stability will be determined.
+        :return: stability score based on C-C, C-H, and H-H bonds.
+        """
 
-        self.bonds = []
-        self.Hbonds = []
-        self.Cbonds = []
-        aminoType = []
-        currentType = 0
-        score = 0
-        x, y, z, a = [], [], [], []
+        self.bonds, self.Hbonds, self.Cbonds, aminoType, x, y, z, a = [], [], [], [], [], [], [], []
+        currentType, score = 0, 0
         i = -1
 
         # set orientations
         orientation = self.setOrientationsStability()
 
-        # stores x and y coordinates of amino acids with either type "H" or "C"
-        for aminoacid in self.list[0:maxLength]:
-            i += 1
-            if aminoacid.type == "C" or aminoacid.type == "H":
-                x.append(aminoacid.x)
-                y.append(aminoacid.y)
-                z.append(aminoacid.z)
-                aminoType.append(aminoacid.type)
-                a.append(i)
+        # stores x, y and z coordinates of amino acids with either type "H" or "C"
+        x, y, z, a, aminoType = self.storeCoordinatesStability(i, x, y, z, a, aminoType, maxLength)
 
         # loops over amino acids with type "H" or "C" and determines number of bonds
         for i in range(len(x)):
@@ -160,19 +152,43 @@ class Protein(object):
         self.removeDoubleStability()
         self.stabilityScore = score / 2
 
-    def removeDoubleStability(self):
-        # remove double counted bonds
+    def setOrientationsStability(self):
+        """" Sets different orientations.
+        :return: different orientations
+        """
 
-        self.bonds = [self.Hbonds, self.Cbonds]
+        plusY = [0, 1, 0]
+        minY = [0, -1, 0]
+        plusX = [1, 0, 0]
+        minX = [-1, 0, 0]
+        plusZ = [0, 0, 1]
+        minZ = [0, 0, -1]
 
-        for i in range(len(self.bonds)):
-            for bond in self.bonds[i]:
-                bond = bond[1], bond[0]
-                if bond in self.bonds[i]:
-                    self.bonds[i].remove(bond)
+        orientation = [plusX, minX, plusY, minY, plusZ, minZ]
+
+        return orientation
+
+    def storeCoordinatesStability(self, i, x, y, z, a, aminoType, maxLength):
+        """ Stores coordinates and type of aminoacids "H" and "C".
+        :param: arrays containing x, y and z coordinates and amino type for "C" and "H"
+        :return: arrays containing x, y and z coordinates and amino type for "C" and "H"
+        """
+
+        for aminoacid in self.list[0:maxLength]:
+            i += 1
+            if aminoacid.type == "C" or aminoacid.type == "H":
+                x.append(aminoacid.x)
+                y.append(aminoacid.y)
+                z.append(aminoacid.z)
+                aminoType.append(aminoacid.type)
+                a.append(i)
+
+        return x, y, z, a, aminoType
 
     def updateStability(self, i, n, a, aminoType, currentType, score):
-        """ Updates stability score and bonds. """
+        """ Updates stability score and bonds.
+        :return: stability score
+        """
 
         if (aminoType[i] == "H" and aminoType[n] == "H") or (aminoType[i] == "H" and aminoType[n] == "C") or (
                 aminoType[i] == "C" and aminoType[n] == "H"):
@@ -184,19 +200,18 @@ class Protein(object):
 
         return score
 
+    def removeDoubleStability(self):
+        """ Removes double bonds.
+        :return: array of bond indexes
+        """
 
-    def setOrientationsStability(self):
-        # set all possible orientations
-        plusY = [0, 1, 0]
-        minY = [0, -1, 0]
-        plusX = [1, 0, 0]
-        minX = [-1, 0, 0]
-        plusZ = [0, 0, 1]
-        minZ = [0, 0, -1]
+        self.bonds = [self.Hbonds, self.Cbonds]
 
-        orientation = [plusX, minX, plusY, minY, plusZ, minZ]
-
-        return orientation
+        for i in range(len(self.bonds)):
+            for bond in self.bonds[i]:
+                bond = bond[1], bond[0]
+                if bond in self.bonds[i]:
+                    self.bonds[i].remove(bond)
 
     def visualize(self, name):
         """ Prints the protein in scatter plot with lines in 3D
