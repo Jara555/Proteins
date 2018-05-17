@@ -5,7 +5,7 @@ import copy
 
 class HillClimber(Algorithm):
     """ Subclass of Algorithm:
-    Implements hill climber algorithm in order to efficiently fold a protein."""
+    Implements hill climber algorithms in order to efficiently fold a protein."""
 
     def __init__(self, protein, writeCsv, maxIterations, startPattern):
         """ Set and initiate all properties.
@@ -31,7 +31,7 @@ class HillClimber(Algorithm):
         self.initialStability = 0
 
     def run(self, param=None):
-        """ Runs algorithm and find pattern with higher stability, can be local minimum.
+        """ Runs algorithms and find pattern with higher stability, can be local minimum.
 
         :return: .csv file with the best folding patterns and associated stability's
         """

@@ -1,6 +1,6 @@
 from classes.Protein import Protein
-from classes.algorithm.Randomizer import Randomizer
-from classes.algorithm.HillClimber import HillClimber
+from algorithms.Randomizer import Randomizer
+from algorithms import HillClimber
 
 
 def main():

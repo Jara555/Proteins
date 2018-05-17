@@ -3,7 +3,7 @@ from classes.Algorithm import Algorithm
 
 class DepthFirst(Algorithm):
     """ Subclass of Algorithm:
-    Implements Depth First algorithm in order to efficiently fold a protein """
+    Implements Depth First algorithms in order to efficiently fold a protein """
 
     def __init__(self, protein, writeCsv, maxIterations=None):
         """ Set and initiate all properties.

@@ -1,9 +1,9 @@
-from classes.algorithm.DepthFirst import DepthFirst
+from algorithms.DepthFirst import DepthFirst
 
 
 class BranchNBound(DepthFirst):
-    """ Subclass of DepthFirst algorithm:
-    Implements Branch 'N Bound algorithm in order to efficiently fold a protein """
+    """ Subclass of DepthFirst algorithms:
+    Implements Branch 'N Bound algorithms in order to efficiently fold a protein """
 
     def __init__(self, protein, writeCsv, maxIterations=None):
         """

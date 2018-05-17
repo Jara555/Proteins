@@ -1,3 +1,5 @@
+import sys
+
 from classes.Protein import Protein
 from algorithms.BranchNBound import BranchNBound
 from algorithms.DepthFirst import DepthFirst
@@ -5,7 +7,7 @@ from algorithms.HillClimber import HillClimber
 from algorithms.Randomizer import Randomizer
 
 
-def main():
+def main(argv):
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # TODO: Change these numbers per protein run !!
@@ -45,4 +47,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
