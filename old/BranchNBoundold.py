@@ -2,7 +2,7 @@ from classes.Algorithm import Algorithm
 
 
 class BranchNBoundsub(Algorithm):
-    """ Implements Branch 'N Bound algorithm in order to efficiently fold a protein """
+    """ Implements Branch 'N Bound algorithms in order to efficiently fold a protein """
 
     def __init__(self, protein, writeCsv, maxIterations=None):
         """

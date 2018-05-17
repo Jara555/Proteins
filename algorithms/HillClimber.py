@@ -5,7 +5,7 @@ import copy
 
 class HillClimber(Algorithm):
     """ Subclass of Algorithm:
-    Implements hill climber algorithm in order to efficiently fold a protein."""
+    Implements hill climber algorithms in order to efficiently fold a protein."""
 
     def __init__(self, protein, writeCsv, maxIterations, startPattern):
         """ Set and initiate all properties.
@@ -31,7 +31,7 @@ class HillClimber(Algorithm):
         self.initialStability = 0
 
     def run(self, param=None):
-        """ Runs algorithm and find pattern with higher stability, can be local minimum.
+        """ Runs algorithms and find pattern with higher stability, can be local minimum.
 
         :return: .csv file with the best folding patterns and associated stability's
         """
@@ -43,17 +43,20 @@ class HillClimber(Algorithm):
         # initialize stability values
         self.initialValues()
 
+        iterationRange = int(self.maxIterations / (self.protein.dimensions * 2))
+
         # loop over max iterations
-        for i in range(int(self.maxIterations/4)):
+        for i in range(iterationRange):
+
+            # initialize random amino acid
+            randomAmino = randint(0, self.protein.length - 1)
+
             # loop over orientations
             for j in range(len(self.orientations)):
 
                 # keep track of iterations and print progress
                 self.iterations += 1
                 self.printProgress()
-
-                # initialize random amino acid
-                randomAmino = randint(0, self.protein.length - 1)
 
                 # save copy of current folding pattern
                 self.copyPattern = copy.copy(self.foldPattern)
@@ -70,7 +73,10 @@ class HillClimber(Algorithm):
                 if self.stabilityCheck():
                     self.checkBest()
                 else:
-                    self.proteinFold()
+                    # change back
+                    for k in range(self.protein.length):
+                        self.foldPattern[k] = self.copyPattern[k]
+                    self.protein.fold(self.foldPattern)
 
                 # if ON write every pattern to csv
                 self.writeCsvRow()

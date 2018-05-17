@@ -5,7 +5,7 @@ from classes.Algorithm import Algorithm
 
 class Randomizer(Algorithm):
     """ Subclass of Algorithm:
-    Implements Randomizer algorithm in order to efficiently fold a protein """
+    Implements Randomizer algorithms in order to efficiently fold a protein """
 
     def __init__(self, protein, writeCsv, maxIterations):
         """

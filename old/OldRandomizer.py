@@ -6,7 +6,7 @@ from classes.Algorithm import Algorithms
 
 
 class Randomizer(Algorithms):
-    """ Randomize algorithm: finding best protein solution based on random patterns """
+    """ Randomize algorithms: finding best protein solution based on random patterns """
 
     def __init__(self, protein, iterations, writeOptions, dimensions):
         """ Set and initiate all properties.

@@ -18,7 +18,7 @@ class Experiment(object):
         """ Read CSV files. """
 
         # list all algorithms
-        path = "classes/algorithm/"
+        path = "classes/algorithms/"
         dirs = os.listdir(path)
 
     def stability(self):
