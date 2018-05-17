@@ -96,7 +96,7 @@ class Algorithm:
 
         self.protein.stability(length)
 
-        if self.protein.stabilityScore <= self.bestStability:
+        if self.protein.stabilityScore < self.bestStability:
             self.bestStability = self.protein.stabilityScore
             self.bestPattern = copy.copy(self.foldPattern)
             self.bestRun = self.iterations
@@ -163,5 +163,44 @@ class Algorithm:
             print('... No best pattern found...')
 
         print("-------------------------------------------------------------------")
+
+        # write log to csv
+        self.writeLog()
+
+    def writeLog(self):
+
+        # write to csv file
+        if self.writeCsv == "ON":
+            write_file = ("results/log-P" + str(self.protein.number) + "-" + str(self.protein.dimensions) + "D-" + str(self.name) + ".csv")
+            with open(write_file, 'w') as csvfile:
+                writer = csv.writer(csvfile)
+
+                # HEADER
+                writer.writerow({'_________________________________________________'})
+                writer.writerow({})
+                writer.writerow({str(self.name)})
+                writer.writerow({'_________________________________________________'})
+                writer.writerow({})
+                writer.writerow({'Protein ' + str(self.protein.number) + ': ' + str(self.protein.string) })
+                writer.writerow({})
+
+                # PROTEIN INFO
+                writer.writerow({'Best Stability Found:'})
+                writer.writerow({str(self.bestStability)})
+                writer.writerow({})
+                writer.writerow({'Best Folding Pattern Found:'})
+                writer.writerow({str(self.bestPattern)})
+                writer.writerow({})
+
+                # RUNNING INFO
+                writer.writerow({'Total Iterations:  ' + str(self.iterations)})
+                writer.writerow({'Total Overlap:     ' + str(self.overlapCount)})
+                writer.writerow({'Found in Run:      ' + str(self.bestRun)})
+
+                writer.writerow({'Elapsed Time:      ' + "{0:.4f}".format(self.elapsed)})
+
+
+
+
 
 
