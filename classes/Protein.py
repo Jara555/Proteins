@@ -94,26 +94,15 @@ class Protein(object):
 
     def stability(self, maxLength):
 
-        # set variables
-        # bondsH = []
-        # bondsC = []
-        # self.bonds = []
-        # noDoublesH = []
-        # noDoublesC = []
-        # noDoubles = [noDoublesH, noDoublesC]
-        score = 0
-
-        # checks stability score for C-bonds and H-bonds
-        x = []
-        y = []
-        z = []
+        self.bonds = []
         aminoType = []
-        a = []
-        i = -1
         currentType = 0
+        score = 0
+        x, y, z, a = [], [], [], []
+        i = -1
 
         # set orientations
-        orientation = self.setOrientations()
+        orientation = self.setOrientationsStability()
 
         # stores x and y coordinates of amino acids with either type "H" or "C"
         for aminoacid in self.list[0:maxLength]:
@@ -148,48 +137,47 @@ class Protein(object):
                         if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
                                 self.list[currentType + 1].x != xbond or self.list[currentType + 1].y != ybond or
                                 self.list[currentType + 1].z != zbond):
-                            self.bonds.append((currentType, a[n]))
-
-                            if (aminoType[i] == "H" and aminoType[n] == "H") or (aminoType[i] == "H" and aminoType[n] == "C") or (aminoType[i] == "C" and aminoType[n] == "H"):
-                                score = score - 1
-                            else:
-                                score = score - 5
-
+                            # update stability score
+                            score = self.updateStability(i, n, a, aminoType, currentType, score)
                     elif i == len(x) - 1:
                         if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and (
                                 self.list[currentType - 1].x != xbond or self.list[
                                 currentType - 1].y != ybond or self.list[currentType - 1].z != zbond):
-                            # do the following
-                            self.bonds.append((currentType, a[n]))
-
-                            if (aminoType[i] == "H" and aminoType[n] == "H") or (aminoType[i] == "H" and aminoType[n] == "C") or (aminoType[i] == "C" and aminoType[n] == "H"):
-                                score = score - 1
-                            else:
-                                score = score - 5
+                            # update stability score
+                            score = self.updateStability(i, n, a, aminoType, currentType, score)
                     else:
                         if (x[n] == xbond and y[n] == ybond and z[n] == zbond) and \
                                 (self.list[currentType - 1].x != xbond or self.list[currentType - 1].y != ybond or
                                  self.list[currentType - 1].z != zbond) and (
-                                self.list[currentType + 1].x != xbond or
-                                self.list[currentType + 1].y != ybond or
-                                self.list[currentType + 1].z != zbond):
-                            self.bonds.append((currentType, a[n]))
+                                 self.list[currentType + 1].x != xbond or
+                                 self.list[currentType + 1].y != ybond or
+                                 self.list[currentType + 1].z != zbond):
+                            # update stability score
+                            score = self.updateStability(i, n, a, aminoType, currentType, score)
 
-                            if (aminoType[i] == "H" and aminoType[n] == "H") or (aminoType[i] == "H" and aminoType[n] == "C") or (aminoType[i] == "C" and aminoType[n] == "H"):
-                                score = score - 1
-                            else:
-                                score = score - 5
+        # remove double counted bonds
+        for bond in self.bonds:
+            bond = bond[1], bond[0]
+            if bond in self.bonds:
+                self.bonds.remove(bond)
 
-        # # remove double counted bonds
-        # for type in range(len(aminoType)):
-        #     for bond in self.bonds[type]:
-        #         if bond[0] < bond[1]:
-        #             noDoubles[type].append((bond[0], bond[1]))
-
-        # self.bonds = noDoubles
         self.stabilityScore = score / 2
 
-    def setOrientations(self):
+    def updateStability(self, i, n, a, aminoType, currentType, score):
+        """ Updates stability score and bonds. """
+
+        self.bonds.append((currentType, a[n]))
+
+        if (aminoType[i] == "H" and aminoType[n] == "H") or (aminoType[i] == "H" and aminoType[n] == "C") or (
+                aminoType[i] == "C" and aminoType[n] == "H"):
+            score = score - 1
+        else:
+            score = score - 5
+
+        return score
+
+
+    def setOrientationsStability(self):
         # set all possible orientations
         plusY = [0, 1, 0]
         minY = [0, -1, 0]
@@ -237,6 +225,18 @@ class Protein(object):
 
         fig = plt.figure()
         ax = fig.gca(projection='3d')
+
+        # visualizes CC/CH/HH bonds
+        xbond, ybond, zbond = [], [], []
+        for i in range(len(self.bonds)):
+            xbond.append(self.list[self.bonds[i][0]].x)
+            xbond.append(self.list[self.bonds[i][1]].x)
+            ybond.append(self.list[self.bonds[i][0]].y)
+            ybond.append(self.list[self.bonds[i][1]].y)
+            zbond.append(self.list[self.bonds[i][0]].z)
+            zbond.append(self.list[self.bonds[i][1]].z)
+            ax.plot(xbond, ybond, zbond, lw=1, color='grey', linestyle='--')
+            xbond, ybond, zbond = [], [], []
 
         # scatter plot with line
         ax.plot(x, y, z, 'C3', zorder=1, lw=2, color='black')
