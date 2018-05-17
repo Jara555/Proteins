@@ -20,9 +20,8 @@ class DepthFirst(Algorithm):
         # set class properties
         Algorithm.__init__(self, protein, writeCsv)
         self.name = "Depth First"
-        self.iterations = 0
 
-    def searching(self, k):
+    def run(self, k):
         """ Recursive search function
 
         :param k: the aminoacid currently being placed
@@ -34,7 +33,7 @@ class DepthFirst(Algorithm):
             # terminal output
             if self.iterations % 100000 == 0:
                 print()
-                print('BranchNBound combination: ' + str(self.iterations) + '     (stability ' + str(
+                print('Depth First combination: ' + str(self.iterations) + '     (stability ' + str(
                     self.bestStability) + ')' + ' (foldpattern ' + str(self.bestPattern) + ')')
 
             if self.maxIterations:
@@ -71,7 +70,7 @@ class DepthFirst(Algorithm):
                     self.overlapCount += 1
                     continue
 
-                self.searching(k + 1)
+                self.run(k + 1)
 
 
 
