@@ -11,7 +11,6 @@ class Protein(object):
 
     def __init__(self, number, dimensions):
         """ Set properties and initialize all aminoacids
-
         :param number: protein file number
         :param dimensions: 2 for 2D or 3 for 3D
         """
@@ -29,6 +28,8 @@ class Protein(object):
         self.list = []
         self.listH = []
         self.bonds = []
+        self.Hbonds = []
+        self.Cbonds = []
         self.stabilityScore = 0
         self.bondPossibilities = []
 
@@ -43,7 +44,6 @@ class Protein(object):
 
     def fold(self, folding_pattern):
         """ Folds protein according to input pattern 2D
-
         :param folding_pattern: pattern followed to fold protein
         :return: coordinates of aminoacids set in the self.list
         """
@@ -72,7 +72,6 @@ class Protein(object):
 
     def checkOverlap(self, maxLength):
         """ Checks for overlap in the folded protein, both 2D and 3D
-
         :param maxLength: until where should the overlap be checked
         :return: True if overlap is found
         """
@@ -95,6 +94,8 @@ class Protein(object):
     def stability(self, maxLength):
 
         self.bonds = []
+        self.Hbonds = []
+        self.Cbonds = []
         aminoType = []
         currentType = 0
         score = 0
@@ -155,24 +156,30 @@ class Protein(object):
                             # update stability score
                             score = self.updateStability(i, n, a, aminoType, currentType, score)
 
-        # remove double counted bonds
-        for bond in self.bonds:
-            bond = bond[1], bond[0]
-            if bond in self.bonds:
-                self.bonds.remove(bond)
-
+        self.removeDoubleStability()
         self.stabilityScore = score / 2
+
+    def removeDoubleStability(self):
+        # remove double counted bonds
+
+        self.bonds = [self.Hbonds, self.Cbonds]
+
+        for i in range(len(self.bonds)):
+            for bond in self.bonds[i]:
+                bond = bond[1], bond[0]
+                if bond in self.bonds[i]:
+                    self.bonds[i].remove(bond)
 
     def updateStability(self, i, n, a, aminoType, currentType, score):
         """ Updates stability score and bonds. """
 
-        self.bonds.append((currentType, a[n]))
-
         if (aminoType[i] == "H" and aminoType[n] == "H") or (aminoType[i] == "H" and aminoType[n] == "C") or (
                 aminoType[i] == "C" and aminoType[n] == "H"):
             score = score - 1
+            self.Hbonds.append((currentType, a[n]))
         else:
             score = score - 5
+            self.Cbonds.append((currentType, a[n]))
 
         return score
 
@@ -192,7 +199,6 @@ class Protein(object):
 
     def visualize(self, name):
         """ Prints the protein in scatter plot with lines in 3D
-
         :param name: title of the plot
         :return: a plot
         """
@@ -228,15 +234,18 @@ class Protein(object):
 
         # visualizes CC/CH/HH bonds
         xbond, ybond, zbond = [], [], []
+        colorBonds = ["red", "orange"]
+
         for i in range(len(self.bonds)):
-            xbond.append(self.list[self.bonds[i][0]].x)
-            xbond.append(self.list[self.bonds[i][1]].x)
-            ybond.append(self.list[self.bonds[i][0]].y)
-            ybond.append(self.list[self.bonds[i][1]].y)
-            zbond.append(self.list[self.bonds[i][0]].z)
-            zbond.append(self.list[self.bonds[i][1]].z)
-            ax.plot(xbond, ybond, zbond, lw=1, color='grey', linestyle='--')
-            xbond, ybond, zbond = [], [], []
+            for j in range(len(self.bonds[i])):
+                xbond.append(self.list[self.bonds[i][j][0]].x)
+                xbond.append(self.list[self.bonds[i][j][1]].x)
+                ybond.append(self.list[self.bonds[i][j][0]].y)
+                ybond.append(self.list[self.bonds[i][j][1]].y)
+                zbond.append(self.list[self.bonds[i][j][0]].z)
+                zbond.append(self.list[self.bonds[i][j][1]].z)
+                ax.plot(xbond, ybond, zbond, lw=1, color=colorBonds[i], linestyle='--')
+                xbond, ybond, zbond = [], [], []
 
         # scatter plot with line
         ax.plot(x, y, z, 'C3', zorder=1, lw=2, color='black')
@@ -264,7 +273,9 @@ class Protein(object):
         hydrofoob = mpatches.Patch(color='red', label='H')
         polair = mpatches.Patch(color='blue', label='P')
         cysteine = mpatches.Patch(color='orange', label='C')
-        plt.legend(handles=[hydrofoob, polair, cysteine])
+        Hbond = mpatches.Patch(color="red", ls='--', fill=False, label="stability -1")
+        Cbond = mpatches.Patch(color="orange", ls='--', fill=False, label="stability -5")
+        plt.legend(handles=[hydrofoob, polair, cysteine, Hbond, Cbond])
 
         plt.show()
 
@@ -278,7 +289,6 @@ class Protein(object):
 
     def findbonds(self):
         """ Checks which H/C's can make a HH-bond and CC-bond, both for 2D and 3D
-
         :return: self.bondPossibilities a list with 2 lists of tuples of H-indices en C-indices
         """
 
@@ -328,7 +338,6 @@ class Protein(object):
 
     def prune(self, maxLength, maxStability):
         """ Check if the protein can be pruned, both for 2D and 3D
-
         :param maxLength: the aminoacid you reached in the protein and after which you might want to prune
         :param maxStability: the max stability found for this protein so far
         :return: True if potential stability worse than maxStability

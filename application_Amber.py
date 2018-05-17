@@ -9,8 +9,8 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # TODO: Change these numbers per protein run !!
-    proteinNumber = 1
-    dimensions = 2
+    proteinNumber = 6
+    dimensions = 3
     writeCsv = "OFF"
     maxIterations = 1000
 
@@ -20,14 +20,14 @@ def main():
     randomAlgorithm.runAlgorithm()
 
     # run depth first algorithm
-    protein = Protein(proteinNumber, dimensions)
-    depthFirstAlgorithm = DepthFirst(protein, writeCsv, maxIterations=None)
-    depthFirstAlgorithm.runAlgorithm()
+    # protein = Protein(proteinNumber, dimensions)
+    # depthFirstAlgorithm = DepthFirst(protein, writeCsv, maxIterations=None)
+    # depthFirstAlgorithm.runAlgorithm()
 
     # run branch n bound algorithm
-    protein = Protein(proteinNumber, dimensions)
-    branchNBoundAlgorithm = BranchNBound(protein, writeCsv, maxIterations=None)
-    branchNBoundAlgorithm.runAlgorithm()
+    # protein = Protein(proteinNumber, dimensions)
+    # branchNBoundAlgorithm = BranchNBound(protein, writeCsv, maxIterations=None)
+    # branchNBoundAlgorithm.runAlgorithm()
 
     # TODO: Use a (random?) pattern as start of hillclimber
     startPattern = randomAlgorithm.bestPattern
@@ -39,8 +39,8 @@ def main():
 
     # print solutions
     randomAlgorithm.printBest()
-    depthFirstAlgorithm.printBest()
-    branchNBoundAlgorithm.printBest()
+    # depthFirstAlgorithm.printBest()
+    # branchNBoundAlgorithm.printBest()
     hillClimberAlgorithm.printBest()
 
 if __name__ == "__main__":
