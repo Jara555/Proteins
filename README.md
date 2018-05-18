@@ -42,14 +42,17 @@ python3 proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> 
                 HC = HillClimber
                 DF = DepthFirst
                 BB = BranchNBound
-        :argument -p <protein> : Protein to be fold, can be a integer or a string
-                int 1/2/3/ ... 9
-                str H/P/C
+        :argument -p <protein> : Protein to be fold
+                                 Can be an integer reflecting 1 of the benchmark proteins 
+                                 Or a custom string reflecting a list of amino acids
+                int options = 1/2/3/ ... 9
+                str options  = H/P/C
         :argument -d <dimensions> : dimensions to be fold in
                 2 = 2D
                 3 = 3D (default)
-        :argument -i <iterations> : Maximal iterations to be run (required for R and HC, optional for DF and BB)
-                default = None
+        :argument -i <iterations> : Maximal iterations to be run 
+                                    Required for R and HC, optional for DF and BB
+                default = None 
         :argument -c <csv> : Write solutions to .csv file
                 ON = write
                 OFF = not write (default)
