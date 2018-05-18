@@ -2,6 +2,7 @@
 import getopt
 import sys
 
+from algorithms.SimulatedAnnealing import SimulatedAnnealing
 from classes.Protein import Protein
 from algorithms.BranchNBound import BranchNBound
 from algorithms.DepthFirst import DepthFirst
@@ -19,6 +20,7 @@ def main(argv):
                 HC = HillClimber
                 DF = DepthFirst
                 BB = BranchNBound
+                SA = SimulatedAnnealing
         :argument -p <protein> : Protein to be fold, can be a number (1/2/3/ .. 9) or a string (types H / P / C)
         :argument -d <dimensions> : dimensions to be fold in
                 2 = 2D
@@ -30,7 +32,7 @@ def main(argv):
     """
 
     # set variables
-    algorithmNames = ["R", "HC", "DF", "BB"]
+    algorithmNames = ["R", "HC", "DF", "BB", "SA"]
     aminoAcidTypes = ["H", "P", "C"]
 
     # initial values
@@ -101,7 +103,7 @@ def main(argv):
                 printAminoAcidOptions()
 
     # check if max iterations is entered (if needed)
-    if not maxIterations and (algorithmName == "R" or algorithmName == "HC"):
+    if not maxIterations and (algorithmName == "R" or algorithmName == "HC" or algorithmName == "SA"):
         # go with default value
         if proteinNumber < 3:
             maxIterations = 1000
@@ -132,6 +134,12 @@ def main(argv):
     # BranchNBound
     elif algorithmName == "BB":
         algorithm = BranchNBound(protein, writeCsv, maxIterations)
+
+    elif algorithmName == "SA":
+        randomAlgorithm = Randomizer(protein, writeCsv, maxIterations=100)
+        randomAlgorithm.runAlgorithm()
+        startPattern = randomAlgorithm.bestPattern
+        algorithm = SimulatedAnnealing(protein, writeCsv, maxIterations, startPattern)
 
     else:
         print("Error: Input algorithm could not be found")
