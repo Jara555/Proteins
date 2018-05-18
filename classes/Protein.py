@@ -9,19 +9,25 @@ from mpl_toolkits.mplot3d import Axes3D
 class Protein(object):
     """ Contains all protein properties and methods """
 
-    def __init__(self, number, dimensions):
+    def __init__(self, dimensions, number, string):
         """ Set properties and initialize all aminoacids
         :param number: protein file number
         :param dimensions: 2 for 2D or 3 for 3D
         """
 
         # initialize input variables
-        self.number = number
         self.dimensions = dimensions
 
-        # open protein text file
-        with open('data/protein' + str(number) + '.txt', 'r') as file:
-            self.string = file.read()
+        # if a number was entered open the protein file of that number
+        if number:
+            self.number = number
+            # open protein text file
+            with open('data/protein' + str(number) + '.txt', 'r') as file:
+                self.string = file.read()
+
+        # if a string was entered use the string
+        elif string:
+            self.string = string
 
         # set class properties
         self.length = len(self.string)
@@ -265,7 +271,7 @@ class Protein(object):
 
         # scatter plot with line
         ax.plot(x, y, z, 'C3', zorder=1, lw=2, color='black')
-        ax.scatter(x, y, z, s=200, zorder=2, color=color)
+        ax.scatter(x, y, z, s=100, zorder=2, color=color)
 
         # layout
         plt.title(name)

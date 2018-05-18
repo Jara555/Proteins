@@ -12,15 +12,15 @@ from algorithms.Randomizer import Randomizer
 def main(argv):
     """ Implements random algorithms in order to most efficiently fold a protein
         usage:
-            python3 proteins.py -a <algorithm> -p <protein> -d <dimension> -i <iterations> -c <csv>
+            python3 proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> -c <csv>
 
         :argument -a <algorithm> : First letters of algorithm names
                 R = Randomizer
                 HC = HillClimber
                 DF = DepthFirst
                 BB = BranchNBound
-        :argument -p <protein> : Number of the protein to be fold (between 1 and 9)
-        :argument -d <dimension> : dimension to be fold in
+        :argument -p <protein> : Protein to be fold, can be a number (1/2/3/ .. 9) or a string (types H / P / C)
+        :argument -d <dimensions> : dimensions to be fold in
                 2 = 2D
                 3 = 3D (default)
         :argument -i <iterations> : Maximal iterations to be run (required for R and HC, optional for DF and BB)
@@ -31,8 +31,14 @@ def main(argv):
 
     # set variables
     algorithmNames = ["R", "HC", "DF", "BB"]
+    aminoAcidTypes = ["H", "P", "C"]
+
+    # initial values
     algorithmName = None
     proteinNumber = 0
+    proteinString = None
+
+    # default values
     dimensions = 3
     maxIterations = None
     writeCsv = "OFF"
@@ -63,7 +69,11 @@ def main(argv):
         elif opt == "-a":
             algorithmName = arg
         elif opt == "-p":
-            proteinNumber = int(arg)
+            # check if integer is entered or string
+            try:
+                proteinNumber = int(arg)
+            except ValueError:
+                proteinString = arg.upper()
         elif opt == "-d":
             dimensions = int(arg)
         elif opt == "-i":
@@ -71,20 +81,28 @@ def main(argv):
         elif opt == "-c":
             writeCsv = arg.capitalize()
 
-    # check if algorithm name exists
+    # check if algorithm name is correct
     while algorithmName not in algorithmNames:
         usage()
         printAlgorithmOptions()
         algorithmName = input("    Algorithm: ").upper()
 
-    # check if protein number exists
-    while proteinNumber < 1 or proteinNumber > 9:
-        usage()
-        print("Enter a protein number (integer 1-9)")
-        proteinNumber = int(input("    Protein: "))
+    # check if protein is correct
+    if not proteinString:
+        # check if protein number is correct
+        while proteinNumber < 1 or proteinNumber > 9:
+            usage()
+            print("Enter a protein number (integer 1-9)")
+            proteinNumber = int(input("    Protein: "))
+    else:
+        # check if valid amino acid types in protein string
+        for i in proteinString:
+            if i not in aminoAcidTypes:
+                printAminoAcidOptions()
 
-    # check if max iterations exists (if needed)
-    while not maxIterations and (algorithmName == "R" or algorithmName == "HC"):
+    # check if max iterations is entered (if needed)
+    if not maxIterations and (algorithmName == "R" or algorithmName == "HC"):
+        # go with default value
         if proteinNumber < 3:
             maxIterations = 1000
         else:
@@ -93,7 +111,7 @@ def main(argv):
     # END ERROR CHECKING
 
     # initialize protein
-    protein = Protein(proteinNumber, dimensions)
+    protein = Protein(dimensions, proteinNumber, proteinString)
 
     # Randomizer
     if algorithmName == "R":
@@ -127,9 +145,8 @@ def main(argv):
 def usage():
     print()
     print("usage: python3 proteins.py "
-          "-a <algorithm> -p <protein> -d <dimension> -i <iterations> -c <csv>")
+          "-a <algorithm> -p <protein> -d <dimensions> -i <iterations> -c <csv>")
     print()
-
 
 def printAlgorithmOptions():
     print("Algorithm input options:")
@@ -139,6 +156,13 @@ def printAlgorithmOptions():
     print("     BB - BranchNBound")
     print()
     print("Enter an algorithm")
+
+def printAminoAcidOptions():
+    usage()
+    print("Possible amino acid types for the protein string are:")
+    print("     H / P / C")
+    print()
+    sys.exit(4)
 
 
 if __name__ == "__main__":
