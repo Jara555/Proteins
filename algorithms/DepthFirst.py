@@ -27,22 +27,23 @@ class DepthFirst(Algorithm):
         :return: the found best folding Pattern and Stability
         """
 
-        # loop over orientatoins
+        # loop over orientations
         for orientation in self.orientations:
 
-            # keep track of iterations
-            self.iterations += 1
-
-            # print progress in terminal output
-            self.printProgress()
-
-            # if a max iterations is given, don't exceed this
-            if self.maxIterations:
-                if self.iterations > self.maxIterations:
-                    return
-
-            # if end is reached
+            # if end of protein is reached
             if k == self.protein.length:
+
+                # keep track of iterations
+                self.iterations += 1
+
+                # if a max iterations is given, don't exceed this
+                if self.maxIterations:
+                    if self.iterations > self.maxIterations:
+                        return
+
+                # print progress in terminal output
+                self.printProgress()
+
                 # set last orientation and fold
                 self.foldPattern[k - 1] = orientation
                 self.protein.fold(self.foldPattern)
