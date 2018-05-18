@@ -33,8 +33,24 @@ This code uses three classes: AminoAcid, Protein and Algorithm. These can togeth
 To run the code with the standardconfiguration (e.g. protein HHPHHHPH) use the following instruction:
 
 ```
-python3 proteins.py 
+python3 proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> -c <csv>
+
 ```
+
+        :argument -a <algorithm> : First letters of algorithm names
+                R = Randomizer
+                HC = HillClimber
+                DF = DepthFirst
+                BB = BranchNBound
+        :argument -p <protein> : Protein to be fold, can be a number (1/2/3/ .. 9) or a string (types H / P / C)
+        :argument -d <dimensions> : dimensions to be fold in
+                2 = 2D
+                3 = 3D (default)
+        :argument -i <iterations> : Maximal iterations to be run (required for R and HC, optional for DF and BB)
+                default = None
+        :argument -c <csv> : Write solutions to .csv file
+                ON = write
+                OFF = not write (default)
 
 ## Authors
 
