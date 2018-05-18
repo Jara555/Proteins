@@ -42,7 +42,9 @@ python3 proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> 
                 HC = HillClimber
                 DF = DepthFirst
                 BB = BranchNBound
-        :argument -p <protein> : Protein to be fold, can be a number (1/2/3/ .. 9) or a string (types H / P / C)
+        :argument -p <protein> : Protein to be fold, can be a integer or a string
+                int 1/2/3/ ... 9
+                str H/P/C
         :argument -d <dimensions> : dimensions to be fold in
                 2 = 2D
                 3 = 3D (default)
