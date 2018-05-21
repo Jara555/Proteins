@@ -8,9 +8,9 @@ def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
     # TODO: Change these numbers per protein / run !!
-    number = 2
+    number = 0
     iterations = 1000
-    dimensions = 2
+    dimensions = 3
     writeCsv = "OFF"
 
     # TODO: Optional parameter for branch n bound or depth first to limit the amount of iterations
