@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 import getopt
 import sys
 
@@ -71,7 +71,7 @@ def main(argv):
             usage()
             sys.exit()
         elif opt == "-a":
-            algorithmName = arg
+            algorithmName = arg.upper()
         elif opt == "-p":
             # check if integer is entered or string
             try:

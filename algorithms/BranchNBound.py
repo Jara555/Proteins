@@ -23,9 +23,11 @@ class BranchNBound(DepthFirst):
 
         self.protein.findbonds()
 
-    def pruneBranchNBound(self, k):
+    def pruneStability(self, k):
+        """ Prunes on basis of the expected stability of the protein
+        Calculated in the prune method of the protein class """
 
-        # go to next orientation
+        # if stability target can not be reached anymore: prune!
         if self.protein.prune(k, self.bestStability):
             self.pruneCount += 1
             return True

@@ -63,10 +63,9 @@ class DepthFirst(Algorithm):
                 self.foldPattern[k - 1] = orientation
                 self.protein.fold(self.foldPattern)
 
-                # if instance of branchNbound: use pruning
-                if self.name == "BranchNBound":
-                    if self.pruneBranchNBound(k):
-                        continue
+                # prune on basis of stability
+                if self.pruneStability(k):
+                    continue
 
                 # skip if overlap detected
                 if self.skipOverlap(k):
@@ -74,6 +73,13 @@ class DepthFirst(Algorithm):
 
                 # go deeper in recursion
                 self.run(k + 1)
+
+    def pruneStability(self, k):
+        """ Non-functional method for depth first class.
+        Overriden in the Branch N bound class in order to prune based on stability """
+        return False
+
+
 
 
 
