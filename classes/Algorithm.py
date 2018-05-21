@@ -176,10 +176,10 @@ class Algorithm:
         """ Writes all running info and the best solution found to .csv file"""
 
         # write to csv file
-        write_file = ("results/log-P" + str(self.protein.number) + "-"
-                      + str(self.protein.dimensions) + "D-" + str(self.name) + ".csv")
-        with open(write_file, 'w') as csvfile:
-            writer = csv.writer(csvfile)
+        write_file = ("results/P" + str(self.protein.number) + "-"
+                      + str(self.protein.dimensions) + "D-" + str(self.name) + ".log")
+        with open(write_file, 'w') as logfile:
+            writer = csv.writer(logfile)
 
             # HEADER
             writer.writerow({'_________________________________________________'})

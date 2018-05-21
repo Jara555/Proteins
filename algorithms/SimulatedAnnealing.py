@@ -30,7 +30,6 @@ class SimulatedAnnealing(HillClimber):
         self.nonOverlapPattern = copy.copy(self.startPattern)
 
         # TODO: Fine tune these parameters
-        self.maxIterations = 1000
         self.maxDegrade = 1
         self.maxOverlap = 20
         self.maxTries = 10
