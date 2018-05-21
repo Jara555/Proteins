@@ -9,7 +9,7 @@ from mpl_toolkits.mplot3d import Axes3D
 class Protein(object):
     """ Contains all protein properties and methods """
 
-    def __init__(self, dimensions, number, string):
+    def __init__(self, dimensions, number, string=None):
         """ Set properties and initialize all aminoacids
         :param number: protein file number
         :param dimensions: 2 for 2D or 3 for 3D
@@ -76,11 +76,15 @@ class Protein(object):
             # set new coordinates to aminoacid
             self.list[index].setCoordinates(x, y, z)
 
-    def checkOverlap(self, maxLength):
+    def checkOverlap(self, maxLength=None):
         """ Checks for overlap in the folded protein, both 2D and 3D
         :param maxLength: until where should the overlap be checked
         :return: True if overlap is found
         """
+
+        if not maxLength:
+            maxLength = self.length
+
         coordinatesList = []
 
         # iterate over aminoacids
@@ -97,11 +101,14 @@ class Protein(object):
         # if iteration finished there was no overlap
         return False
 
-    def stability(self, maxLength):
+    def stability(self, maxLength=None):
         """ Determines stability score of protein based on the bonds between "C" and "H" amino types.
         :param: length (i.e. number of aminoacid) of which stability will be determined.
         :return: stability score based on C-C, C-H, and H-H bonds.
         """
+
+        if not maxLength:
+            maxLength = self.length
 
         self.bonds, self.Hbonds, self.Cbonds, aminoType, x, y, z, a = [], [], [], [], [], [], [], []
         currentType, score = 0, 0

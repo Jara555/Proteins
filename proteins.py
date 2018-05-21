@@ -18,9 +18,9 @@ def main(argv):
         :argument -a <algorithm> : First letters of algorithm names
                 R = Randomizer
                 HC = HillClimber
+                SA = SimulatedAnnealing
                 DF = DepthFirst
                 BB = BranchNBound
-                SA = SimulatedAnnealing
         :argument -p <protein> : Protein to be fold, can be a number (1/2/3/ .. 9) or a string (types H / P / C)
         :argument -d <dimensions> : dimensions to be fold in
                 2 = 2D
@@ -31,7 +31,7 @@ def main(argv):
                 OFF = not write (default)
     """
 
-    # set variables
+    # set lists for input arguments
     algorithmNames = ["R", "HC", "DF", "BB", "SA"]
     aminoAcidTypes = ["H", "P", "C"]
 
@@ -39,11 +39,13 @@ def main(argv):
     algorithmName = None
     proteinNumber = 0
     proteinString = None
+    algorithm = None
 
     # default values
     dimensions = 3
     maxIterations = None
     writeCsv = "OFF"
+    randIterations = 1000
 
     # ERROR CHECKING:
 
@@ -89,7 +91,7 @@ def main(argv):
         printAlgorithmOptions()
         algorithmName = input("    Algorithm: ").upper()
 
-    # check if protein is correct
+    # check if protein input is correct
     if not proteinString:
         # check if protein number is correct
         while proteinNumber < 1 or proteinNumber > 9:
@@ -102,13 +104,20 @@ def main(argv):
             if i not in aminoAcidTypes:
                 printAminoAcidOptions()
 
-    # check if max iterations is entered (if needed)
+    # check if max iterations is entered and set if needed
     if not maxIterations and (algorithmName == "R" or algorithmName == "HC" or algorithmName == "SA"):
         # go with default value
         if proteinNumber < 3:
             maxIterations = 1000
         else:
             maxIterations = 100000
+
+    # set amount of randomizer iterations to generate a starting pattern for HC and SA
+    if algorithmName == "SA" or algorithmName == "HC":
+        if proteinNumber > 2:
+            randIterations = 10000
+        elif proteinNumber > 4:
+            randIterations = 100000
 
     # END ERROR CHECKING
 
@@ -119,13 +128,16 @@ def main(argv):
     if algorithmName == "R":
         algorithm = Randomizer(protein, writeCsv, maxIterations)
 
-    # HillClimber
-    elif algorithmName == "HC":
-        # random start pattern
-        randomAlgorithm = Randomizer(protein, writeCsv, maxIterations=100)
+    # HillClimber or SimulatedAnnealing
+    elif algorithmName == "HC" or algorithmName == "SA":
+        # generate random start pattern
+        randomAlgorithm = Randomizer(protein, writeCsv, randIterations)
         randomAlgorithm.runAlgorithm()
         startPattern = randomAlgorithm.bestPattern
-        algorithm = HillClimber(protein, writeCsv, maxIterations, startPattern)
+        if algorithmName == "HC":
+            algorithm = HillClimber(protein, writeCsv, maxIterations, startPattern)
+        elif algorithmName == "SA":
+            algorithm = SimulatedAnnealing(protein, writeCsv, maxIterations, startPattern)
 
     # DepthFirst
     elif algorithmName == "DF":
@@ -135,14 +147,8 @@ def main(argv):
     elif algorithmName == "BB":
         algorithm = BranchNBound(protein, writeCsv, maxIterations)
 
-    elif algorithmName == "SA":
-        randomAlgorithm = Randomizer(protein, writeCsv, maxIterations=100)
-        randomAlgorithm.runAlgorithm()
-        startPattern = randomAlgorithm.bestPattern
-        algorithm = SimulatedAnnealing(protein, writeCsv, maxIterations, startPattern)
-
-    else:
-        print("Error: Input algorithm could not be found")
+    if not algorithm:
+        print("Error: Failed to initialize algorithm")
         sys.exit(2)
 
     # run the created instance of the Algorithm class and print the best solution
@@ -160,6 +166,7 @@ def printAlgorithmOptions():
     print("Algorithm input options:")
     print("     R  - Randomizer")
     print("     HC - HillClimber")
+    print("     SA - SimulatedAnnealing")
     print("     DF - DepthFirst")
     print("     BB - BranchNBound")
     print()
