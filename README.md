@@ -42,6 +42,7 @@ python3 proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> 
                                         HC = HillClimber
                                         DF = DepthFirst
                                         BB = BranchNBound
+                                        SA = SimulatedAnnealing
         :argument -p <protein> : Protein to be fold
                                  Can be an integer reflecting 1 of the benchmark proteins 
                                  Or a custom string reflecting a list of amino acids
