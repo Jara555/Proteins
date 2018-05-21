@@ -1,41 +1,48 @@
 from classes.Protein import Protein
-from classes.algorithm.BranchNBound import BranchNBound
-from classes.algorithm.Randomizer import Randomizer
-from classes.algorithm.DepthFirst import DepthFirst
-from Experiment import Experiment
+from algorithms.BranchNBound import BranchNBound
+from algorithms.DepthFirst import DepthFirst
+from algorithms.HillClimber import HillClimber
+from algorithms.Randomizer import Randomizer
 
 
 def main():
     """ Implements random algorithms in order to most efficiently fold a protein """
 
-    # TODO: Change these numbers per protein / run !!
-    number = 3
-    iterations = 100000
+    # TODO: Change these numbers per protein run !!
+    proteinNumber = 5
     dimensions = 2
-    writeCsv = "OFF"
+    writeCsv = "ON"
+    maxIterations = 10000
 
-    # run random algorithm
-    protein = Protein(number, dimensions)
-    randomAlgorithm = Randomizer(protein, writeCsv, iterations)
+    # run random algorithms
+    protein = Protein(proteinNumber, dimensions)
+    randomAlgorithm = Randomizer(protein, writeCsv, maxIterations)
     randomAlgorithm.runAlgorithm()
 
-    # # run depth first algorithm
-    # protein = Protein(number, dimensions)
-    # depthFirstAlgorithm = DepthFirst(protein, writeCsv)
+    # # run depth first algorithms
+    # protein = Protein(proteinNumber, dimensions)
+    # depthFirstAlgorithm = DepthFirst(protein, writeCsv, maxIterations=None)
     # depthFirstAlgorithm.runAlgorithm()
-    #
-    # # run branch n bound algorithm
-    # protein = Protein(number, dimensions)
-    # branchNBoundAlgorithm = BranchNBound(protein, writeCsv)
+
+    # # run branch n bound algorithms
+    # protein = Protein(proteinNumber, dimensions)
+    # branchNBoundAlgorithm = BranchNBound(protein, writeCsv, maxIterations=None)
     # branchNBoundAlgorithm.runAlgorithm()
+
+    # TODO: Use a (random?) pattern as start of hillclimber
+    # startPattern = randomAlgorithm.bestPattern
     #
-    # # print solutions
+    # # run hill climber algorithms
+    # protein = Protein(proteinNumber, dimensions)
+    # hillClimberAlgorithm = HillClimber(protein, writeCsv, maxIterations, startPattern)
+    # hillClimberAlgorithm.runAlgorithm()
+
+    # print solutions
     randomAlgorithm.printBest()
     # depthFirstAlgorithm.printBest()
     # branchNBoundAlgorithm.printBest()
+    # hillClimberAlgorithm.printBest()
 
-    #analyzer = Experiment("random1.2", "random1.3", "run2", "run1")
-    #analyzer.stability()
 
 if __name__ == "__main__":
     main()
