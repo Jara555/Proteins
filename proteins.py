@@ -83,7 +83,7 @@ def main(argv):
         elif opt == "-i":
             maxIterations = int(arg)
         elif opt == "-c":
-            writeCsv = arg.capitalize()
+            writeCsv = arg.upper()
 
     # check if algorithm name is correct
     while algorithmName not in algorithmNames:

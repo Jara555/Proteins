@@ -32,7 +32,7 @@ class SimulatedAnnealing(HillClimber):
         # TODO: Fine tune these parameters
         self.maxIterations = 1000
         self.maxDegrade = 1
-        self.maxOverlap = 10
+        self.maxOverlap = 20
         self.maxTries = 10
 
     def allowOverlap(self):
