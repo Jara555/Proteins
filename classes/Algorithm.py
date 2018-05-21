@@ -91,9 +91,6 @@ class Algorithm:
     def checkBest(self, length=None):
         """ Checks if stability is lower and saves these new values """
 
-        if not length:
-            length = self.protein.length
-
         self.protein.stability(length)
 
         if self.protein.stabilityScore < self.bestStability:
@@ -103,9 +100,6 @@ class Algorithm:
 
     def skipOverlap(self, length=None):
         """ Counts and returns true if overlap """
-
-        if not length:
-            length = self.protein.length
 
         if self.protein.checkOverlap(length):
             self.overlapCount += 1
@@ -139,6 +133,8 @@ class Algorithm:
         # print running info
         print()
         print(self.name)
+        if self.name == "SimulatedAnnealing":
+            print(' Started with random stablity of: ' + str(self.randStartStability))
         print(' Maximal stability: ' + str(self.bestStability))
         print(' Total iterations: ' + str(self.iterations))
         print(' Found in run: ' + str(self.bestRun))
