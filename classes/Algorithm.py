@@ -39,7 +39,7 @@ class Algorithm:
 
         # set other
         self.writer = None
-        self.randStartStability = 0
+        self.startStability = 0
 
         # get orientations based on dimension
         if self.protein.dimensions == 2:
@@ -55,7 +55,7 @@ class Algorithm:
         if not self.maxIterations:
             self.printNow = 10000
         else:
-            self.printNow = (self.maxIterations * 0.05)
+            self.printNow = (self.maxIterations * 0.1)
 
     def runAlgorithm(self):
         """ run the algorithms
@@ -149,7 +149,7 @@ class Algorithm:
         print()
         print(self.name)
         if self.name == "SimulatedAnnealing":
-            print(' Started with random stablity of: ' + str(self.randStartStability))
+            print(' Started with random stablity of: ' + str(self.startStability))
         print(' Maximal stability: ' + str(self.bestStability))
         print(' Total iterations: ' + str(self.iterations))
         print(' Found in run: ' + str(self.bestRun))
@@ -205,7 +205,7 @@ class Algorithm:
 
             # RUNNING INFO
             if self.name == "SimulatedAnnealing":
-                writer.writerow({'Started with stability of:  ' + str(self.randStartStability)})
+                writer.writerow({'Started with stability of:  ' + str(self.startStability)})
             writer.writerow({'Total Iterations:  ' + str(self.iterations)})
             writer.writerow({'Total Overlap:     ' + str(self.overlapCount)})
             if self.name == "BranchNBound":

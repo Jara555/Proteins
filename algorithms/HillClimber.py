@@ -27,26 +27,24 @@ class HillClimber(Algorithm):
         # declare other variables
         self.foldPattern = []
         self.copyPattern = []
-        self.startStability = 0
 
-        # save stability of starting pattern
-        self.protein.fold(startPattern)
+        # save starting stability
+        self.protein.fold(self.startPattern)
         self.protein.stability()
-        self.randStartStability = self.protein.stabilityScore
+        self.startStability = self.protein.stabilityScore
 
     def run(self, T):
         """ Runs algorithms and find pattern with higher stability, can be local minimum.
-        :param k: only relevant for simulated annealing algorithm
-                  keeps track of repetition number of run method
+        :param T: only relevant for simulated annealing algorithm
+                Temperature of the algorithm (cooling down every iteration)
         :return: .csv file with the best folding patterns and associated stability's
         """
 
-        print("RUN")
-        print(T)
-
-        # initialize start pattern and values
+        # initialize fold pattern and values
+        self.foldPattern = copy.copy(self.startPattern)
         self.startValues()
 
+        print()
         print("Started with a stability of " + str(self.bestStability))
         print()
 
@@ -63,8 +61,8 @@ class HillClimber(Algorithm):
             for orientation in self.orientations:
 
                 # keep track of iterations and print progress
-                self.iterations += 1
                 self.printProgress()
+                self.iterations += 1
 
                 # save copy of current folding pattern
                 self.tempPattern = copy.copy(self.foldPattern)
@@ -75,6 +73,7 @@ class HillClimber(Algorithm):
 
                 # standard overlap method (!overridden for SA!)
                 if self.skipOverlap():
+                    self.handleOverlap()
                     continue
 
                 # deal with stability score
@@ -102,6 +101,14 @@ class HillClimber(Algorithm):
             # deal with degradation (differs for HC and SA)
             self.handleDegradation()
 
+    def handleOverlap(self):
+        """ Stores temp pattern back to fold pattern
+        to undo overlap
+        Overridden in simulated annealing! """
+
+        self.foldPattern = copy.copy(self.tempPattern)
+        self.protein.fold(self.foldPattern)
+
     def handleDegradation(self):
         """ Stores temp pattern back to fold pattern
         to undo a degradation in stability score
@@ -113,20 +120,13 @@ class HillClimber(Algorithm):
     def startValues(self):
         """ Stores initial values and sets to best """
 
-        # set fold pattern to start pattern
-        self.foldPattern = copy.copy(self.startPattern)
-
-        # fold protein to start pattern and check stability
+        # fold protein to pattern and check stability
         self.protein.fold(self.foldPattern)
         self.protein.stability()
 
-        # store start stablility
-        self.startStability = self.protein.stabilityScore
-
         # stores start values as best values
-        self.bestStability = self.protein.stabilityScore
         self.bestPattern = copy.copy(self.foldPattern)
-        self.bestRun = self.iterations
+        self.bestStability = self.protein.stabilityScore
 
     def pickAminoAcid(self):
         """ Picks an amino acid number at random ,
@@ -143,7 +143,7 @@ class HillClimber(Algorithm):
 
         return amino
 
-    def setEndState(self, param=None):
+    def setEndState(self, T):
         """ Folds protein to best found pattern in order to
          end in the best found state
          Overridden in simulated annealing! """
@@ -152,4 +152,3 @@ class HillClimber(Algorithm):
         self.protein.fold(self.bestPattern)
         self.protein.stability()
         self.bestStability = self.protein.stabilityScore
-        self.bestRun = self.iterations
