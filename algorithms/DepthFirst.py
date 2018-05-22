@@ -23,6 +23,8 @@ class DepthFirst(Algorithm):
         # set starting index of iteration
         self.startIndex = 3
 
+
+
     def run(self, k):
         """ Recursive search function
 

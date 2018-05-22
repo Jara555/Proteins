@@ -9,7 +9,7 @@ class Algorithm:
         - Randomizer
         - HillClimber
         - DepthFirst
-            - BranchNBound
+        - BranchNBound
     """
 
     def __init__(self, protein, writeCsv="OFF"):
@@ -56,6 +56,8 @@ class Algorithm:
             self.printNow = 10000
         else:
             self.printNow = (self.maxIterations * 0.05)
+            if self.printNow < 1000:
+                self.printNow = 1000
 
     def runAlgorithm(self):
         """ run the algorithms

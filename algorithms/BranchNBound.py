@@ -1,4 +1,5 @@
 from algorithms.DepthFirst import DepthFirst
+from algorithms.Randomizer import Randomizer
 
 
 class BranchNBound(DepthFirst):
@@ -13,6 +14,12 @@ class BranchNBound(DepthFirst):
         :param maxIterations: stop after maxIterations
         """
 
+        # run randomizer to have a initialStability
+        randomAlgorithm = Randomizer(protein, "OFF", 10000)
+        randomAlgorithm.run()
+        bestStability = randomAlgorithm.bestStability
+        bestPattern = randomAlgorithm.bestPattern
+
         #initialize input varialbes
         self.maxIterations = maxIterations
 
@@ -20,9 +27,13 @@ class BranchNBound(DepthFirst):
         DepthFirst.__init__(self, protein, writeCsv)
         self.name = "BranchNBound"
 
+        # set initial stability
+        self.bestStability = bestStability
+        self.bestPattern = bestPattern
+
         self.protein.findBonds()
 
-    def pruneBranchNBound(self, k):
+    def pruneStability(self, k):
         """ Prunes on basis of the expected stability of the protein
                 Calculated in the prune method of the protein class
 
