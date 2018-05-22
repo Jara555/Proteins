@@ -128,8 +128,8 @@ def main(argv):
         ax.set_title(plotTitles[i])
         plotNum += 1
 
-    wm = plt.get_current_fig_manager()
-    wm.window.state('zoomed')
+    # wm = plt.get_current_fig_manager()
+    # wm.window.state('zoomed')
     plt.show()
 
     # END VISUALISATION

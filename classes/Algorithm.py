@@ -150,7 +150,7 @@ class Algorithm:
         # print running info
         print()
         print(self.name)
-        if self.name == "SimulatedAnnealing":
+        if self.name == "SimulatedAnnealing" or self.name == "HillClimber":
             print(' Started with random stablity of: ' + str(self.startStability))
         print(' Maximal stability: ' + str(self.bestStability))
         print(' Total iterations: ' + str(self.iterations))
@@ -205,7 +205,7 @@ class Algorithm:
             writer.writerow({})
 
             # RUNNING INFO
-            if self.name == "SimulatedAnnealing":
+            if self.name == "SimulatedAnnealing" or self.name == "HillClimber":
                 writer.writerow({'Started with stability of:  ' + str(self.startStability)})
             writer.writerow({'Total Iterations:  ' + str(self.iterations)})
             writer.writerow({'Total Overlap:     ' + str(self.overlapCount)})
