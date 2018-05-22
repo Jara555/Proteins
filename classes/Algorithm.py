@@ -72,8 +72,8 @@ class Algorithm:
         # start timer
         start = time.time()
 
-        # index used for recursive algorithms
-        k = 3
+        # set parameter (if needed) for run method
+        parameter = self.setParameter()
 
         # write to csv file
         if self.writeCsv == "ON":
@@ -84,12 +84,12 @@ class Algorithm:
                 self.writer.writeheader()
 
                 # start iteration
-                self.run(k)
+                self.run(parameter)
 
         # do not write to csv file
         elif self.writeCsv == "OFF":
             # start iteration
-            self.run(k)
+            self.run(parameter)
 
         # end timer
         end = time.time()
@@ -98,6 +98,11 @@ class Algorithm:
         print()
         print("------------   " + str(self.name) + " finished   ----------------")
         print()
+
+    def setParameter(self):
+        """ Sets parameter for the run method.
+        As default the run method uses no input parameters """
+        return None
 
     def checkBest(self, length=None):
         """ Checks if stability is lower and saves these new values """

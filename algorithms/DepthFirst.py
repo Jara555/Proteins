@@ -20,6 +20,9 @@ class DepthFirst(Algorithm):
         Algorithm.__init__(self, protein, writeCsv)
         self.name = "DepthFirst"
 
+        # set starting index of iteration
+        self.startIndex = 3
+
     def run(self, k):
         """ Recursive search function
 
@@ -78,6 +81,12 @@ class DepthFirst(Algorithm):
         """ Non-functional method for depth first class.
         Overriden in the Branch N bound class in order to prune based on stability """
         return False
+
+    def setParameter(self):
+        """ Returns the starting parameter for variable k,
+        reflecting the starting position of the aminoacid in the recursive function
+        :return k: aminoacid location """
+        return self.startIndex
 
 
 

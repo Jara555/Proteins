@@ -6,8 +6,7 @@ class BranchNBound(DepthFirst):
     Implements Branch 'N Bound algorithms in order to efficiently fold a protein """
 
     def __init__(self, protein, writeCsv, maxIterations=None):
-        """
-        Set and initiate all properties.
+        """ Set and initiate all properties.
 
         :param protein: protein to be fold
         :param writeCsv: writes solutions to .csv file when ON
@@ -21,11 +20,15 @@ class BranchNBound(DepthFirst):
         DepthFirst.__init__(self, protein, writeCsv)
         self.name = "BranchNBound"
 
-        self.protein.findbonds()
+        self.protein.findBonds()
 
-    def pruneStability(self, k):
+    def pruneBranchNBound(self, k):
         """ Prunes on basis of the expected stability of the protein
-        Calculated in the prune method of the protein class """
+                Calculated in the prune method of the protein class
+
+        :param k: the aminoacid currently being placed
+        :return: True if branch is pruned, False if not pruned
+        """
 
         # if stability target can not be reached anymore: prune!
         if self.protein.prune(k, self.bestStability):
