@@ -30,7 +30,7 @@ This code uses three classes: AminoAcid, Protein and Algorithm. These can togeth
 
 ### Running
 
-To run the code with the standardconfiguration (e.g. protein HHPHHHPH) use the following instruction:
+To run the program with the standardconfigurations use the following instructions:
 
 ```
 python proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> -c <csv>
@@ -61,6 +61,8 @@ python proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> -
 ### Experiment
 
 After each run a .log file is created containing the running info of the algorithm for the specific protein. To analyze the log results the program experiment.py can be used, found in the map /experiment. The experiment program will analyze the running info of all algorithms for which .log files exist.  
+
+To run the experiment with the standardconfigurations use the following instructions:
 
 ```
 python experiment.py -p <protein> -d <dimensions>
