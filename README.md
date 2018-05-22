@@ -28,7 +28,7 @@ pip3 install matplotlib
 
 This code uses three classes: AminoAcid, Protein and Algorithm. These can together with their corresponding methods be found in the map classes. The map algorithms contains al algorithm subclasses of the superclass Algorithm. All benchmark proteins can be found in the map data and the results will be safed as a .csv file in the results map. The main script for running the program can be found in proteins.py
 
-### Testing
+### Running
 
 To run the code with the standardconfiguration (e.g. protein HHPHHHPH) use the following instruction:
 
@@ -57,6 +57,21 @@ python proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> -
         :argument -c <csv> : Write solutions to .csv file
                                         ON = write
                                         OFF = not write (default)
+
+### Experiment
+
+After each run a .log file is created containing the running info of the algorithm for the specific protein. To analyze the log results the program experiment.py can be used, found in the map /experiment. The experiment program will analyze the running info of all algorithms for which .log files exist.  
+
+```
+python experiment.py -p <protein> -d <dimensions>
+
+```
+        :argument -p <protein> : Protein to be analyzed
+                                 Integer reflecting 1 of the proteins in the /data folder
+        :argument -d <dimensions> : dimension to be analyzed
+                                        2 = 2D
+                                        3 = 3D (default)
+
 
 ## Authors
 
