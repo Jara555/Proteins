@@ -30,50 +30,87 @@ class SimulatedAnnealing(HillClimber):
         self.nonOverlapPattern = copy.copy(self.startPattern)
 
         # TODO: Fine tune these parameters
-        self.maxIterations = 1000
         self.maxDegrade = 1
         self.maxOverlap = 20
         self.maxTries = 10
 
-    def allowOverlap(self):
-        """ Allows overlap for a maxOverlap times in a row """
+        # set starting temperature
+        self.temperature = 10
 
-        # checks and tracks if overlap
-        if self.skipOverlap():
+    def setParameter(self):
+        """ Returns the starting parameter for variable T temperature,
+        reflecting the starting temperature of the simulated annealing algorithm
+        :return T: starting temperature """
+        return self.temperature
+
+    def skipOverlap(self, length=None):
+        """ Overrides the standard method of the algorithm super class.
+        Instead: Allows overlap for maxOverlap times in a row, in order to
+         avoid local minima/maxima """
+
+        # if overlap track and allow for maxOverlap times
+        if self.protein.checkOverlap():
+            self.overlapCount += 1
             self.trackOverlap += 1
-            # if more than .. times in a row overlap reset to non overlap pattern
+
+            # if more than max times in a row: reset back to previous non-overlap pattern
             if self.trackOverlap > self.maxOverlap:
+                # reset tracker
                 self.trackOverlap = 0
+
+                # reset protein
                 self.foldPattern = copy.copy(self.nonOverlapPattern)
                 self.resetProtein()
-        # if no overlap detected, save overlap pattern
+
+        # if no overlap and no degrade in stability: save non-overlap pattern
         else:
-            # only if no degrade in stability
             if self.trackDegrade == 0:
                 self.nonOverlapPattern = copy.copy(self.foldPattern)
 
-    def allowDegrade(self):
-        """ Allows degrade in stability for a maxDegrade times in a row """
+    def handleDegradation(self):
+        """ Overrides the standard method of the Hill climber class.
+        Instead: Does not set pattern back to temp pattern when a degradation in
+        stability is observed, but allows a degradation in stability for
+        maxDegrade times in a row """
 
         # track stability degradation
         self.trackDegrade += 1
 
         # if max amount of degrading is reached reset to best pattern
         if self.trackDegrade > self.maxDegrade:
+            # reset tracker
             self.trackDegrade = 0
+
+            # reset protein
             self.foldPattern = copy.copy(self.bestPattern)
             self.resetProtein()
 
     def resetProtein(self):
-        """ Resets protein and stability values to current folding pattern """
+        """ Resets best protein and stability values to folding pattern """
 
         self.protein.fold(self.foldPattern)
         self.protein.stability()
         self.bestStability = self.protein.stabilityScore
         self.bestPattern = copy.copy(self.foldPattern)
 
-    def checkEndState(self, k):
-        """ Checks end state of protein and tries to prevent overlap in end state
+    def setEndState(self, T):
+        """ Overrides the standard method of the Hill Climber class.
+        Before folding a protein to best found pattern, makes sure there is no overlap
+        and there is a better stability than the start stability.
+        :param k: amount of times the run method is repeated """
+
+        # check if endstate contains no overlap or worse stability score
+        self.checkEndState(T)
+
+        # make sure correct end values are saved
+        self.protein.fold(self.bestPattern)
+        self.protein.stability()
+        self.bestStability = self.protein.stabilityScore
+        self.bestRun = self.iterations
+
+    def checkEndState(self, T):
+        """ Checks end state of protein and tries to prevent overlap
+        and degradations in end state
          :param k: amount of times the run method is repeated """
 
         # fold protein to best found pattern
@@ -88,24 +125,22 @@ class SimulatedAnnealing(HillClimber):
             self.nonOverlapScore = self.protein.stabilityScore
 
             # repeat run() several times in order to eliminate overlap
-            if k < self.maxTries:
+            if T > 0:
                 print("\n>> OVERLAP IN END STATE: Get rid of overlap <<\n")
 
-                # if non overlap had lower or equal score than best stability
-                # set to start pattern else keep original start pattern
+                # take pattern with best stability
                 if self.nonOverlapScore <= self.startStability:
                     self.startPattern = copy.copy(self.nonOverlapPattern)
 
                 # run again
-                k = k + 1
-                self.run(k)
+                T = T - 1
+                self.run(T)
 
             # if end state is reached with overlap, take last non overlap pattern
             else:
                 print("\n>> COULD NOT GET RID OF OVERLAP: Finished with last known best non-overlap state <<\n")
 
-                # if non overlap had lower or equal score than best stability
-                # set to start pattern else keep original start pattern
+                # if take pattern with best stability
                 if self.nonOverlapScore <= self.startStability:
                     self.bestPattern = copy.copy(self.nonOverlapPattern)
                 else:
@@ -113,16 +148,20 @@ class SimulatedAnnealing(HillClimber):
 
         # if no overlap, but no improvement: try again
         elif self.startStability <= self.bestStability:
-            # try again
-            if k < self.maxTries:
+            if T > 0:
                 print("\n>> COULD NOT FIND BETTER SOLUTION THAN START SOLUTION: Go again <<\n")
 
                 # run again
-                k = k + 1
-                self.run(k)
+                T = T - 1
+                self.run(T)
 
             # end with start state
             else:
                 print("\n>> COULD NOT FIND BETTER SOLUTION THAN START SOLUTION: Finished with start solution <<\n")
                 self.bestPattern = copy.copy(self.startPattern)
+
+        else:
+
+            T = T - 1
+            self.run(T)
 

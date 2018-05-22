@@ -20,23 +20,28 @@ class Algorithm:
         :param writeCsv: writes solutions to .csv file when ON
 
         """
+        self.name = "Algorithm"
 
         # initialize input variables
         self.protein = protein
         self.writeCsv = writeCsv
 
-        # set class properties
+        # set 'best' variables
         self.bestPattern = []
         self.bestStability = 0
         self.bestRun = 0
+
+        # set counters
         self.overlapCount = 0
         self.iterations = 0
         self.pruneCount = 0
         self.elapsed = 0
-        self.writer = None
-        self.name = "Algorithm"
 
-        # get possible orientations based on dimension
+        # set other
+        self.writer = None
+        self.randStartStability = 0
+
+        # get orientations based on dimension
         if self.protein.dimensions == 2:
             self.orientations = ['+X', '-X', '+Y', '-Y']
         elif self.protein.dimensions == 3:
@@ -45,6 +50,12 @@ class Algorithm:
         # starting fold pattern: first 2 aminoacids have always same coordinates ['0', '+Y', ... ]
         self.foldPattern = ['+Y'] * self.protein.length
         self.foldPattern[0] = '0'
+
+        # determine print moment for progress printing
+        if not self.maxIterations:
+            self.printNow = 10000
+        else:
+            self.printNow = (self.maxIterations * 0.05)
 
     def runAlgorithm(self):
         """ run the algorithms
@@ -61,8 +72,8 @@ class Algorithm:
         # start timer
         start = time.time()
 
-        # index used for recursive algorithms
-        k = 3
+        # set parameter (if needed) for run method
+        parameter = self.setParameter()
 
         # write to csv file
         if self.writeCsv == "ON":
@@ -73,12 +84,12 @@ class Algorithm:
                 self.writer.writeheader()
 
                 # start iteration
-                self.run(k)
+                self.run(parameter)
 
         # do not write to csv file
         elif self.writeCsv == "OFF":
             # start iteration
-            self.run(k)
+            self.run(parameter)
 
         # end timer
         end = time.time()
@@ -88,19 +99,27 @@ class Algorithm:
         print("------------   " + str(self.name) + " finished   ----------------")
         print()
 
+    def setParameter(self):
+        """ Sets parameter for the run method.
+        As default the run method uses no input parameters """
+        return None
+
     def checkBest(self, length=None):
         """ Checks if stability is lower and saves these new values """
 
+        # calculate stability
         self.protein.stability(length)
 
+        # saves if better stability score
         if self.protein.stabilityScore < self.bestStability:
             self.bestStability = self.protein.stabilityScore
             self.bestPattern = copy.copy(self.foldPattern)
             self.bestRun = self.iterations
 
     def skipOverlap(self, length=None):
-        """ Counts and returns true if overlap """
+        """ Counts and returns true if overlap detected """
 
+        # checks overlap and count
         if self.protein.checkOverlap(length):
             self.overlapCount += 1
             return True
@@ -110,19 +129,15 @@ class Algorithm:
     def printProgress(self):
         """ Update progress in terminal output """
 
-        if self.maxIterations == None:
-            printNow = 10000
-        else:
-            printNow = (self.maxIterations * 0.05)
-
-        if self.iterations % printNow == 0:
+        # check if printing time
+        if self.iterations % self.printNow == 0:
             print(str(self.name) + " iteration: " + str(self.iterations) +
                   "    ----    Stability: " + str(self.bestStability))
 
     def writeCsvRow(self):
         """ Writes rows to CSV file """
 
-        # if ON write every pattern to csv
+        # if ON: write every pattern to csv
         if self.writeCsv == "ON":
             self.writer.writerow(
                 {'run': self.iterations, 'stability': self.protein.stabilityScore, 'foldingPattern': self.foldPattern})
@@ -163,11 +178,13 @@ class Algorithm:
         self.writeLog()
 
     def writeLog(self):
+        """ Writes all running info and the best solution found to .csv file"""
 
         # write to csv file
-        write_file = ("results/log-P" + str(self.protein.number) + "-" + str(self.protein.dimensions) + "D-" + str(self.name) + ".csv")
-        with open(write_file, 'w') as csvfile:
-            writer = csv.writer(csvfile)
+        write_file = ("results/P" + str(self.protein.number) + "-"
+                      + str(self.protein.dimensions) + "D-" + str(self.name) + ".log")
+        with open(write_file, 'w') as logfile:
+            writer = csv.writer(logfile)
 
             # HEADER
             writer.writerow({'_________________________________________________'})
@@ -187,8 +204,12 @@ class Algorithm:
             writer.writerow({})
 
             # RUNNING INFO
+            if self.name == "SimulatedAnnealing":
+                writer.writerow({'Started with stability of:  ' + str(self.randStartStability)})
             writer.writerow({'Total Iterations:  ' + str(self.iterations)})
             writer.writerow({'Total Overlap:     ' + str(self.overlapCount)})
+            if self.name == "BranchNBound":
+                writer.writerow({'Total pruned:     ' + str(self.pruneCount)})
             writer.writerow({'Found in Run:      ' + str(self.bestRun)})
 
             writer.writerow({'Elapsed Time:      ' + "{0:.4f}".format(self.elapsed)})

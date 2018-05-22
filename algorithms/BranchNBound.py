@@ -13,7 +13,7 @@ class BranchNBound(DepthFirst):
         :param maxIterations: stop after maxIterations
         """
 
-        #initialize input variables
+        #initialize input varialbes
         self.maxIterations = maxIterations
 
         # set class properties
@@ -23,13 +23,14 @@ class BranchNBound(DepthFirst):
         self.protein.findBonds()
 
     def pruneBranchNBound(self, k):
-        """ use pruning
+        """ Prunes on basis of the expected stability of the protein
+                Calculated in the prune method of the protein class
 
         :param k: the aminoacid currently being placed
         :return: True if branch is pruned, False if not pruned
         """
 
-        # prune
+        # if stability target can not be reached anymore: prune!
         if self.protein.prune(k, self.bestStability):
             self.pruneCount += 1
             return True

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 import getopt
 import sys
 
@@ -71,7 +71,7 @@ def main(argv):
             usage()
             sys.exit()
         elif opt == "-a":
-            algorithmName = arg
+            algorithmName = arg.upper()
         elif opt == "-p":
             # check if integer is entered or string
             try:
@@ -87,7 +87,6 @@ def main(argv):
 
     # check if algorithm name is correct
     while algorithmName not in algorithmNames:
-        usage()
         printAlgorithmOptions()
         algorithmName = input("    Algorithm: ").upper()
 
@@ -105,19 +104,23 @@ def main(argv):
                 printAminoAcidOptions()
 
     # check if max iterations is entered and set if needed
-    if not maxIterations and (algorithmName == "R" or algorithmName == "HC" or algorithmName == "SA"):
+    if not maxIterations and (algorithmName == "R" or algorithmName == "HC"):
         # go with default value
         if proteinNumber < 3:
             maxIterations = 1000
         else:
             maxIterations = 100000
+    elif not maxIterations and algorithmName == "SA":
+        maxIterations = 1000
 
     # set amount of randomizer iterations to generate a starting pattern for HC and SA
     if algorithmName == "SA" or algorithmName == "HC":
-        if proteinNumber > 2:
+        if proteinNumber in [1, 2, 3]:
             randIterations = 10000
-        elif proteinNumber > 4:
+        elif proteinNumber in [4, 6, 7]:
             randIterations = 100000
+        elif proteinNumber in [5, 8, 9]:
+            randIterations = 1000000
 
     # END ERROR CHECKING
 
@@ -157,12 +160,16 @@ def main(argv):
 
 
 def usage():
+    """Prints the usage of the command line arguments in the terminal """
     print()
     print("usage: python3 proteins.py "
           "-a <algorithm> -p <protein> -d <dimensions> -i <iterations> -c <csv>")
     print()
 
 def printAlgorithmOptions():
+    """Prints the algorithm input options in the terminal """
+
+    usage()
     print("Algorithm input options:")
     print("     R  - Randomizer")
     print("     HC - HillClimber")
@@ -173,6 +180,8 @@ def printAlgorithmOptions():
     print("Enter an algorithm")
 
 def printAminoAcidOptions():
+    """Prints the amino acid input types in the terminal """
+
     usage()
     print("Possible amino acid types for the protein string are:")
     print("     H / P / C")
