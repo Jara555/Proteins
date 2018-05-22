@@ -33,16 +33,16 @@ This code uses three classes: AminoAcid, Protein and Algorithm. These can togeth
 To run the code with the standardconfiguration (e.g. protein HHPHHHPH) use the following instruction:
 
 ```
-python3 proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> -c <csv>
+python proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> -c <csv>
 
 ```
 
         :argument -a <algorithm> : First letters of algorithm names
                                         R = Randomizer
                                         HC = HillClimber
+                                        SA = SimulatedAnnealing
                                         DF = DepthFirst
                                         BB = BranchNBound
-                                        SA = SimulatedAnnealing
         :argument -p <protein> : Protein to be fold
                                  Can be an integer reflecting 1 of the benchmark proteins 
                                  Or a custom string reflecting a list of amino acids
