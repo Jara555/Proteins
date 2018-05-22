@@ -37,7 +37,7 @@ class Protein(object):
         self.Hbonds = []
         self.Cbonds = []
         self.stabilityScore = 0
-        self.bondPossibilities = []
+        self.bondPossibilities = [[], []]
 
         # append list with aminoacids
         for aa_index in range(self.length):
@@ -133,7 +133,7 @@ class Protein(object):
                     counter = counter + 1
 
             # iterates over orientations and checks for H- or C-bonds
-            for k in range(6):
+            for k in range(2*self.dimensions):
                 xbond = x[i] + orientation[k][0]
                 ybond = y[i] + orientation[k][1]
                 zbond = z[i] + orientation[k][2]
@@ -219,12 +219,20 @@ class Protein(object):
         """
 
         self.bonds = [self.Hbonds, self.Cbonds]
+        copyBonds = copy.deepcopy(self.bonds)
 
         for i in range(len(self.bonds)):
             for bond in self.bonds[i]:
-                bond = bond[1], bond[0]
-                if bond in self.bonds[i]:
-                    self.bonds[i].remove(bond)
+                bond2 = bond[1], bond[0]
+                if bond2 in copyBonds[i]:
+                    self.bonds[i].remove(bond2)
+                    copyBonds[i].remove(bond2)
+                else:
+                    if bond2[1] > bond2[0]:
+                        copyBonds[i].append(bond2)
+                        copyBonds[i].remove(bond)
+
+        self.bonds = copyBonds
 
     def visualize(self, name):
         """ Prints the protein in scatter plot with lines in 3D
@@ -316,49 +324,56 @@ class Protein(object):
             if self.list[i].type == "H":
                 self.listH.append(i)
 
-    def findbonds(self):
+    def findBonds(self):
         """ Checks which H/C's can make a HH-bond and CC-bond, both for 2D and 3D
-        :return: self.bondPossibilities a list with 2 lists of tuples of H-indices en C-indices
+        :return: self.bondPossibilities a list with 2 lists of tuples of HBond-indices en CBond-indices
         """
 
-        aminoType = ["H", "C"]
-
         # empty lists combining for two aminotypes
-        odd = [[], []]
-        even = [[], []]
-        first = [[], []]
-        second = [[], []]
-        possibilities = [[], []]
-        self.possibilities = [[], []]
+        odd = []
+        even = []
+        first = []
+        second = []
+        i = -1
 
-        for type in range(len(aminoType)):
+        # iterate through protein to find all H/C's and append the location to the odd or even list
+        for aminoacid in self.list:
+            i += 1
+            if aminoacid.type == "C" or aminoacid.type == "H":
+                if i % 2 == 0:  # i.e. even
+                    even.append(i)
+                else:  # i.e. odd
+                    odd.append(i)
 
-            # iterate through protein to find all H's and append the location to the oddH or evenH list
-            for i in range(self.length):
-                if self.list[i].type == aminoType[type]:
-                    if i % 2 == 0:  # i.e. even
-                        even[type].append(i)
-                    else:  # i.e. odd
-                        odd[type].append(i)
+        # rule: the second H/C of a bond has to be at a later position in the protein than the first H/C
+        # make a list of first and second H/C's
+        for i in range(len(even)):
+            for j in range(len(odd)):
+                if even[i] < odd[j]:
+                    first.append(even[i])
+                    second.append(odd[j])
+                else:
+                    first.append(odd[j])
+                    second.append(even[i])
 
-            # rule: the second H/C of a bond has to be at a later position in the protein than the first H/C
-            # make a list of first and second H/C's
-            for i in range(len(even[type])):
-                for j in range(len(odd[type])):
-                    if even[type][i] < odd[type][j]:
-                        first[type].append(even[type][i])
-                        second[type].append(odd[type][j])
-                    else:
-                        first[type].append(odd[type][j])
-                        second[type].append(even[type][i])
+        # rule: the distance between two H/C's must be at least 2 to be able to fold
+        # make a list of tuples representing the first and second H/C of a possible folding
+        for i in range(len(first)):
+            if (second[i] - first[i]) > 2:
+                self.detectBondKind(first[i], second[i])
 
-            # rule: the distance between two H/C's must be at least 2 to be able to fold
-            # make a list of tuples representing the first and second H/C of a possible folding
-            for i in range(len(first[type])):
-                if (second[type][i] - first[type][i]) > 2:
-                    possibilities[type].append((first[type][i], second[type][i]))
+    def detectBondKind(self, first, second):
+        """ Detect which kind of bond is found
 
-            self.bondPossibilities = possibilities
+        :param first: the index of the first aminoacid of the bond
+        :param second: the index of the second aminoacid of the bond
+        """
+
+        # if both first and second aminoacid are C: CC-bond, otherwise H-bond
+        if self.list[first].type == "C" and self.list[second].type == "C":
+            self.bondPossibilities[1].append((first, second))
+        else:
+            self.bondPossibilities[0].append((first, second))
 
     def __str__(self):
         """ Prints the protein as a string """
@@ -376,36 +391,66 @@ class Protein(object):
         self.stability(maxLength)
         bondOptions = copy.deepcopy(self.bondPossibilities)
         newBondOptions = [[], []]
-        aminoType = ["H", "C"]
         stabilityEffect = [-1, -5]
 
-        for type in range(len(aminoType)):
+        # count down from 1 to 0, to start with C-bonds then H-bonds
+        for type in range(1, -1, -1):
+            counter = [0] * self.length
 
-            # remove the bonds that are in the protein already
-            for bond in self.bonds:
-                bondOptions[type].remove(bond)
+            # remove the bonds that are in the protein already, count bonds per aminoacid in counter
+            if self.bonds[type] != []:
+                for bond in self.bonds[type]:
+                    bondOptions[type].remove(bond)
+                    counter[bond[0]] += 1
+                    counter[bond[1]] += 1
 
             # make a new list of only bonds with second aminoacid after k (still potential bonds)
             for bond in bondOptions[type]:
                 if bond[1] >= maxLength:
                     newBondOptions[type].append(bond)
 
-            # for index in self.listH:
-            #     w = 0
-            #     q = 0
-            #     for hBond in reversed(newBondOptions):
-            #         # while (q != len(newBondOptions) | w != 2):
-            #         if index in hBond:  # 10 should be index
-            #             print(hBond)
-            #             # w += 1                  # make new list with max 2 times one number (3 times for first and last)
-            #             q += 1
+            # correct newbondOptions for max bindings per aminoacid
+            newBondOptions[type] = self.updateBondOptions(counter, newBondOptions[type])
 
-        # prune if potential Stability >= maxStability
+        # calculate potential stability
         potStability = self.stabilityScore + (stabilityEffect[0] * len(newBondOptions[0]) +
-                (stabilityEffect[1] * len(newBondOptions[1])))  # calculate potential stability
+                (stabilityEffect[1] * len(newBondOptions[1])))
 
+        # prune if potential Stability is worse than maxStability
         if potStability >= maxStability:
-
             return True
 
         return False
+
+    def updateBondOptions(self, counter, bondOptions):
+        """ Correct new bondOptions for max bindings per aminoacid.
+
+        :param counter: counter for bonds per aminoacid
+        :param bondOptions: list of possibilities to make bonds (index of aminoacids)
+        :return: list of possible bonds, corrected for max bonds per
+        """
+
+        bondOptionsMax = []
+
+        # set max for inner and outer aminoacids depending on dimensions
+        if self.dimensions == 2:
+            outerMax = 3
+            innerMax = 2
+        else:
+            outerMax = 5
+            innerMax = 4
+
+        # check if aminoacid doesn't have to many bonds
+        for bond in reversed(bondOptions):
+            if bond[0] == 0 or bond[1] == self.length:
+                if counter[bond[0]] < outerMax and counter[bond[1]] < outerMax:
+                    bondOptionsMax.append(bond)
+                    counter[bond[0]] += 1
+                    counter[bond[1]] += 1
+            else:
+                if counter[bond[0]] < innerMax and counter[bond[1]] < innerMax:
+                    bondOptionsMax.append(bond)
+                    counter[bond[0]] += 1
+                    counter[bond[1]] += 1
+
+        return bondOptionsMax
