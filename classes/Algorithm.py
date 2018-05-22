@@ -191,8 +191,7 @@ class Algorithm:
             writer.writerow({})
 
             # PROTEIN INFO
-            writer.writerow({'Best Stability Found:'})
-            writer.writerow({str(self.bestStability)})
+            writer.writerow({'Best Stability Found: ' + str(self.bestStability)})
             writer.writerow({})
             writer.writerow({'Best Folding Pattern Found:'})
             writer.writerow({str(self.bestPattern)})
