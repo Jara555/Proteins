@@ -1,0 +1,17 @@
+_________________________________________________
+
+BranchNBound
+_________________________________________________
+
+Protein 2: HHPHHHPHPHHHPH
+
+Best Stability Found: -6.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+Y', '+X', '-Y', '-Y', '-Y', '-X', '-X', '+Y', '+Y', '-X', '+Y', '+X']"
+
+Total Iterations:  480
+Total Overlap:     2913
+Total pruned:     8876
+Found in Run:      0
+Elapsed Time:      6.1368

@@ -6,7 +6,7 @@ class BranchNBound(DepthFirst):
     """ Subclass of DepthFirst algorithms:
     Implements Branch 'N Bound algorithms in order to efficiently fold a protein """
 
-    def __init__(self, protein, writeCsv, maxIterations=None):
+    def __init__(self, protein, writeCsv, maxIterations):
         """ Set and initiate all properties.
 
         :param protein: protein to be fold
@@ -20,12 +20,12 @@ class BranchNBound(DepthFirst):
         bestStability = randomAlgorithm.bestStability
         bestPattern = randomAlgorithm.bestPattern
 
+        # set class properties
+        DepthFirst.__init__(self, protein, writeCsv, maxIterations=None)
+        self.name = "BranchNBound"
+
         #initialize input varialbes
         self.maxIterations = maxIterations
-
-        # set class properties
-        DepthFirst.__init__(self, protein, writeCsv)
-        self.name = "BranchNBound"
 
         # set initial stability
         self.bestStability = bestStability

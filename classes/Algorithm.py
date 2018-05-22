@@ -54,6 +54,8 @@ class Algorithm:
         # determine print moment for progress printing
         if not self.maxIterations:
             self.printNow = 10000
+        elif self.maxIterations <= 10000:
+            self.printNow = (self.maxIterations * 0.25)
         else:
             self.printNow = (self.maxIterations * 0.1)
 
@@ -148,7 +150,7 @@ class Algorithm:
         # print running info
         print()
         print(self.name)
-        if self.name == "SimulatedAnnealing":
+        if self.name == "SimulatedAnnealing" or self.name == "HillClimber":
             print(' Started with random stablity of: ' + str(self.startStability))
         print(' Maximal stability: ' + str(self.bestStability))
         print(' Total iterations: ' + str(self.iterations))
@@ -196,15 +198,14 @@ class Algorithm:
             writer.writerow({})
 
             # PROTEIN INFO
-            writer.writerow({'Best Stability Found:'})
-            writer.writerow({str(self.bestStability)})
+            writer.writerow({'Best Stability Found: ' + str(self.bestStability)})
             writer.writerow({})
             writer.writerow({'Best Folding Pattern Found:'})
             writer.writerow({str(self.bestPattern)})
             writer.writerow({})
 
             # RUNNING INFO
-            if self.name == "SimulatedAnnealing":
+            if self.name == "SimulatedAnnealing" or self.name == "HillClimber":
                 writer.writerow({'Started with stability of:  ' + str(self.startStability)})
             writer.writerow({'Total Iterations:  ' + str(self.iterations)})
             writer.writerow({'Total Overlap:     ' + str(self.overlapCount)})

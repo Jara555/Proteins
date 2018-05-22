@@ -35,16 +35,16 @@ class DepthFirst(Algorithm):
         # loop over orientations
         for orientation in self.orientations:
 
+            # if a max iterations is given, don't exceed this
+            if self.maxIterations:
+                if self.iterations > self.maxIterations:
+                    return
+
             # if end of protein is reached
             if k == self.protein.length:
 
                 # keep track of iterations
                 self.iterations += 1
-
-                # if a max iterations is given, don't exceed this
-                if self.maxIterations:
-                    if self.iterations > self.maxIterations:
-                        return
 
                 # print progress in terminal output
                 self.printProgress()

@@ -1,0 +1,17 @@
+_________________________________________________
+
+HillClimber
+_________________________________________________
+
+Protein 1: HPHHHPHH
+
+Best Stability Found: -3.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-X', '-Y', '-Y', '-Y', '+X', '+Y']"
+
+Started with stability of:  -3.0
+Total Iterations:  1000
+Total Overlap:     746
+Found in Run:      1000
+Elapsed Time:      0.1001
