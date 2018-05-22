@@ -34,6 +34,15 @@ class SimulatedAnnealing(HillClimber):
         self.maxOverlap = 20
         self.maxTries = 10
 
+        # set starting temperature
+        self.temperature = 10
+
+    def setParameter(self):
+        """ Returns the starting parameter for variable T temperature,
+        reflecting the starting temperature of the simulated annealing algorithm
+        :return T: starting temperature """
+        return self.temperature
+
     def skipOverlap(self, length=None):
         """ Overrides the standard method of the algorithm super class.
         Instead: Allows overlap for maxOverlap times in a row, in order to
@@ -84,14 +93,14 @@ class SimulatedAnnealing(HillClimber):
         self.bestStability = self.protein.stabilityScore
         self.bestPattern = copy.copy(self.foldPattern)
 
-    def setEndState(self, k):
+    def setEndState(self, T):
         """ Overrides the standard method of the Hill Climber class.
         Before folding a protein to best found pattern, makes sure there is no overlap
         and there is a better stability than the start stability.
         :param k: amount of times the run method is repeated """
 
         # check if endstate contains no overlap or worse stability score
-        self.checkEndState(k)
+        self.checkEndState(T)
 
         # make sure correct end values are saved
         self.protein.fold(self.bestPattern)
@@ -99,7 +108,7 @@ class SimulatedAnnealing(HillClimber):
         self.bestStability = self.protein.stabilityScore
         self.bestRun = self.iterations
 
-    def checkEndState(self, k):
+    def checkEndState(self, T):
         """ Checks end state of protein and tries to prevent overlap
         and degradations in end state
          :param k: amount of times the run method is repeated """
@@ -116,7 +125,7 @@ class SimulatedAnnealing(HillClimber):
             self.nonOverlapScore = self.protein.stabilityScore
 
             # repeat run() several times in order to eliminate overlap
-            if k < self.maxTries:
+            if T > 0:
                 print("\n>> OVERLAP IN END STATE: Get rid of overlap <<\n")
 
                 # take pattern with best stability
@@ -124,8 +133,8 @@ class SimulatedAnnealing(HillClimber):
                     self.startPattern = copy.copy(self.nonOverlapPattern)
 
                 # run again
-                k = k + 1
-                self.run(k)
+                T = T - 1
+                self.run(T)
 
             # if end state is reached with overlap, take last non overlap pattern
             else:
@@ -139,15 +148,20 @@ class SimulatedAnnealing(HillClimber):
 
         # if no overlap, but no improvement: try again
         elif self.startStability <= self.bestStability:
-            if k < self.maxTries:
+            if T > 0:
                 print("\n>> COULD NOT FIND BETTER SOLUTION THAN START SOLUTION: Go again <<\n")
 
                 # run again
-                k = k + 1
-                self.run(k)
+                T = T - 1
+                self.run(T)
 
             # end with start state
             else:
                 print("\n>> COULD NOT FIND BETTER SOLUTION THAN START SOLUTION: Finished with start solution <<\n")
                 self.bestPattern = copy.copy(self.startPattern)
+
+        else:
+
+            T = T - 1
+            self.run(T)
 

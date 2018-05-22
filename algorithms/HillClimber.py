@@ -34,12 +34,16 @@ class HillClimber(Algorithm):
         self.protein.stability()
         self.randStartStability = self.protein.stabilityScore
 
-    def run(self, k=0):
+    def run(self, T):
         """ Runs algorithms and find pattern with higher stability, can be local minimum.
         :param k: only relevant for simulated annealing algorithm
                   keeps track of repetition number of run method
         :return: .csv file with the best folding patterns and associated stability's
         """
+
+        print("RUN")
+        print(T)
+
         # initialize start pattern and values
         self.startValues()
 
@@ -80,7 +84,7 @@ class HillClimber(Algorithm):
                 self.writeCsvRow()
 
         # set (and check) end state
-        self.setEndState(k)
+        self.setEndState(T)
 
 
     def stabilityCheck(self):
@@ -139,7 +143,7 @@ class HillClimber(Algorithm):
 
         return amino
 
-    def setEndState(self, k=None):
+    def setEndState(self, param=None):
         """ Folds protein to best found pattern in order to
          end in the best found state
          Overridden in simulated annealing! """
