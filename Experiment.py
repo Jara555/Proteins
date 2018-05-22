@@ -3,125 +3,93 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os, sys
 from os import listdir, path
+import getopt
+import sys
 
 
-class Experiment(object):
-    """ Implements an experiment where statistics are visualized. """
+def main(argv):
+    """ Implements an experiment where statistics are visualized.
+    """
 
-    def __init__(self, protein, dimensions, algorithm):
-        self.protein = protein
-        self.dimensions = dimensions
-        self.algorithm = algorithm
+    # START ERROR CHECKING
 
-        self.filename = ""
-        self.bestStability = []
-        self.iterations = []
-        self.overlap = []
-        self.foundRun = []
-        self.timeElapsed = []
+    if len(sys.argv) < 3 or sys.argv[1] == "help":
+        usage()
+        sys.exit(1)
 
-    def setFile(self):
-        """ Sets filename. """
+    # END ERROR CHECKING
 
-        self.protein = "P" + str(self.protein)
-        self.dimensions = str(self.dimensions) + "D"
+    protein = 'P' + sys.argv[1][2]
+    dimensions = sys.argv[2][2] + 'D'
+    algorithms = ["Randomizer", "HillClimber", "DepthFirst", "BranchNBound"]
 
-        if self.algorithm == "R":
-            self.algorithm = "Randomizer"
-        elif self.algorithm == "HC":
-            self.algorithm = "HillClimber"
-        elif self.algorithm == "DF":
-            self.algorithm = "DepthFirst"
-        elif self.algorithm == "BB":
-            self.algorithm = "BranchNBound"
-        else:
-            self.algorithm = "SimulatedAnnealing"
+    bestStability = []
+    iterations = []
+    overlap = []
+    foundRun = []
+    timeElapsed = []
+    params = [bestStability, iterations, overlap, foundRun, timeElapsed]
 
-        self.filename = self.protein + '-' + self.dimensions + '-' + self.algorithm + '.log'
+    # START READ FROM FILE
 
-    def readFile(self):
+    for i in range(len(algorithms)):
+        filename = protein + '-' + dimensions + '-' + algorithms[i] + '.log'
 
-        algorithms = ["R", "HC", "DF", "BB", "SA"]
-
-        with open("results/" + self.filename, 'r') as logfile:
+        with open("results/" + filename, 'r') as logfile:
             logfile = logfile.readlines()
 
             for line in logfile:
                 if "Stability" in line:
-                    self.bestStability.append([float(s) for s in line.split() if "." in s])
+                    temp = [float(s) for s in line.split() if "." in s]
+                    bestStability.append(abs(temp[0]))
                 if "Iterations" in line:
-                    self.iterations.append([int(s) for s in line.split() if s.isdigit()])
+                    temp = [int(s) for s in line.split() if s.isdigit()]
+                    iterations.append(temp[0])
                 if "Overlap" in line:
-                    self.overlap.append([int(s) for s in line.split() if s.isdigit()])
+                    temp = [int(s) for s in line.split() if s.isdigit()]
+                    overlap.append(temp[0])
                 if "Run" in line:
-                    self.foundRun.append([int(s) for s in line.split() if s.isdigit()])
+                    temp = [int(s) for s in line.split() if s.isdigit()]
+                    foundRun.append(temp[0])
                 if "Time" in line:
-                    self.timeElapsed.append([float(s) for s in line.split() if "." in s])
+                    temp = [float(s) for s in line.split() if "." in s]
+                    timeElapsed.append(temp[0])
 
-            print(self.bestStability)
-            print(self.iterations)
-            print(self.overlap)
-            print(self.foundRun)
-            print(self.timeElapsed)
+    # END READ FROM FILE
 
-    def visualize(self):
-        """ Visualizes analyzed data. """
+    # START VISUALISATION
 
-        # plt.bar(self.bestStability[0], )
-        # plt.show()
+    x = [1, 2, 3, 4]
+    fig = plt.figure()
+    fig.suptitle('Protein ' + protein[1] + ' ' + dimensions, fontsize=18)
+    plotNum = 231
 
-        # def print
-        # def stability(self, log=None):
-        #     """ Analyzes stability. """
-        #
-        #     self.readCSVfiles(log)
-        #
-        #     low = 0
-        #     score = []
-        #
-        #     with open("results/" + self.filename + ".csv", 'r') as csvfile:
-        #         # determine lowest stability and adds stability to list
-        #         next(csvfile)
-        #         for row in csv.reader(csvfile):
-        #             if row:
-        #                 stability = int(abs(float(row[1])))
-        #                 score.append(stability)
-        #                 if stability > low:
-        #                     low = stability
-        #
-        #     # stores occurrences of stability scores
-        #     low = low + 1
-        #     y = np.zeros(low)
-        #     for item in score:
-        #         y[item] = y[item] + 1
-        #
-        #     x = []
-        #     start = 0
-        #
-        #     # create array for x axis
-        #     for i in range(low):
-        #         x.append(start)
-        #         start = start + 1
-        #
-        #     # creates plot
-        #     plt.bar(x, y)
-        #     plt.xticks(np.arange(min(x), max(x) + 1, 1.0))
-        #     plt.title(self.algorithm)
-        #     plt.xlabel("Stability score")
-        #     plt.ylabel("Count")
-        #
-        #     # add labels
-        #     label = []
-        #     for item in range(low):
-        #         label.append(str(int(abs(float(y[item])))))
-        #
-        #     count = 0
-        #     for bar in range(low):
-        #         plt.text(x=count, y=3, s=label[count])
-        #         count = count + 1
-        #
-        #     plt.show()
+    # loops over params and plots data
+    for i in range(4):
+        ax = fig.add_subplot(plotNum)
+        ax.bar(x, params[i], width=0.5, color="green")
+        ax.set_xticks(x)
+        ax.set_xticklabels(algorithms)
+        ax.set_ylabel('Best stability')
+        plotNum += 1
 
+    wm = plt.get_current_fig_manager()
+    wm.window.state('zoomed')
+    plt.show()
+
+    # END VISUALISATION
+
+
+def usage():
+    """Prints the usage of the command line arguments in the terminal """
+    print()
+    print("usage: python3 Experiment.py "
+          " -p <protein> -d <dimensions>")
+    print()
+
+
+if __name__ == "__main__":
+    main(sys.argv)
 
 
 
