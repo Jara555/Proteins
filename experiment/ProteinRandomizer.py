@@ -4,7 +4,7 @@ import random
 class ProteinRandomizer():
     """ Creates random Protein"""
 
-    def __init__(self, length, Iterations):
+    def __init__(self, length, iterations):
         """ Set and initiate all properties.
 
         :param length: length of the protein to be created
@@ -13,7 +13,7 @@ class ProteinRandomizer():
 
         # initialize input variables
         self.length = length
-        self.maxIterations = Iterations
+        self.iterations = iterations
         self.name = "ProteinRandomizer"
         self.proteinString = ""
 
@@ -24,7 +24,7 @@ class ProteinRandomizer():
         """
 
         # loop over max iterations
-        for iteration in range(self.Iterations):
+        for iteration in range(self.iterations):
 
             self.generator()
 
