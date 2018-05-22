@@ -54,6 +54,8 @@ class Algorithm:
         # determine print moment for progress printing
         if not self.maxIterations:
             self.printNow = 10000
+        elif self.maxIterations <= 10000:
+            self.printNow = (self.maxIterations * 0.25)
         else:
             self.printNow = (self.maxIterations * 0.1)
 
@@ -196,8 +198,7 @@ class Algorithm:
             writer.writerow({})
 
             # PROTEIN INFO
-            writer.writerow({'Best Stability Found:'})
-            writer.writerow({str(self.bestStability)})
+            writer.writerow({'Best Stability Found: ' + str(self.bestStability)})
             writer.writerow({})
             writer.writerow({'Best Folding Pattern Found:'})
             writer.writerow({str(self.bestPattern)})
