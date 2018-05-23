@@ -60,7 +60,7 @@ class DepthFirst(Algorithm):
                     continue
 
                 # check for lower stability
-                self.checkBest(k)
+                self.checkBest()
 
                 # write to csv
                 self.writeCsvRow()
@@ -69,6 +69,9 @@ class DepthFirst(Algorithm):
                 # set orientation and fold
                 self.foldPattern[k - 1] = orientation
                 self.protein.fold(self.foldPattern)
+
+                if self.pruneStraight(k):
+                    continue
 
                 # prune on basis of stability
                 if self.pruneStability(k):
@@ -84,6 +87,11 @@ class DepthFirst(Algorithm):
     def pruneStability(self, k):
         """ Non-functional method for depth first class.
         Overriden in the Branch N bound class in order to prune based on stability """
+        return False
+
+    def pruneStraight(self, k):
+        """ Non-functional method for depth first class.
+        Overriden in the Branch N bound class in order to prune based on straight lines """
         return False
 
     def getParameter(self):

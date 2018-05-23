@@ -45,10 +45,22 @@ class BranchNBound(DepthFirst):
         if self.protein.prune(k, self.bestStability):
             self.pruneCount += 1
             if self.pruneCount % 10000 == 0:
-                print(">> " + str(self.pruneCount) + " times pruned <<")
+                print(">> " + str(self.pruneCount) + " times pruned    ----     Stability: "
+                      + str(self.bestStability) + "    ----    <<")
             return True
         else:
             return False
+
+    def pruneStraight(self, k):
+        """ Prunes when 3 aminoacids in a row have the same orientation"""
+
+        # if a range with 3 in a row, prune!
+        for j in range(1, k - 1):
+            if self.foldPattern[j - 1] == self.foldPattern[j] and \
+                    self.foldPattern[j + 1] == self.foldPattern[j]:
+                return True
+
+        return False
 
     def checkOptimum(self):
         """ Checks if there is a known optimum for the protein.
