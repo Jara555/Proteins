@@ -86,7 +86,7 @@ class DepthFirst(Algorithm):
         Overriden in the Branch N bound class in order to prune based on stability """
         return False
 
-    def setParameter(self):
+    def getParameter(self):
         """ Returns the starting parameter for variable k,
         reflecting the starting position of the aminoacid in the recursive function
         :return k: aminoacid location """

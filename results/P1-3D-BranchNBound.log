@@ -8,10 +8,10 @@ Protein 1: HPHHHPHH
 Best Stability Found: -3.0
 
 Best Folding Pattern Found:
-"['0', '+Y', '+X', '-Y', '-Y', '+Z', '+Y', '+Y']"
+"['0', '+Y', '+X', '+Z', '+X', '-Y', '-X', '-Z']"
 
-Total Iterations:  4272
-Total Overlap:     2005
-Total pruned:     2141
+Total Iterations:  0
+Total Overlap:     0
+Total pruned:     0
 Found in Run:      0
-Elapsed Time:      1.0789
+Elapsed Time:      0.0000

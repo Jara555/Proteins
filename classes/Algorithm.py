@@ -75,7 +75,7 @@ class Algorithm:
         start = time.time()
 
         # set parameter (if needed) for run method
-        parameter = self.setParameter()
+        parameter = self.getParameter()
 
         # write to csv file
         if self.writeCsv == "ON":
@@ -101,9 +101,9 @@ class Algorithm:
         print("------------   " + str(self.name) + " finished   ----------------")
         print()
 
-    def setParameter(self):
-        """ Sets parameter for the run method.
-        As default the run method uses no input parameters """
+    def getParameter(self):
+        """ Returns parameter for the run method.
+        :return None: as default the run method uses no input parameters """
         return None
 
     def checkBest(self, length=None):

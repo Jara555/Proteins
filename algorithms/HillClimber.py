@@ -49,13 +49,13 @@ class HillClimber(Algorithm):
         print()
 
         # calculate iteration range based on orientations to loop over
-        iterationRange = int(self.maxIterations / (self.protein.dimensions * 2))
+        iterationRange = self.getIterationRange()
 
         # loop over max iterations
         for i in range(iterationRange):
 
             # pick random amino acid (starting from 2nd)
-            amino = self.pickAminoAcid()
+            amino = self.getAminoAcid()
 
             # loop over orientations
             for orientation in self.orientations:
@@ -85,6 +85,10 @@ class HillClimber(Algorithm):
         # set (and check) end state
         self.setEndState(T)
 
+    def getIterationRange(self):
+        """ Calculate amount of iterations based on max iterations input and
+        orientations to loop over. """
+        return int(self.maxIterations / (self.protein.dimensions * 2))
 
     def stabilityCheck(self):
         """ Checks if stability is lower or equal to best stability """
@@ -129,7 +133,7 @@ class HillClimber(Algorithm):
         self.bestPattern = copy.copy(self.foldPattern)
         self.bestStability = self.protein.stabilityScore
 
-    def pickAminoAcid(self):
+    def getAminoAcid(self):
         """ Picks an amino acid number at random ,
         or when 3 aminoacids in a row have the same orientation"""
 
