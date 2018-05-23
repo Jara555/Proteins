@@ -1,6 +1,8 @@
 import csv
 import sys
 import getopt
+import matplotlib.pyplot as plt
+import numpy as np
 from experiment.ProteinRandomizer import ProteinRandomizer
 from algorithms.BranchNBound import BranchNBound
 from classes.Protein import Protein
@@ -93,9 +95,9 @@ def main(argv):
 
     # END ERROR CHECKING
 
-    createProteins(length, number)
-    runAlgorithm(algorithmName, number, dimensions, maxIterations)
-
+    #createProteins(length, number)
+    #runAlgorithm(algorithmName, number, dimensions, maxIterations)
+    createStatisticLists(number, length, dimensions)
 
 def createProteins(length, number):
     """ create proteinStrings in textfiles
@@ -158,6 +160,127 @@ def runAlgorithm(algorithmName, number, dimensions, maxIterations):
                 with open(write_results, 'w', newline='') as resultsWritefile:
                     writer = csv.writer(resultsWritefile)
                     writer.writerows(resultsList)
+
+def createStatisticLists(number, length, dimensions):
+    """ create lists of the H-count, max (H) cluster length and number of (H) clusters with associated statistics
+
+    :param number: the number of proteins being analysed
+    :param length: the length of the proteins
+    :return: lists of the statistics
+    """
+
+    results = ("results/experimentProteins.14.2d" + ".csv")
+
+    # create empty results and property lists
+    resultsList = []
+    stabilityHcount = [[] for _ in range(length)]
+    stabilityMaxClusterLength = [[] for _ in range(length)]
+    stabilityNClusters = [[] for _ in range(length)]
+
+    # read results file
+    with open(results, 'r') as resultsReadfile:
+        reader = csv.reader(resultsReadfile)
+        resultsList.extend(reader)
+        resultsReadfile.close()
+
+        print(resultsList[1][0])
+
+        # loop through the result rows and save in separate property lists
+        for i in range(number):
+            for j in range(length):
+                stability = resultsList[i][4]
+
+                if int(resultsList[i][0]) == j:
+                    stabilityHcount[j].append(float(stability))
+
+                # max cluster length
+                if int(resultsList[i][1]) == j:
+                    stabilityMaxClusterLength[j].append(float(stability))
+
+                # number of clusters
+                if int(resultsList[i][2]) == j:
+                    stabilityNClusters[j].append(float(stability))
+
+    visualiseStatistics(stabilityHcount, stabilityMaxClusterLength, stabilityNClusters, number, dimensions)
+
+def visualiseStatistics(HCountStatistics, clusterLengthStatistics, clusterCountStatistics, number, dimensions):
+    """ visualise statistics
+
+    :param HCountStatistics: list of lists of specific H-count with associated stability's
+    :param clusterLengthStatistics: list of lists of specific max cluster lengths with associated stability's
+    :param clusterCountStatistics: list of lists of specific cluster counts with associated stability's
+    :return:
+    """
+
+    # create groups
+    n = len(HCountStatistics)
+    print(n)
+    ind = np.arange(n)  # the x locations for the groups
+    width = 0.1
+    meanHcount = []
+    meanClusterLength = []
+    meanClusterCount = []
+
+    # calculate mean values H count
+    for Hcount in HCountStatistics:
+        if Hcount == []:
+            meanHcount.append(0)
+        else:
+            mean = np.mean(Hcount)
+            meanHcount.append(mean)
+
+    # calculate mean values clusterLength count
+    for clusterLength in clusterLengthStatistics:
+        if clusterLength == []:
+            meanClusterLength.append(0)
+        else:
+            mean = np.mean(clusterLength)
+            meanClusterLength.append(mean)
+
+    # calculate mean values cluster count
+    for clusterCount in clusterCountStatistics:
+        if clusterCount == []:
+            meanClusterCount.append(0)
+        else:
+            mean = np.mean(clusterLength)
+            meanClusterCount.append(mean)
+
+
+
+    # open figure
+    fig = plt.figure()
+    fig.suptitle('Statistical results of ' + str(number) + ' randomly generated proteins in ' + str(dimensions) + 'D',
+                 fontsize=18)
+
+
+
+    # create plots
+    i = -1
+
+    fig, ax = plt.subplots()
+    #ax = fig.add_subplot(222)
+    ax.bar(ind, meanHcount, width, color="green")
+
+
+
+
+    # plotNum = 1
+    #
+    # # loops over params and plots data
+    # for i in range(len(params)):
+    #     #ax = fig.add_subplot(plotNum)
+    #     ax.bar(x, params[i], width=0.5, color="green")
+    #     ax.set_xticks(x)
+    #     ax.set_xticklabels(algorithmsFound)
+    #     ax.set_ylabel(ylabels[i])
+    #     ax.set_title(plotTitles[i])
+    #     #plotNum += 1
+    #
+    # # wm = plt.get_current_fig_manager()
+    # # wm.window.state('zoomed')
+    plt.show()
+
+
 
 
 def usage():

@@ -56,6 +56,8 @@ class ProteinRandomizer():
         self.proteinString = ""
         self.countH = 0
         self.countC = 0
+        self.clusters = 0
+        self.maxClusterLength = 0
 
         aminoTypes = ["P", "H"]
 
