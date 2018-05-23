@@ -48,6 +48,16 @@ class BranchNBound(DepthFirst):
         else:
             return False
 
+    def checkOptimum(self):
+        """ Checks if there is a known optimum for the protein.
+        And returns true if that optimum is reached. """
+
+        if self.protein.optimum:
+            if self.bestStability == self.protein.optimum:
+                return True
+            else:
+                return False
+
 
 
 

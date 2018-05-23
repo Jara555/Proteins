@@ -96,7 +96,8 @@ class HillClimber(Algorithm):
         if self.protein.stabilityScore <= self.bestStability:
             self.bestStability = self.protein.stabilityScore
             self.bestPattern = copy.copy(self.foldPattern)
-            self.bestRun = self.iterations
+            if self.protein.stabilityScore < self.bestStability:
+                self.bestRun = self.iterations
         else:
             # deal with degradation (differs for HC and SA)
             self.handleDegradation()

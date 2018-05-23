@@ -80,7 +80,7 @@ class SimulatedAnnealing(HillClimber):
         self.maxOverlap = self.calcMaxOverlap(T)
 
         # as long as temperature is not lower than 0 keep on going
-        if T >= 0:
+        if T > 0:
             # start with best pattern so far
             self.startPattern = copy.copy(self.bestPattern)
 

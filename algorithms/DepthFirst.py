@@ -23,8 +23,6 @@ class DepthFirst(Algorithm):
         # set starting index of iteration
         self.startIndex = 3
 
-
-
     def run(self, k):
         """ Recursive search function
 
@@ -39,6 +37,10 @@ class DepthFirst(Algorithm):
             if self.maxIterations:
                 if self.iterations > self.maxIterations:
                     return
+
+            # if an optimal stability is known, stop when reached
+            if self.checkOptimum():
+                return
 
             # if end of protein is reached
             if k == self.protein.length:
@@ -89,6 +91,11 @@ class DepthFirst(Algorithm):
         reflecting the starting position of the aminoacid in the recursive function
         :return k: aminoacid location """
         return self.startIndex
+
+    def checkOptimum(self):
+        """ Non-functional method for depth first class.
+        Overriden in the Branch N bound class in order to stop when optimum is reached """
+        return False
 
 
 
