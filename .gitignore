@@ -1,7 +1,5 @@
 .idea/*
 *.pyc
 *.csv
-/results
-*.log
 /data
 *.txt

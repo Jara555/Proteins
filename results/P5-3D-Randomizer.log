@@ -1,0 +1,16 @@
+_________________________________________________
+
+Randomizer
+_________________________________________________
+
+Protein 5: HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH
+
+Best Stability Found: -12.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-Z', '-Y', '-Y', '-Y', '-X', '+Z', '+Y', '+X', '-Y', '-Y', '+X', '+Y', '+Z', '+Y', '-X', '+Y', '+Y', '-X', '+Z', '-X', '+Y', '+Z', '+Y', '+X', '-Z', '+Y', '+Y', '+Y', '+Z', '+Z', '-X', '-Z', '-X', '-Y', '+X', '-Y', '-X', '-Z', '+Y', '+Y', '-Z', '-Y', '-Y', '+X', '+Z', '-Y', '-Z', '-Y']"
+
+Total Iterations:  999999
+Total Overlap:     924294
+Found in Run:      886048
+Elapsed Time:      255.4618
