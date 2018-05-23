@@ -34,11 +34,17 @@ class SimulatedAnnealing(HillClimber):
         self.maxOverlap = self.temperature / 2
         self.maxDegrade = self.temperature / 10
 
-    def setParameter(self):
+    def getParameter(self):
         """ Returns the starting parameter for variable T temperature,
         reflecting the starting temperature of the simulated annealing algorithm
         :return T: starting temperature """
         return self.temperature
+
+    def getIterationRange(self):
+        """ Calculate amount of iterations based on max iterations input and
+        orientations to loop over. Divide amount by 10, because at 1/10th
+        the temperature of the simulated annealing has to drop."""
+        return int((self.maxIterations / (self.protein.dimensions * 2)) / 10)
 
     def handleOverlap(self):
         """ Overrides the standard method of the Hill climber class.
@@ -73,14 +79,14 @@ class SimulatedAnnealing(HillClimber):
         :param T: Temperature of the algorithm (cooling down every iteration) """
 
         # cooling down temperature according to temperature function and go again
-        T = self.calcTemperature(T)
+        T = self.getTemperature(T)
 
         # every time T is cooling down overlap and degradation borders move with it
-        self.maxDegrade = self.calcMaxDegrade(T)
-        self.maxOverlap = self.calcMaxOverlap(T)
+        self.maxDegrade = self.getMaxDegrade(T)
+        self.maxOverlap = self.getMaxOverlap(T)
 
         # as long as temperature is not lower than 0 keep on going
-        if T >= 0:
+        if T > 0:
             # start with best pattern so far
             self.startPattern = copy.copy(self.bestPattern)
 
@@ -96,14 +102,14 @@ class SimulatedAnnealing(HillClimber):
         self.protein.stability()
         self.bestStability = self.protein.stabilityScore
 
-    def calcTemperature(self, T):
+    def getTemperature(self, T):
         """ Calculates the cooling down in temperature
         :param T: Temperature of the algorithm (cooling down every iteration)
         :return T: New temperature"""
 
         return T - (self.temperature / 10)
 
-    def calcMaxOverlap(self, T):
+    def getMaxOverlap(self, T):
         """ Calculates the exponential decay of maxOverlap based on temperature
         :param T: Temperature of the algorithm (cooling down every iteration)
         :return maxOverlap: maximal allowed overlap level"""
@@ -113,7 +119,7 @@ class SimulatedAnnealing(HillClimber):
         else:
             return int(self.maxOverlap / 2)
 
-    def calcMaxDegrade(self, T):
+    def getMaxDegrade(self, T):
         """ Calculates the decay of maxDegrade based on temperature
         :param T: Temperature of the algorithm (cooling down every iteration)
         :return maxDegrade: maximal allowed degradation level"""

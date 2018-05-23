@@ -1,0 +1,17 @@
+_________________________________________________
+
+SimulatedAnnealing
+_________________________________________________
+
+Protein 5: HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH
+
+Best Stability Found: -11.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-Z', '-Z', '+X', '+X', '+Y', '-X', '-Z', '+Y', '+Y', '-X', '-Y', '+Z', '+X', '+X', '-Z', '-Y', '-Z', '-Z', '-Z', '-X', '-Z', '+Y', '-X', '-X', '-Y', '+Z', '+Z', '+Y', '+Z', '+Z', '-X', '+Z', '+X', '+Y', '+X', '+Z', '-X', '-X', '-Z', '-Z', '+X', '+Y', '-Z', '+Y', '-Z', '-X', '-Y', '+X']"
+
+Started with stability of:  -10.0
+Total Iterations:  99960
+Total Overlap:     33594
+Found in Run:      0
+Elapsed Time:      129.1566

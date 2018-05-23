@@ -5,13 +5,13 @@ _________________________________________________
 
 Protein 3: HPHPPHHPHPPHPHHPPHPH
 
-Best Stability Found: -6.0
+Best Stability Found: -5.0
 
 Best Folding Pattern Found:
-"['0', '+Y', '+X', '+X', '-Y', '-X', '-Y', '-Y', '-Y', '-X', '+Y', '+Y', '-X', '+Y', '-X', '-X', '+Y', '+X', '+Y', '-X']"
+"['0', '+Y', '+X', '+Y', '+Y', '+Y', '+X', '+Y', '+Y', '+Y', '+X', '-Y', '-Y', '-Y', '-Y', '-Y', '-Y', '-X', '-Y', '-X']"
 
-Started with stability of:  -6.0
+Started with stability of:  -5.0
 Total Iterations:  100000
 Total Overlap:     50000
-Found in Run:      100000
-Elapsed Time:      31.1786
+Found in Run:      0
+Elapsed Time:      18.1931
