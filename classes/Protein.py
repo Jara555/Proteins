@@ -432,6 +432,9 @@ class Protein(object):
 
         bondOptionsMax = []
 
+        if bondOptions == []:
+            return bondOptions
+
         # set max for inner and outer aminoacids depending on dimensions
         if self.dimensions == 2:
             outerMax = 3
