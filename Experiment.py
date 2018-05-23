@@ -26,7 +26,7 @@ def main(argv):
 
     # try to catch the parsers for command line options
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "p:d:", ["help"])
+        opts, args = getopt.getopt(sys.argv[1:], "hp:d:", ["help"])
     except getopt.GetoptError as err:
         print(str(err))
         usage()
@@ -75,7 +75,7 @@ def main(argv):
     timeElapsed = []
     params = [bestStability, iterations, overlap, foundRun, timeElapsed]
     algorithms = ["Randomizer", "HillClimber", "DepthFirst", "BranchNBound", "SimulatedAnnealing"]
-    ylabels = ['Best stability', 'Number of iterations', 'Number  of overlap', 'Found in run...', 'Elapsed time']
+    ylabels = ['Best stability', 'Number of iterations', 'Number  of overlap', 'Found in run...', 'Elapsed time (in s)']
     plotTitles = ['Stability', 'Number of iterations', 'Overlap', 'Found in run', 'Elapsed time']
 
     # START READ FROM FILE
