@@ -44,6 +44,8 @@ class BranchNBound(DepthFirst):
         # if stability target can not be reached anymore: prune!
         if self.protein.prune(k, self.bestStability):
             self.pruneCount += 1
+            if self.pruneCount % 10000 == 0:
+                print(">> " + str(self.pruneCount) + " times pruned <<")
             return True
         else:
             return False
