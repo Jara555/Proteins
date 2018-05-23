@@ -26,7 +26,7 @@ pip3 install matplotlib
 
 ### Structure
 
-This code uses three classes: AminoAcid, Protein and Algorithm. These can together with their corresponding methods be found in the map classes. The map algorithms contains al algorithm subclasses of the superclass Algorithm. All benchmark proteins can be found in the map data and the results will be safed as a .csv file in the results map. The main script for running the program can be found in proteins.py
+This code uses three classes: AminoAcid, Protein and Algorithm. These can together with their corresponding methods be found in the map classes. The map algorithms contains al algorithm subclasses of the superclass Algorithm. All benchmark proteins can be found in the map data and the results will be safed as a .csv or .log files in the results map. The main script for running the program can be found in proteins.py.
 
 ### Running
 
