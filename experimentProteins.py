@@ -1,3 +1,4 @@
+import csv
 import sys
 import getopt
 from experiment.ProteinRandomizer import ProteinRandomizer
@@ -97,25 +98,66 @@ def main(argv):
 
 
 def createProteins(length, number):
-    print("running createProteins")
+    """ create proteinStrings in textfiles
+
+    :param length: the length of the proteins
+    :param number: the amount of proteins
+    :return: .txt fils with proteinStrings
+    """
     proteinRandomizer = ProteinRandomizer(length, number)
     proteinRandomizer.run()
 
 
 def runAlgorithm(algorithmName, number, dimensions, maxIterations):
+    """
+
+    :param algorithmName: which algorithm should be runned
+    :param number: the number of proteins to be runned
+    :param dimensions: 3 for 3D, 2 for 2D
+    :param maxIterations: how many iterations should the algorithm do
+    :return: addition of upperbound stability and found stability to .csv file (experimentProteins.csv)
+    """
 
     writeCSV = "OFF"
 
+    # loop through the (number of) proteins created
     for i in range(number):
         proteinNumber = i + 100
+        resultsList = []
 
+        # create protein from proteinstrings
         protein = Protein(dimensions, proteinNumber)
 
-        # BranchNBound
-        if algorithmName == "BB":
-            algorithm = BranchNBound(protein, writeCSV, maxIterations)
-            algorithm.runAlgorithm()
-            algorithm.printBest()
+        # calculate an upperbound (maxStability high upperbound, minStability lower (upper?)bound) of stability
+        protein.findBonds()
+        maxStability = -1 * len(protein.bondPossibilities[0])
+        counter = [0] * protein.length
+        bondsMin = protein.updateBondOptions(counter, protein.bondPossibilities[0])
+        minStability = -1 * len(bondsMin)
+
+        write_results = ("results/experimentProteins" + ".csv")
+
+        # read results file
+        with open(write_results, 'r') as resultsReadfile:
+            reader = csv.reader(resultsReadfile)
+            resultsList.extend(reader)
+            resultsReadfile.close()
+
+            # add minStability to resultsList
+            resultsList[i][3] = minStability
+
+            # run BranchNBound algorithm
+            if algorithmName == "BB":
+                algorithm = BranchNBound(protein, writeCSV, maxIterations)
+                algorithm.runAlgorithm()
+
+                # add stability to resultsList
+                resultsList[i][4] = algorithm.bestStability
+
+                # write results to csv file
+                with open(write_results, 'w', newline='') as resultsWritefile:
+                    writer = csv.writer(resultsWritefile)
+                    writer.writerows(resultsList)
 
 
 def usage():
