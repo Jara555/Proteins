@@ -72,9 +72,9 @@ def main(argv):
     timeElapsed = []
     params = [bestStability, iterations, overlap, foundRun, timeElapsed]
     algorithms = ["Randomizer", "HillClimber", "DepthFirst", "BranchNBound", "SimulatedAnnealing"]
-    ylabels = ['Best stability', 'Number of iterations', 'Number  of overlap', 'Found in run...', 'Elapsed time']
     xlabels = ["R", "HC", "DF", "BNB", "SA"]
-    ylabels = ['Best stability', 'Number of iterations', 'Number  of overlap', 'Found in run...', 'Elapsed time (in s)']
+    ylabels = ['Best stability (* -1)', 'Number of iterations', 'Number  of overlap', 'Found in run...',
+               'Elapsed time (in s)']
     plotTitles = ['Stability', 'Number of iterations', 'Overlap', 'Found in run', 'Elapsed time']
 
     # START READ FROM FILE
@@ -86,7 +86,7 @@ def main(argv):
             with open("../results/" + filename, 'r') as logfile:
                 logfile = logfile.readlines()
 
-                algorithmsFound.append(algorithms[i])
+                algorithmsFound.append(xlabels[i])
 
                 for line in logfile:
                     if "Stability" in line:
@@ -114,7 +114,7 @@ def main(argv):
 
     x = range(1, len(algorithmsFound) + 1)
     fig = plt.figure()
-    fig.suptitle('Protein ' + str(protein) + ' ' + str(dimensions) + 'D', fontsize=18)
+    fig.suptitle('Protein ' + str(protein) + ' in ' + str(dimensions) + 'D', fontsize=22)
     plotNum = 231
 
     # loops over params and plots data
@@ -127,8 +127,21 @@ def main(argv):
         ax.set_title(plotTitles[i])
         plotNum += 1
 
-    # wm = plt.get_current_fig_manager()
-    # wm.window.state('zoomed')
+    # add legend of xlabels
+    ax = fig.add_subplot(plotNum)
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.axis('off')
+    ax.text(0, 0.9, 'R = Randomizer', fontsize=12)
+    ax.text(0, 0.7, 'HC = Hill Climber', fontsize=12)
+    ax.text(0, 0.5, 'DF = Depth First', fontsize=12)
+    ax.text(0, 0.3, 'BB = Branch \'n Bound', fontsize=12)
+    ax.text(0, 0.1, 'SA = Simulated Annealing', fontsize=12)
+
+    wm = plt.get_current_fig_manager()
+    wm.window.state('zoomed')
     plt.show()
 
     # END VISUALISATION

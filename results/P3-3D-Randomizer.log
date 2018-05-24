@@ -1,16 +1,16 @@
-_________________________________________________
-
-Randomizer
-_________________________________________________
-
-Protein 3: HPHPPHHPHPPHPHHPPHPH
-
-Best Stability Found: -8.0
-
-Best Folding Pattern Found:
-"['0', '+Y', '-X', '+Z', '-X', '-Z', '-Z', '+Y', '+Z', '-X', '-Y', '-Z', '-Y', '+X', '+Z', '+Z', '+X', '-Z', '-Y', '+Z']"
-
-Total Iterations:  99999
-Total Overlap:     53750
-Found in Run:      55502
-Elapsed Time:      30.4474
+_________________________________________________
+
+Randomizer
+_________________________________________________
+
+Protein 3: HPHPPHHPHPPHPHHPPHPH
+
+Best Stability Found: -6.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-X', '-Y', '-Z', '+Y', '+X', '+Y', '-X', '-Z', '-X', '+Z', '-Y', '+Z', '+Y', '+Y', '-Z', '+X', '+Y', '-Z']"
+
+Total Iterations:  9999
+Total Overlap:     5379
+Found in Run:      3835
+Elapsed Time:      1.3344
