@@ -122,6 +122,7 @@ def main(argv):
     # initialize protein
     protein = Protein(dimensions, proteinNumber, proteinString)
 
+
     # Randomizer
     if algorithmName == "R":
         algorithm = Randomizer(protein, writeCsv, maxIterations)
@@ -150,7 +151,14 @@ def main(argv):
         sys.exit(2)
 
     # run the created instance of the Algorithm class and print the best solution
-    algorithm.runAlgorithm()
+    # algorithm.runAlgorithm()
+
+    # turn on to print a log whith keyboardinterrupt of the program
+    try:
+        algorithm.runAlgorithm()
+    except KeyboardInterrupt:
+        algorithm.printBest()
+
     algorithm.printBest()
 
 
