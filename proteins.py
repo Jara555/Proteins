@@ -45,7 +45,7 @@ def main(argv):
     dimensions = 3
     maxIterations = None
     writeCsv = "OFF"
-    randIterations = 1000
+    randIterations = 100
 
     # ERROR CHECKING:
 

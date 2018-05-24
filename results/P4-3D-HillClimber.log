@@ -1,17 +1,17 @@
-_________________________________________________
-
-HillClimber
-_________________________________________________
-
-Protein 4: PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
-
-Best Stability Found: -9.0
-
-Best Folding Pattern Found:
-"['0', '+Y', '+Z', '-Y', '-Y', '-Y', '+Z', '+Y', '+Y', '+Y', '+Y', '+Z', '+X', '-Y', '+X', '-Y', '-Y', '-Z', '-X', '+Z', '-X', '-Y', '-Y', '+X', '+Y', '+Z', '+X', '-Z', '-Z', '-X', '-Y', '+X', '-Y', '+X', '+Z', '+Z']"
-
-Started with stability of:  -9.0
-Total Iterations:  99996
-Total Overlap:     49998
-Found in Run:      0
-Elapsed Time:      45.1863
+_________________________________________________
+
+HillClimber
+_________________________________________________
+
+Protein 4: PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
+
+Best Stability Found: -4.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+X', '+Z', '+Y', '-Z', '+Y', '+Z', '+Y', '+Y', '-X', '-Z', '+Y', '+Y', '+Z', '+Y', '+Y', '+Z', '+Y', '+Z', '-Y', '+X', '-Y', '-Z', '-X', '-Y', '-Y', '+X', '+Z', '+Y', '+X', '-Z', '+Y', '-Z', '-Z', '-Z']"
+
+Started with stability of:  -3.0
+Total Iterations:  99996
+Total Overlap:     16676
+Found in Run:      0
+Elapsed Time:      56.8193
