@@ -6,7 +6,7 @@ class BranchNBound(DepthFirst):
     """ Subclass of DepthFirst algorithms:
     Implements Branch 'N Bound algorithms in order to efficiently fold a protein """
 
-    def __init__(self, protein, writeCsv, maxIterations=None):
+    def __init__(self, protein, writeCsv, maxIterations):
         """ Set and initiate all properties.
 
         :param protein: protein to be fold
@@ -20,12 +20,12 @@ class BranchNBound(DepthFirst):
         bestStability = randomAlgorithm.bestStability
         bestPattern = randomAlgorithm.bestPattern
 
+        # set class properties
+        DepthFirst.__init__(self, protein, writeCsv, maxIterations=None)
+        self.name = "BranchNBound"
+
         #initialize input varialbes
         self.maxIterations = maxIterations
-
-        # set class properties
-        DepthFirst.__init__(self, protein, writeCsv)
-        self.name = "BranchNBound"
 
         # set initial stability
         self.bestStability = bestStability
@@ -44,9 +44,33 @@ class BranchNBound(DepthFirst):
         # if stability target can not be reached anymore: prune!
         if self.protein.prune(k, self.bestStability):
             self.pruneCount += 1
+            if self.pruneCount % 10000 == 0:
+                print(">> " + str(self.pruneCount) + " times pruned    ----     Stability: "
+                      + str(self.bestStability) + "    ----    <<")
             return True
         else:
             return False
+
+    def pruneStraight(self, k):
+        """ Prunes when 3 aminoacids in a row have the same orientation"""
+
+        # if a range with 3 in a row, prune!
+        for j in range(1, k - 1):
+            if self.foldPattern[j - 1] == self.foldPattern[j] and \
+                    self.foldPattern[j + 1] == self.foldPattern[j]:
+                return True
+
+        return False
+
+    def checkOptimum(self):
+        """ Checks if there is a known optimum for the protein.
+        And returns true if that optimum is reached. """
+
+        if self.protein.optimum:
+            if self.bestStability == self.protein.optimum:
+                return True
+            else:
+                return False
 
 
 

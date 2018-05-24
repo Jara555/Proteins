@@ -48,6 +48,27 @@ class Protein(object):
         self.list[0].setCoordinates(0, 0, 0)
         self.list[1].setCoordinates(0, 1, 0)
 
+        # set optimum (only available for first 5 benchmark proteins)
+        self.optimum = self.setOptimum()
+
+    def setOptimum(self):
+        """ The first 5 proteins of the benchmark proteins in /data have
+        according to the literature specific optimal stabilities.
+        This method sets the optimum for the current protein. """
+
+        # 2D and 3D optima for proteins 1 - 5 according to literature
+        optima2D = [-3, -6, -9, -14, -21]
+        optima3D = [-3, -7, -11, -18, -34]
+
+        # only for benchmark proteins 1 - 5
+        if self.number in [1, 2, 3, 4, 5]:
+            if self.dimensions == 2:
+                return optima2D[self.number - 1]
+            elif self.dimensions == 3:
+                return optima3D[self.number - 1]
+        else:
+            return None
+
     def fold(self, folding_pattern):
         """ Folds protein according to input pattern 2D
         :param folding_pattern: pattern followed to fold protein
@@ -431,6 +452,9 @@ class Protein(object):
         """
 
         bondOptionsMax = []
+
+        if bondOptions == []:
+            return bondOptions
 
         # set max for inner and outer aminoacids depending on dimensions
         if self.dimensions == 2:

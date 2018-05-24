@@ -1,0 +1,16 @@
+_________________________________________________
+
+DepthFirst
+_________________________________________________
+
+Protein 2: HHPHHHPHPHHHPH
+
+Best Stability Found: -6.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+X', '+Y', '-X', '+Y', '-X', '-Y', '-X', '-Y', '+X', '-Y', '-Y', '+X']"
+
+Total Iterations:  324932
+Total Overlap:     165798
+Found in Run:      61101
+Elapsed Time:      59.1978

@@ -1,0 +1,16 @@
+_________________________________________________
+
+Randomizer
+_________________________________________________
+
+Protein 2: HHPHHHPHPHHHPH
+
+Best Stability Found: -5.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+Y', '-X', '-Y', '-Y', '-Y', '+X', '+X', '+Y', '+Y', '+X', '-Y', '-Y']"
+
+Total Iterations:  999
+Total Overlap:     564
+Found in Run:      561
+Elapsed Time:      0.1485

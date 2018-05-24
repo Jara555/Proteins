@@ -1,7 +1,7 @@
 .idea/*
 *.pyc
 *.csv
-application_Amber.py
-trashStability.py
-Experiment.py
 /results
+*.log
+/data
+*.txt

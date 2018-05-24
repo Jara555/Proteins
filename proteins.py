@@ -114,13 +114,8 @@ def main(argv):
         maxIterations = 1000
 
     # set amount of randomizer iterations to generate a starting pattern for HC and SA
-    if algorithmName == "SA" or algorithmName == "HC":
-        if proteinNumber in [1, 2, 3]:
-            randIterations = 10000
-        elif proteinNumber in [4, 6, 7]:
-            randIterations = 100000
-        elif proteinNumber in [5, 8, 9]:
-            randIterations = 1000000
+    if proteinNumber > 4:
+        randIterations = 100000
 
     # END ERROR CHECKING
 

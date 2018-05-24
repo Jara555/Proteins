@@ -23,8 +23,6 @@ class DepthFirst(Algorithm):
         # set starting index of iteration
         self.startIndex = 3
 
-
-
     def run(self, k):
         """ Recursive search function
 
@@ -35,16 +33,20 @@ class DepthFirst(Algorithm):
         # loop over orientations
         for orientation in self.orientations:
 
+            # if a max iterations is given, don't exceed this
+            if self.maxIterations:
+                if self.iterations > self.maxIterations:
+                    return
+
+            # if an optimal stability is known, stop when reached
+            if self.checkOptimum():
+                return
+
             # if end of protein is reached
             if k == self.protein.length:
 
                 # keep track of iterations
                 self.iterations += 1
-
-                # if a max iterations is given, don't exceed this
-                if self.maxIterations:
-                    if self.iterations > self.maxIterations:
-                        return
 
                 # print progress in terminal output
                 self.printProgress()
@@ -58,7 +60,7 @@ class DepthFirst(Algorithm):
                     continue
 
                 # check for lower stability
-                self.checkBest(k)
+                self.checkBest()
 
                 # write to csv
                 self.writeCsvRow()
@@ -67,6 +69,9 @@ class DepthFirst(Algorithm):
                 # set orientation and fold
                 self.foldPattern[k - 1] = orientation
                 self.protein.fold(self.foldPattern)
+
+                if self.pruneStraight(k):
+                    continue
 
                 # prune on basis of stability
                 if self.pruneStability(k):
@@ -84,11 +89,21 @@ class DepthFirst(Algorithm):
         Overriden in the Branch N bound class in order to prune based on stability """
         return False
 
-    def setParameter(self):
+    def pruneStraight(self, k):
+        """ Non-functional method for depth first class.
+        Overriden in the Branch N bound class in order to prune based on straight lines """
+        return False
+
+    def getParameter(self):
         """ Returns the starting parameter for variable k,
         reflecting the starting position of the aminoacid in the recursive function
         :return k: aminoacid location """
         return self.startIndex
+
+    def checkOptimum(self):
+        """ Non-functional method for depth first class.
+        Overriden in the Branch N bound class in order to stop when optimum is reached """
+        return False
 
 
 

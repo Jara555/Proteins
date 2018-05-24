@@ -1,0 +1,17 @@
+_________________________________________________
+
+HillClimber
+_________________________________________________
+
+Protein 5: HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH
+
+Best Stability Found: -11.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+Y', '+X', '+Y', '-X', '+Y', '+Y', '+X', '+Z', '+Y', '-X', '-Z', '+X', '+Y', '+Y', '+Y', '-X', '-X', '+Z', '+X', '-Y', '-Y', '+Z', '-X', '-X', '-Z', '-Y', '-X', '-Z', '-Z', '+X', '-Z', '+X', '+X', '+Z', '-X', '+Z', '+Z', '+Z', '+X', '-Y', '-Z', '-Y', '-Y', '-Y', '+Z', '+Z', '+Y', '+Y']"
+
+Started with stability of:  -11.0
+Total Iterations:  99996
+Total Overlap:     33332
+Found in Run:      0
+Elapsed Time:      108.2420

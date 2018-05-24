@@ -1,0 +1,17 @@
+_________________________________________________
+
+SimulatedAnnealing
+_________________________________________________
+
+Protein 4: PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
+
+Best Stability Found: -6.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+Y', '-X', '-Y', '-Y', '-Y', '-X', '-X', '-X', '+Y', '-X', '-X', '+Y', '+Y', '-X', '-X', '-Y', '-X', '+Y', '+Y', '+Y', '+X', '-Y', '+X', '+Y', '+Y', '+X', '-Y', '-Y', '+X', '+Y', '+Y', '+Y', '-X', '+Y']"
+
+Started with stability of:  -6.0
+Total Iterations:  100000
+Total Overlap:     92407
+Found in Run:      0
+Elapsed Time:      9.1728
