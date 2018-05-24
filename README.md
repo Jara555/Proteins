@@ -28,6 +28,14 @@ pip3 install matplotlib
 
 This code uses three classes: AminoAcid, Protein and Algorithm. These can together with their corresponding methods be found in the map classes. The map algorithms contains al algorithm subclasses of the superclass Algorithm. All benchmark proteins can be found in the map data and the results will be saved as a .csv or .log files in the results map. The main script for running the program can be found in proteins.py.
 
+### Algorithms
+Proteins are folded according to the following folding algorithms:
+- Randomizer: this algorithm chooses a random folding pattern and checks stability for a number of iterations. 
+- Hill Climber: this algorithm starts with folding pattern extracted from the randomizer algorithm. Subsequently, it changes the direction from a random choosen amino acids and checks stability for a number of iterations.
+- Simulated Annealing: this algorithm allows overlap and a degradation of stability for a maximal amount of times in order to escape local minima/maxima. Temperature is cooling down every run, as is the allowed amount of overlap and degradation.
+- Depth First: this algorithm checks all folding patterns possible by a depth first search.
+- Branch 'n Bound: this algorithm checks folding patterns by a depth first search and excludes specific patterns based on the number of Hbonds already found.
+
 ### Running
 
 To run the program with the standardconfigurations use the following instructions:
