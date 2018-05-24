@@ -1,17 +1,17 @@
-_________________________________________________
-
-HillClimber
-_________________________________________________
-
-Protein 3: HPHPPHHPHPPHPHHPPHPH
-
-Best Stability Found: -6.0
-
-Best Folding Pattern Found:
-"['0', '+Y', '+X', '+Z', '+X', '-Y', '-X', '-Y', '+X', '+X', '+X', '-Z', '+Y', '-Z', '-Y', '-X', '+Z', '-X', '-X', '+Y']"
-
-Started with stability of:  -6.0
-Total Iterations:  99996
-Total Overlap:     49998
-Found in Run:      0
-Elapsed Time:      21.3066
+_________________________________________________
+
+HillClimber
+_________________________________________________
+
+Protein 3: HPHPPHHPHPPHPHHPPHPH
+
+Best Stability Found: -8.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+Y', '+Z', '+Y', '-Z', '-Z', '+Y', '-Z', '-Z', '-Y', '+Z', '-X', '-Y', '+X', '-Y', '+Z', '+Y', '-X', '+Z']"
+
+Started with stability of:  -6.0
+Total Iterations:  999996
+Total Overlap:     583064
+Found in Run:      0
+Elapsed Time:      213.3392

@@ -1,17 +1,17 @@
-_________________________________________________
-
-SimulatedAnnealing
-_________________________________________________
-
-Protein 4: PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
-
-Best Stability Found: -10.0
-
-Best Folding Pattern Found:
-"['0', '+Y', '-Z', '+X', '+Z', '-Y', '-Z', '+X', '-Y', '-Z', '+X', '+Z', '+Y', '+Z', '-X', '+Y', '-Z', '-Z', '-Y', '+X', '-Z', '+Y', '+X', '+Z', '+Y', '+Z', '+Z', '-Y', '-Z', '-X', '-Z', '+Y', '-Z', '+X', '-Z', '-Z']"
-
-Started with stability of:  -8.0
-Total Iterations:  99960
-Total Overlap:     85882
-Found in Run:      0
-Elapsed Time:      17.3958
+_________________________________________________
+
+SimulatedAnnealing
+_________________________________________________
+
+Protein 4: PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
+
+Best Stability Found: -8.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-Z', '-Z', '-X', '+Z', '-Y', '-Z', '+X', '+Z', '-Y', '-Z', '+X', '+Y', '+Y', '+X', '+Y', '+Y', '+X', '+Y', '-X', '-Z', '-Y', '-Y', '+X', '-Z', '-Z', '-Y', '+Z', '+Z', '-X', '-Z', '+Y', '-Z', '-Z', '-Z']"
+
+Started with stability of:  -4.0
+Total Iterations:  99960
+Total Overlap:     33573
+Found in Run:      0
+Elapsed Time:      50.4189

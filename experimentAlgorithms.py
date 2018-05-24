@@ -1,5 +1,7 @@
 import getopt
 import sys
+import numpy as np
+import math
 
 import matplotlib.pyplot as plt
 
@@ -83,7 +85,7 @@ def main(argv):
         filename = 'P' + str(protein) + '-' + str(dimensions) + 'D-' + algorithms[i] + '.log'
 
         try:
-            with open("../results/" + filename, 'r') as logfile:
+            with open("results/" + filename, 'r') as logfile:
                 logfile = logfile.readlines()
 
                 algorithmsFound.append(xlabels[i])
@@ -112,6 +114,10 @@ def main(argv):
 
     # START VISUALISATION
 
+    print()
+    print('----- Start comparing algorithms...')
+    print()
+
     x = range(1, len(algorithmsFound) + 1)
     fig = plt.figure()
     fig.suptitle('Protein ' + str(protein) + ' in ' + str(dimensions) + 'D', fontsize=22)
@@ -124,6 +130,7 @@ def main(argv):
         ax.set_xticks(x)
         ax.set_xticklabels(algorithmsFound)
         ax.set_ylabel(ylabels[i])
+        ax.set_yscale("log")
         ax.set_title(plotTitles[i])
         plotNum += 1
 
@@ -144,13 +151,82 @@ def main(argv):
     wm.window.state('zoomed')
     plt.show()
 
+    print()
+    print('----- End comparing algorithms...')
+    print()
+
     # END VISUALISATION
 
-#     analyzeHCandSA()
-#
-# def analyzeHCandSA():
+    # START VISUALISATION HILL CLIMBER VERSUS SIMULATED ANNEALING
 
+    print()
+    print('----- Start Hill Climber vs Simulated Annealing')
+    print()
 
+    # initializes variables
+    iteration = 400
+    alg = ["HillClimber", "SimulatedAnnealing"]
+    fig = plt.figure()
+    fig.suptitle('Protein ' + str(protein) + ' in ' + str(dimensions) + 'D', fontsize=22)
+    k = 121
+    csvCount = 0
+
+    for i in range(len(alg)):
+
+        stability = []
+        lineCount = 0
+        stabilityMean = []
+        count = 0
+
+        # opens and reads csv file
+        try:
+            with open('results/P' + str(protein) + '-' + str(dimensions) + 'D-' + alg[i] + '.csv', 'r') as csvfile:
+                csvfile = csvfile.readlines()
+                csvCount += 1
+
+                for line in csvfile:
+                    lineCount += 1
+
+                    line = line.rstrip()
+
+                    # skip first two lines
+                    if lineCount == 0 or lineCount == 1:
+                        continue
+                    if line:
+                        line.split(',')
+                        stability.append(abs(float(line.split(',')[1])))
+        except IOError:
+            print('csv file for ' + alg[i] + ' does not exist...')
+            continue
+
+        # calculates average stability per n iterations
+        stabilityNum = len(stability)
+        while stabilityNum > iteration:
+            start = count * iteration
+            end = start + iteration - 1
+            stabilityMean.append(math.ceil(np.mean(stability[start:end])))
+
+            stabilityNum -= iteration
+            count += 1
+
+        # plots average stability over time
+        ax = fig.add_subplot(k)
+        x = range(0, len(stabilityMean))
+        ax.plot(x, stabilityMean)
+        ax.set_xlabel('Iteration')
+        ax.set_ylabel('Stability (* -1)')
+        ax.set_title(alg[i])
+        plt.ylim((0, np.amax(bestStability)))
+        k += 1
+
+    if csvCount > 0:
+        plt.show()
+
+    print()
+    print('----- End Hill Climber vs Simulated Annealing')
+    print()
+
+    # START VISUALISATION HILL CLIMBER VERSUS SIMULATED ANNEALING
 
 def usage():
     """Prints the usage of the command line arguments in the terminal """
