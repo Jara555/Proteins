@@ -27,6 +27,7 @@ def main(argv):
         :argument -i <iterations> : Maximal iterations to be run (required for R and HC, optional for DF and BB)
         :argument -n <number> : Number of proteins to be created (default: 100)
         :argument -l <length> : Lenght of the protein to be crated (default: 14)
+        :argument -f <fixed h-number> : Fixed number of H's in the protein
     """
 
     # set lists for input arguments
@@ -40,6 +41,7 @@ def main(argv):
     length = 14
     algorithmName = "BB"
     algorithm = None
+    fixedHNumber = None
 
     # ERROR CHECKING:
 
@@ -53,7 +55,7 @@ def main(argv):
 
     # try to catch the parsers for command line options
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ha:d:i:n:l:", ["help"])
+        opts, args = getopt.getopt(sys.argv[1:], "ha:d:i:n:l:f:", ["help"])
     except getopt.GetoptError as err:
         print(str(err))
         usage()
@@ -74,6 +76,8 @@ def main(argv):
             number = int(arg)
         elif opt == "-l":
             length = int(arg)
+        elif opt == "-f":
+            fixedHNumber = int(arg)
 
     # check if algorithm name is correct
     while algorithmName not in algorithmNames:
@@ -96,11 +100,11 @@ def main(argv):
 
     # END ERROR CHECKING
 
-    # createProteins(length, number)
+    # createProteins(length, number, fixedHNumber)
     # runAlgorithm(algorithmName, number, dimensions, maxIterations)
     createStatisticLists(number, length, dimensions)
 
-def createProteins(length, number):
+def createProteins(length, number, fixedHNumber):
     """ create proteinStrings in textfiles
 
     :param length: the length of the proteins
@@ -215,17 +219,32 @@ def visualiseStatistics(HCountStatistics, clusterLengthStatistics, clusterCountS
     # create groups
     n = len(HCountStatistics)
     ind = np.arange(n)  # the x locations for the groups
+    minHcount = []
     meanHcount = []
+    maxHcount =[]
     meanClusterLength = []
     meanClusterCount = []
+    params = [meanHcount, meanClusterLength, meanClusterCount]
+    ylabel = "stability (* -1)"
+    xlabels = ["Number of H's", "Longest cluster of H's", "Number of H clusters"]
+    plotTitles = ["Influence of number of H's on stability", "Influence of cluster length on stability",
+                  "Influence of number of H clusters on stability"]
 
     # calculate mean values H count
     for Hcount in HCountStatistics:
         if Hcount == []:
+            minHcount.append(0)
             meanHcount.append(0)
+            maxHcount.append(0)
         else:
+            # calculate min, mean and max stability
+            min = np.min(Hcount)
             mean = np.mean(Hcount)
+            max = np.max(Hcount)
+            # set in the respective lists
+            minHcount.append(min)
             meanHcount.append(mean)
+            maxHcount.append(max)
 
     # calculate mean values clusterLength count
     for clusterLength in clusterLengthStatistics:
@@ -243,49 +262,28 @@ def visualiseStatistics(HCountStatistics, clusterLengthStatistics, clusterCountS
             mean = np.mean(clusterCount)
             meanClusterCount.append(mean)
 
-
-
     # open figure
     fig = plt.figure()
     fig.suptitle('Statistical results of ' + str(number) + ' randomly generated proteins in ' + str(dimensions) + 'D' +
                  ' with length ' + str(length),
                  fontsize=14)
 
-
-
     # create plots
-    i = -1
-
-
-
-
-    params = [meanHcount, meanClusterLength, meanClusterCount]
-    ylabel = "stability (* -1)"
-    xlabels = ["Number of H's", "Longest cluster of H's", "Number of H clusters"]
-    plotTitles = ["Influence of number of H's on stability", "Influence of cluster length on stability",
-                  "Influence of number of H clusters on stability"]
-
-
-
-    plotNum = 221
     gs1 = gridspec.GridSpec(2, 2)
 
     # loops over params and plots data
     for i in range(len(params)):
         ax = fig.add_subplot(gs1[i])
         ax.bar(ind, params[i], width=0.5, color="green")
+        ax.scatter(ind, minHcount)
+        ax.scatter(ind, maxHcount)
         ax.set_xticks(ind)
         ax.set_xlabel(xlabels[i], fontsize=8)
         ax.set_ylabel(ylabel, fontsize=8)
         ax.set_title(plotTitles[i], fontsize=10)
-        plotNum += 1
 
-    # wm = plt.get_current_fig_manager()
-    # wm.window.state('zoomed')
     plt.show()
-
     gs1.tight_layout(fig)
-
 
 
 def usage():
