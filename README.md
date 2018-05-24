@@ -18,10 +18,10 @@ This program implements algorithms, all with the aim to find the best possible f
 
 ### Prerequisites
 This code is written in [Python3.6.3](https://www.python.org/downloads/). 
-Furthermore the code uses the following packages: matpotlib. This is easy to install using the following instruction:
+Furthermore some packages are used. They are easy to install using the following instruction:
 
 ```
-pip3 install matplotlib
+pip install -r requirements.txt
 ```
 
 ### Structure
@@ -34,7 +34,7 @@ Proteins are folded according to the following folding algorithms:
 - Hill Climber: this algorithm starts with folding pattern extracted from the randomizer algorithm. Subsequently, it changes the direction from a random choosen amino acids and checks stability for a number of iterations.
 - Simulated Annealing: this algorithm allows overlap and a degradation of stability for a maximal amount of times in order to escape local minima/maxima. Temperature is cooling down every run, as is the allowed amount of overlap and degradation.
 - Depth First: this algorithm checks all folding patterns possible by a depth first search.
-- Branch 'n Bound: this algorithm checks folding patterns by a depth first search and excludes specific patterns based on the number of Hbonds already found.
+- Branch 'n Bound: this algorithm starts with folding pattern extracted from the randomizer algorithm. Subsequently, it checks folding patterns by a depth first search and excludes specific patterns based on the number of Hbonds already found.
 
 ### Running
 
