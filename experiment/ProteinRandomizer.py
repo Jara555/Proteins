@@ -68,6 +68,10 @@ class ProteinRandomizer():
 
             self.saveProperties(aminoType, i)
 
+    # def generatorFixed(self, length, numH):
+
+
+
 
     def saveProperties(self, aminoType, k):
         """ save properties of the protein
