@@ -44,7 +44,7 @@ class ProteinRandomizer():
                 self.generator()
 
                 # write to text file
-                write_file = open(("data/protein" + str(iteration + 100) + ".txt"), "w")
+                write_file = open(("data/protein" + str(iteration + 2000) + ".txt"), "w")
                 write_file.write(self.proteinString)
 
                 self.writer.writerow([self.countH, self.maxClusterLength, self.clusters, minStability, Stability])
@@ -56,6 +56,8 @@ class ProteinRandomizer():
         self.proteinString = ""
         self.countH = 0
         self.countC = 0
+        self.clusters = 0
+        self.maxClusterLength = 0
 
         aminoTypes = ["P", "H"]
 
