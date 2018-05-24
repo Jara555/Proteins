@@ -148,7 +148,7 @@ def main(argv):
     ax.text(0, 0.1, 'SA = Simulated Annealing', fontsize=12)
 
     wm = plt.get_current_fig_manager()
-    wm.window.state('zoomed')
+    # wm.window.state('zoomed')
     plt.show()
 
     print()

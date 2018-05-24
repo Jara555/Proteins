@@ -46,7 +46,7 @@ class BranchNBound(DepthFirst):
             self.pruneCount += 1
             if self.pruneCount % 10000 == 0:
                 print(">> " + str(self.pruneCount) + " times pruned    ----     Stability: "
-                      + str(self.bestStability) + "    ----    foldingPattern " + str(self.bestPattern) + "----   <<")
+                      + str(self.bestStability) + " <<")
             return True
         else:
             return False
