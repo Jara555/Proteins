@@ -18,10 +18,10 @@ This program implements algorithms, all with the aim to find the best possible f
 
 ### Prerequisites
 This code is written in [Python3.6.3](https://www.python.org/downloads/). 
-Furthermore the code uses the following packages: matpotlib. This is easy to install using the following instruction:
+Furthermore the some packages are used.They are easy to install using the following instruction:
 
 ```
-pip3 install matplotlib
+pip install -r requirements.txt
 ```
 
 ### Structure
