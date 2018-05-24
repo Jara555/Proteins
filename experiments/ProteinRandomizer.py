@@ -5,7 +5,7 @@ import random
 class ProteinRandomizer():
     """ Creates random Protein"""
 
-    def __init__(self, length, iterations, fixedHNumber):
+    def __init__(self, length, iterations, fixedHNumber, dimensions):
         """ Set and initiate all properties.
 
         :param length: length of the protein to be created
@@ -16,6 +16,7 @@ class ProteinRandomizer():
         self.length = length
         self.iterations = iterations
         self.fixedHNumber = fixedHNumber
+        self.dimensions = dimensions
         self.name = "ProteinRandomizer"
         self.proteinString = ""
         self.countH = 0
@@ -35,21 +36,30 @@ class ProteinRandomizer():
         minStability = ''
         Stability = ''
 
-        write_results = ("results/experimentProteins" + ".csv")
-        with open(write_results, 'w', newline='') as resultsfile:
+        writeResults = ("results/experimentProteins-l" + str(self.length) + "-d" + str(self.dimensions) + "-f" +
+                        str(self.fixedHNumber) + ".csv")
+        with open(writeResults, 'w', newline='') as resultsfile:
             self.writer = csv.writer(resultsfile)
 
-            if self.fixedHNumber is None:
-                # loop over max iterations
-                for iteration in range(self.iterations):
 
+            # loop over max iterations
+            for iteration in range(self.iterations):
+
+                if self.fixedHNumber is None:
                     self.generator()
+                elif self.fixedHNumber == 0:
+                    self.generatorFixedHall()
+                    break
+                else:
+                    self.generatorFixedH(self.fixedHNumber)
 
-                    # write to text file
-                    write_file = open(("data/protein" + str(iteration + 10000) + ".txt"), "w")
-                    write_file.write(self.proteinString)
+                # write to text file
+                writeFile = open(("data/protein" + str(iteration + 10000) + ".txt"), "w")
+                writeFile.write(self.proteinString)
 
-                    self.writer.writerow([self.countH, self.maxClusterLength, self.clusters, minStability, Stability])
+                # write to csv file
+                self.writer.writerow([self.countH, self.maxClusterLength, self.clusters, minStability, Stability])
+
 
     def generator(self):
         """ Creates random protein string"""
@@ -70,9 +80,38 @@ class ProteinRandomizer():
 
             self.saveProperties(aminoType, i)
 
-    def generatorFixedH(self, n):
+    def generatorFixedH(self, fixedHNumber):
+        """ creates random protein string with fixed number of H's
 
-        # create random protein with n H's
+        :param fixedHNumber: the number of H in the protein to be generated
+        """
+
+        # set all properties to null
+        self.proteinString = ""
+        self.countH = 0
+        self.countC = 0
+        self.clusters = 0
+        self.maxClusterLength = 0
+
+        population = []
+
+        # make a population list for random sampling without replacement
+        for i in range(self.length):
+            population.append(i)
+
+        # create a list of random H locations
+        HList = random.sample(population, fixedHNumber)
+
+        # create protein
+        for i in range(self.length):
+            if i in HList:
+                aminoType = "H"
+                self.proteinString += aminoType
+            else:
+                aminoType = "P"
+                self.proteinString += aminoType
+
+            self.saveProperties(aminoType, i)
 
 
     def saveProperties(self, aminoType, k):
