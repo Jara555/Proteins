@@ -1,6 +1,6 @@
 ### Experiments
 
-During this project two experiments were carried out. The first analysis the results of the different algorithms, whereas the second analyses the effects of different protein properties on the stability. The results are saved in respectively the /AlgorithmResults folder and the /ProteinResults folder.
+During this project two experiments were carried out. The first analysis the results of the different algorithms, whereas the second analyses the effects of different protein properties on the stability. The results are saved in respectively the /AlgorithmResults folder and the /ProteinResults folder. Furthermore the ProteinRandomizer class can be found in this folder, since it is only used in the Proteins experiment. Lastly the statespace.xls document shows the summerized results of all algorithms.
 
 ### AlgorithmResults
 Each protein has been runned with different algorithms. The performance of the algorithms has been analysed with the Algorithm experiment. The results are visualised in graphs in this folder.
