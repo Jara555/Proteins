@@ -169,8 +169,8 @@ class Algorithm:
 
             # visualize protein in plot
             self.protein.fold(self.bestPattern)
-            self.protein.stability(self.protein.length)
-            self.protein.visualize(('Best ' + str(self.name) + ' solution ' + str(self.bestStability)))
+            self.protein.stability()
+            self.protein.visualize(('Best ' + str(self.name) + ' solution ' + str(self.protein.stabilityScore)))
         else:
             print('... No best pattern found...')
 

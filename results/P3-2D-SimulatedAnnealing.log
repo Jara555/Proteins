@@ -1,17 +1,17 @@
-_________________________________________________
-
-SimulatedAnnealing
-_________________________________________________
-
-Protein 3: HPHPPHHPHPPHPHHPPHPH
-
-Best Stability Found: -4.0
-
-Best Folding Pattern Found:
-"['0', '+Y', '+X', '+X', '+Y', '+Y', '+X', '+X', '+X', '+Y', '+X', '-Y', '-Y', '-Y', '-X', '-X', '-X', '+Y', '+X', '+X']"
-
-Started with stability of:  -4.0
-Total Iterations:  1000000
-Total Overlap:     957307
-Found in Run:      0
-Elapsed Time:      50.1623
+_________________________________________________
+
+SimulatedAnnealing
+_________________________________________________
+
+Protein 3: HPHPPHHPHPPHPHHPPHPH
+
+Best Stability Found: -8.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+Y', '+X', '+Y', '-X', '-X', '+Y', '-X', '+Y', '-X', '-Y', '-Y', '+X', '-Y', '-X', '-Y', '+X', '+X', '+Y']"
+
+Started with stability of:  -3.0
+Total Iterations:  1000000
+Total Overlap:     930718
+Found in Run:      0
+Elapsed Time:      47.9035

@@ -45,7 +45,7 @@ def main(argv):
     dimensions = 3
     maxIterations = None
     writeCsv = "OFF"
-    randIterations = 100
+    randIterations = 1000
 
     # ERROR CHECKING:
 
@@ -104,14 +104,13 @@ def main(argv):
                 printAminoAcidOptions()
 
     # check if max iterations is entered and set if needed
-    if not maxIterations and (algorithmName == "R" or algorithmName == "HC"):
+    if not maxIterations and (algorithmName == "R" or
+                              algorithmName == "HC" or algorithmName == "SA"):
         # go with default value
         if proteinNumber < 3:
             maxIterations = 1000
         else:
-            maxIterations = 100000
-    elif not maxIterations and algorithmName == "SA":
-        maxIterations = 1000
+            maxIterations = 1000000
 
     # set amount of randomizer iterations to generate a starting pattern for HC and SA
     if proteinNumber > 4:
@@ -121,7 +120,6 @@ def main(argv):
 
     # initialize protein
     protein = Protein(dimensions, proteinNumber, proteinString)
-
 
     # Randomizer
     if algorithmName == "R":
@@ -150,15 +148,13 @@ def main(argv):
         print("Error: Failed to initialize algorithm")
         sys.exit(2)
 
-    # run the created instance of the Algorithm class and print the best solution
-    # algorithm.runAlgorithm()
-
     # turn on to print a log whith keyboardinterrupt of the program
     try:
         algorithm.runAlgorithm()
     except KeyboardInterrupt:
         algorithm.printBest()
 
+    # print best solution
     algorithm.printBest()
 
 
@@ -168,6 +164,7 @@ def usage():
     print("usage: python3 proteins.py "
           "-a <algorithm> -p <protein> -d <dimensions> -i <iterations> -c <csv>")
     print()
+
 
 def printAlgorithmOptions():
     """Prints the algorithm input options in the terminal """
@@ -181,6 +178,7 @@ def printAlgorithmOptions():
     print("     BB - BranchNBound")
     print()
     print("Enter an algorithm")
+
 
 def printAminoAcidOptions():
     """Prints the amino acid input types in the terminal """

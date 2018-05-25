@@ -1,12 +1,13 @@
-from random import randint
+import random
 from classes.Algorithm import Algorithm
 import copy
-import random
 
 
 class HillClimber(Algorithm):
     """ Subclass of Algorithm:
-    Implements hill climber algorithms in order to efficiently fold a protein."""
+    Implements hill climber algorithms in order to efficiently fold a protein.
+    The algorithm picks aminoacids of a protein and changes their orientations
+    while checking for any improvements in stability score. """
 
     def __init__(self, protein, writeCsv, maxIterations, startPattern):
         """ Set and initiate all properties.
@@ -19,30 +20,21 @@ class HillClimber(Algorithm):
 
         # initialize input variables
         self.maxIterations = maxIterations
-        self.startPattern = startPattern
 
         # set class properties
         Algorithm.__init__(self, protein, writeCsv)
         self.name = "HillClimber"
 
-        # declare other variables
-        self.foldPattern = []
-        self.copyPattern = []
+        # declare lists
+        self.foldPattern = startPattern
+        self.tempPattern = []
 
-        # save starting stability
-        self.protein.fold(self.startPattern)
-        self.protein.stability()
-        self.startStability = self.protein.stabilityScore
-
-    def run(self, T):
+    def run(self, param=None):
         """ Runs algorithms and find pattern with higher stability, can be local minimum.
-        :param T: only relevant for simulated annealing algorithm
-                Temperature of the algorithm (cooling down every iteration)
-        :return: .csv file with the best folding patterns and associated stability's
+        :return: .csv file with the best folding patterns and associated stability's (if ON)
         """
 
-        # initialize fold pattern and values
-        self.foldPattern = copy.copy(self.startPattern)
+        # initialize start values
         self.startValues()
 
         print()
@@ -55,17 +47,22 @@ class HillClimber(Algorithm):
         # loop over max iterations
         for i in range(iterationRange):
 
-            # pick random amino acid (starting from 2nd)
+            # pick amino acid (starting from 2nd)
             amino = self.getAminoAcid()
 
-            # loop over orientations in random order
+            # shuffle orientations
             orientationsShuffled = self.orientations
             random.shuffle(orientationsShuffled)
+
+            # loop over shuffled orientations
             for orientation in orientationsShuffled:
 
                 # keep track of iterations and print progress
                 self.printProgress()
                 self.iterations += 1
+
+                # cool down temperature (only relevant in SA)
+                self.coolDown()
 
                 # save copy of current folding pattern
                 self.tempPattern = copy.copy(self.foldPattern)
@@ -74,7 +71,7 @@ class HillClimber(Algorithm):
                 self.foldPattern[amino] = orientation
                 self.protein.fold(self.foldPattern)
 
-                # standard overlap method (!overridden for SA!)
+                # check overlap and deal with it (differs for HC and SA)
                 if self.skipOverlap():
                     self.handleOverlap()
                     continue
@@ -85,16 +82,41 @@ class HillClimber(Algorithm):
                 # if ON write every pattern to csv
                 self.writeCsvRow()
 
-        # set (and check) end state
-        self.setEndState(T)
+    def startValues(self):
+        """ Sets initial values and as best """
+
+        # fold protein to pattern and check stability
+        self.protein.fold(self.foldPattern)
+        self.protein.stability()
+
+        # store values as best values
+        self.bestPattern = copy.copy(self.foldPattern)
+        self.bestStability = self.protein.stabilityScore
+        self.startStability = self.protein.stabilityScore
 
     def getIterationRange(self):
-        """ Calculate amount of iterations based on max iterations input and
-        orientations to loop over. """
+        """ Calculate amount of iterations based on max iterations input
+        and orientations to loop over. """
         return int(self.maxIterations / (self.protein.dimensions * 2))
 
+    def getAminoAcid(self):
+        """ Picks an amino acid between 2nd and last at random ,
+        or when 3 aminoacids in a row have the same orientation"""
+
+        # pick random
+        amino = random.randint(2, self.protein.length - 1)
+
+        # if a range with 3 in a row, pick that one
+        for j in range(1, self.protein.length - 1):
+            if self.foldPattern[j - 1] == self.foldPattern[j] and \
+                    self.foldPattern[j + 1] == self.foldPattern[j]:
+                amino = j
+
+        return amino
+
     def stabilityCheck(self):
-        """ Checks if stability is lower or equal to best stability """
+        """ Checks if stability is lower or equal to best stability, otherwise
+         handles the degradation in stability"""
 
         # get stability scores
         self.protein.stability()
@@ -110,54 +132,19 @@ class HillClimber(Algorithm):
             self.handleDegradation()
 
     def handleOverlap(self):
-        """ Stores temp pattern back to fold pattern
-        to undo overlap
-        Overridden in simulated annealing! """
+        """ Stores temp pattern back to fold pattern to undo overlap
+        !Overridden in simulated annealing! """
 
         self.foldPattern = copy.copy(self.tempPattern)
         self.protein.fold(self.foldPattern)
 
     def handleDegradation(self):
-        """ Stores temp pattern back to fold pattern
-        to undo a degradation in stability score
-        Overridden in simulated annealing! """
+        """ Stores temp pattern back to fold pattern to undo degradation in stability
+        !Overridden in simulated annealing! """
 
         self.foldPattern = copy.copy(self.tempPattern)
         self.protein.fold(self.foldPattern)
 
-    def startValues(self):
-        """ Stores initial values and sets to best """
-
-        # fold protein to pattern and check stability
-        self.protein.fold(self.foldPattern)
-        self.protein.stability()
-
-        # stores start values as best values
-        self.bestPattern = copy.copy(self.foldPattern)
-        self.bestStability = self.protein.stabilityScore
-
-    def getAminoAcid(self):
-        """ Picks an amino acid number at random ,
-        or when 3 aminoacids in a row have the same orientation"""
-
-        # pick random
-        amino = randint(2, self.protein.length - 1)
-
-        # if a range with 3 in a row, pick that one!
-        for j in range(1, self.protein.length - 1):
-            if self.foldPattern[j - 1] == self.foldPattern[j] and \
-                    self.foldPattern[j + 1] == self.foldPattern[j]:
-                amino = j
-
-        return amino
-
-    def setEndState(self, T):
-        """ Folds protein to best found pattern in order to
-         end in the best found state
-         Overridden in simulated annealing! """
-
-        # make sure correct end values are saved
-        self.protein.fold(self.bestPattern)
-        self.protein.stability()
-        self.bestStability = self.protein.stabilityScore
-
+    def coolDown(self):
+        """ Method is only relevant in SA algorithm """
+        pass

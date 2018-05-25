@@ -31,9 +31,11 @@ class DepthFirst(Algorithm):
         :return: the found best folding Pattern and Stability
         """
 
-        # loop over orientations
+        # shuffle orientations
         orientationsShuffled = self.orientations
         random.shuffle(orientationsShuffled)
+
+        # loop over shuffled iterations
         for orientation in orientationsShuffled:
 
             # if a max iterations is given, don't exceed this
