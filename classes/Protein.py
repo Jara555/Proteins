@@ -69,7 +69,7 @@ class Protein(object):
         else:
             return None
 
-    def fold(self, folding_pattern):
+    def fold(self, foldingPattern):
         """ Folds protein according to input pattern 2D
         :param folding_pattern: pattern followed to fold protein
         :return: coordinates of aminoacids set in the self.list
@@ -81,17 +81,17 @@ class Protein(object):
         # iterate over aminoacids in protein
         for index in range(self.length):
             # set orientation to folding pattern
-            if folding_pattern[index] == '+X':
+            if foldingPattern[index] == '+X':
                 x += 1
-            elif folding_pattern[index] == '-X':
+            elif foldingPattern[index] == '-X':
                 x -= 1
-            elif folding_pattern[index] == '+Y':
+            elif foldingPattern[index] == '+Y':
                 y += 1
-            elif folding_pattern[index] == '-Y':
+            elif foldingPattern[index] == '-Y':
                 y -= 1
-            elif folding_pattern[index] == '+Z':
+            elif foldingPattern[index] == '+Z':
                 z += 1
-            elif folding_pattern[index] == '-Z':
+            elif foldingPattern[index] == '-Z':
                 z -= 1
 
             # set new coordinates to aminoacid
