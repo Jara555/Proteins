@@ -73,15 +73,37 @@ After each run a .log file is created containing the running info of the algorit
 To run the experiment with the standardconfigurations use the following instructions:
 
 ```
-python experiment.py -p <protein> -d <dimensions>
+python experimentAlgorithms.py -p <protein> -d <dimensions>
 
 ```
         :argument -p <protein> : Protein to be analyzed
                                  Integer reflecting 1 of the proteins in the /data folder
         :argument -d <dimensions> : dimension to be analyzed
                                         2 = 2D
-                                        3 = 3D (default)
+                                        3 = 3D
+                             
+                                        
+### ExperimetProteins
 
+To run the experiment with the standardconfigurations use the following instructions:
+
+```
+python experimentProteins.py -p <protein> -d <dimensions>
+
+```
+        :argument -a <algorithm> : First letters of algorithm names
+                R = Randomizer
+                HC = HillClimber
+                SA = SimulatedAnnealing
+                DF = DepthFirst
+                BB = BranchNBound (default)
+        :argument -d <dimensions> : dimensions to be fold in
+                2 = 2D
+                3 = 3D (default)
+        :argument -i <iterations> : Maximal iterations to be run (required for R and HC, optional for DF and BB)
+        :argument -n <number> : Number of proteins to be created (default: 100)
+        :argument -l <length> : Lenght of the protein to be crated (default: 14)
+        :argument -f <fixed h-number> : Fixed number of H's in the protein
 
 ## Authors
 
