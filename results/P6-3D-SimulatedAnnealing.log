@@ -1,0 +1,17 @@
+_________________________________________________
+
+SimulatedAnnealing
+_________________________________________________
+
+Protein 6: PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP
+
+Best Stability Found: -22.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-Z', '-Y', '-Z', '-X', '+Y', '+Z', '+Z', '+Z', '+X', '+X', '-Z', '-Z', '-Y', '-Z', '+X', '+Z', '+Y', '-Z', '+Y', '+X', '-Y', '-Y', '-Z', '-X', '+Y', '-X', '+Y', '+X', '-Z', '+Y', '-Z', '-Y', '-Z', '-Z']"
+
+Started with stability of:  -16.0
+Total Iterations:  999960
+Total Overlap:     434960
+Found in Run:      0
+Elapsed Time:      493.9349
