@@ -1,0 +1,17 @@
+_________________________________________________
+
+BranchNBound
+_________________________________________________
+
+Protein 8: HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH
+
+Best Stability Found: -18.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+Y', '+X', '+X', '+Y', '+X', '-Y', '+X', '-Y', '-X', '-Y', '-X', '+Y', '-X', '-Y', '-X', '-Y', '+X', '+X', '-Y', '-X']"
+
+Total Iterations:  7788
+Total Overlap:     6393156
+Total pruned:     14583427
+Found in Run:      3370
+Elapsed Time:      0.0000
