@@ -2,7 +2,7 @@
 The following folder can contain .csv and .log files. The structure of the two will be as follows
 
  ### log files
- Title: P <protein number> - <dimensions> D - <algorithm>.log
+ Title: 'P <protein number> - <dimensions> D - <algorithm>.log'
  The files contain the summarized data of an algorithm:
  
  ```
@@ -52,7 +52,7 @@ The files contain more detailed information in 3 columns including:
  2,-4.0,"['0', '+Y', '+X', '+X', '+Y', '+Y', '+X', '+X', '+X', '+Y', '+X', '-Y', '-Y', '-Y', '-X', '-X', '-X', '+Y', '+X', '+X']"
  ```
  ### csv files Protein Experiment
- Title: experimentProteins -l <length> -d <dimensions> -f <number of fixed H's>.csv
+ Title: 'experimentProteins -l <length> -d <dimensions> -f <number of fixed H's>.csv'
  
  The files contain 5 columns:
   - Number of H's
