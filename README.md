@@ -26,7 +26,7 @@ pip install -r requirements.txt
 
 ### Structure
 
-This code uses three classes: AminoAcid, Protein and Algorithm. These can together with their corresponding methods be found in the map classes. The map algorithms contains al algorithm subclasses of the superclass Algorithm. All benchmark proteins can be found in the map data and the results will be saved as a .csv or .log files in the results map. The main script for running the program can be found in proteins.py.
+This code uses three classes: AminoAcid, Protein and Algorithm. These can together with their corresponding methods be found in the map classes. The map algorithms contains al algorithm subclasses of the superclass Algorithm. All benchmark proteins can be found in the map data and the results will be saved as a .csv or .log files in the results map. The main script for running the program can be found in proteins.py. The map experiments holds the results of the Protein experiment and the Algorithm experiment. The experiments are described in the paragraph associated paragraphs hereafter.
 
 ### Algorithms
 Proteins are folded according to the following folding algorithms:
@@ -66,9 +66,9 @@ python proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> -
                                         ON = write
                                         OFF = not write (default)
 
-### ExperimentAlgorithms
+### Experiment Algorithms
 
-After each run a .log file is created containing the running info of the algorithm for the specific protein. To analyze the log results the program experiment.py can be used, found in the map /experiment. The experiment program will analyze the running info of all algorithms for which .log files exist.  
+After each run a .log file is created containing the running info of the algorithm for the specific protein. To analyze the log results the program experimentAlgorithms.py can be used. The experiment program will analyze the running info of all algorithms for which .log files exist and saves the output in the /experiments/AlgorithmResults folder.
 
 To run the experiment with the standardconfigurations use the following instructions:
 
@@ -83,27 +83,24 @@ python experimentAlgorithms.py -p <protein> -d <dimensions>
                                         3 = 3D
                              
                                         
-### ExperimetProteins
+### Experiment Proteins
+
+The proteins experiment tries to answer the question 'which properties of a protein in the HP-model make a low stability possible?'. In order to so, it creates random proteins of a specific length with the ProteinRandomizer class that can be found in the /experiments folder. The experiment looks at three properties: the number of H's, the H-cluster length and the number of H-clusters. 
 
 To run the experiment with the standardconfigurations use the following instructions:
 
 ```
-python experimentProteins.py -p <protein> -d <dimensions>
+python experimentProteins.py -n <number>
 
 ```
-        :argument -a <algorithm> : First letters of algorithm names
-                R = Randomizer
-                HC = HillClimber
-                SA = SimulatedAnnealing
-                DF = DepthFirst
-                BB = BranchNBound (default)
         :argument -d <dimensions> : dimensions to be fold in
                 2 = 2D
                 3 = 3D (default)
-        :argument -i <iterations> : Maximal iterations to be run (required for R and HC, optional for DF and BB)
-        :argument -n <number> : Number of proteins to be created (default: 100)
+        :argument -n <number> : Number of proteins to be created
         :argument -l <length> : Lenght of the protein to be crated (default: 14)
-        :argument -f <fixed h-number> : Fixed number of H's in the protein
+        :argument -f <fixed H-number> : Fixed number of H's in the protein (optional)
+        
+When using the fixed H-number, the influence of the H-cluster length and number of H-clusters on the stability are analysed. When not using a fixed H-number, the infuence of the number of H's on the stability is analysed.
 
 ## Authors
 
@@ -113,6 +110,6 @@ python experimentProteins.py -p <protein> -d <dimensions>
 
 ## Acknowledgments
 
-* Minor programmeren van de UvA
+* Minor programmeren at the University of Amsterdam
 * Special thanks to our TA Bram van den Heuvel
 
