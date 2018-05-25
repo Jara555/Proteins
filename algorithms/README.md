@@ -7,12 +7,14 @@ The following folder contains the algorithms used for folding proteins. The prot
 3. If the stability score is lower than the max stability, save pattern and change max stability, else go to (1)
 
 ### Hill Climber 
-1. The algorithm starts with a folding pattern extracted from the randomizer algorithm. 
-2. It selects a random amino acid and alters it direction randomly.
-3. If the stability score is lower than the max stability, save pattern and change max stability, else go to (1)
+1. Starts with a folding pattern extracted from the randomizer algorithm. 
+2. It selects a random amino acid and alters its direction in all possible directions (overlap is not allowed).
+3. If the stability score is lower or eqeual than the max stability, save pattern and change max stability, else go to (1)
 
-### Simulated Annealing 
-This algorithm allows overlap and a degradation of stability for a maximal amount of times in order to escape local minima/maxima. Temperature is cooling down every run, as is the allowed amount of overlap and degradation.
+### Hill Climber with Degradation
+1. Starts with a folding pattern extracted from the randomizer algorithm.
+2. It selects a random amino acid and alters its direction randomly in all poissible directions. Overlap is allowed depending on how many iterations already have passed.
+3. If the stability score is lower or eqeual than the max stability, save pattern and change max stability, else go to (1)
 
 ### Depth First 
 This algorithm checks all folding patterns possible by a depth first search.
