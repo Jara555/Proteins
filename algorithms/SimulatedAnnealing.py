@@ -75,7 +75,8 @@ class SimulatedAnnealing(HillClimber):
 
     def setEndState(self, T):
         """ Overrides the standard method of the Hill Climber class.
-        Adjust temperature and calculates new max overlap and degradation levels.
+            Adjust temperature and calculates new max overlap and degradation levels.
+
         :param T: Temperature of the algorithm (cooling down every iteration) """
 
         # cooling down temperature according to temperature function and go again
@@ -104,6 +105,7 @@ class SimulatedAnnealing(HillClimber):
 
     def getTemperature(self, T):
         """ Calculates the cooling down in temperature
+
         :param T: Temperature of the algorithm (cooling down every iteration)
         :return T: New temperature"""
 
@@ -111,6 +113,7 @@ class SimulatedAnnealing(HillClimber):
 
     def getMaxOverlap(self, T):
         """ Calculates the exponential decay of maxOverlap based on temperature
+
         :param T: Temperature of the algorithm (cooling down every iteration)
         :return maxOverlap: maximal allowed overlap level"""
 
@@ -121,6 +124,7 @@ class SimulatedAnnealing(HillClimber):
 
     def getMaxDegrade(self, T):
         """ Calculates the decay of maxDegrade based on temperature
+
         :param T: Temperature of the algorithm (cooling down every iteration)
         :return maxDegrade: maximal allowed degradation level"""
 

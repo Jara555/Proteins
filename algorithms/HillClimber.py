@@ -1,6 +1,7 @@
 from random import randint
 from classes.Algorithm import Algorithm
 import copy
+import random
 
 
 class HillClimber(Algorithm):
@@ -57,8 +58,10 @@ class HillClimber(Algorithm):
             # pick random amino acid (starting from 2nd)
             amino = self.getAminoAcid()
 
-            # loop over orientations
-            for orientation in self.orientations:
+            # loop over orientations in random order
+            orientationsShuffled = self.orientations
+            random.shuffle(orientationsShuffled)
+            for orientation in orientationsShuffled:
 
                 # keep track of iterations and print progress
                 self.printProgress()
