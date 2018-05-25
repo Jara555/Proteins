@@ -1,3 +1,4 @@
+import random
 from classes.Algorithm import Algorithm
 
 
@@ -31,7 +32,9 @@ class DepthFirst(Algorithm):
         """
 
         # loop over orientations
-        for orientation in self.orientations:
+        orientationsShuffled = self.orientations
+        random.shuffle(orientationsShuffled)
+        for orientation in orientationsShuffled:
 
             # if a max iterations is given, don't exceed this
             if self.maxIterations:
