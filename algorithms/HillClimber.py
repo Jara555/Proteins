@@ -160,3 +160,4 @@ class HillClimber(Algorithm):
         self.protein.fold(self.bestPattern)
         self.protein.stability()
         self.bestStability = self.protein.stabilityScore
+
