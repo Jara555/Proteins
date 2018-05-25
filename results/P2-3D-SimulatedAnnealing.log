@@ -5,13 +5,13 @@ _________________________________________________
 
 Protein 2: HHPHHHPHPHHHPH
 
-Best Stability Found: -7.0
+Best Stability Found: -4.0
 
 Best Folding Pattern Found:
-"['0', '+Y', '+Y', '-Z', '-Y', '-Z', '-Y', '+Z', '-X', '+Z', '+Y', '+Y', '-Z', '-Y']"
+"['0', '+Y', '-X', '-Z', '-Z', '-X', '-X', '+Y', '+Z', '+X', '-Z', '+X', '-Z', '-X']"
 
-Started with stability of:  -6.0
-Total Iterations:  960
-Total Overlap:     701
+Started with stability of:  -4.0
+Total Iterations:  996
+Total Overlap:     434
 Found in Run:      0
-Elapsed Time:      0.1401
+Elapsed Time:      0.2301
