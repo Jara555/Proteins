@@ -2,6 +2,7 @@
 The following folder can contain .csv and .log files. The structure of the two will be as follows
 
  ### log files
+ Title: P <protein number> - <dimensions> D - <algorithm>.log
  The files contain the summarized data of an algorithm:
  
  ```
@@ -41,9 +42,22 @@ Elapsed Time:      22.6794
 
 ```
 
-### csv files
+### csv files Algorithm Experiment
 The files contain more detailed information including the iteration number, stability and folding pattern per iteration:
 
 ```
  2,-4.0,"['0', '+Y', '+X', '+X', '+Y', '+Y', '+X', '+X', '+X', '+Y', '+X', '-Y', '-Y', '-Y', '-X', '-X', '-X', '+Y', '+X', '+X']"
  ```
+ ### csv files Protein Experiment
+ Title: experimentProteins -l <length> -d <dimensions> -f <number of fixed H's>.csv
+ 
+ The files contain 5 columns:
+  - Number of H's
+  - Max cluster length
+  - Number of clusters
+  - Upperbound stability 
+  - Stability found with Branch 'n Bound algorithm
+ 
+```
+7,2,5,-6,-5.0
+```
