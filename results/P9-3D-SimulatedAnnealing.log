@@ -1,0 +1,17 @@
+_________________________________________________
+
+SimulatedAnnealing
+_________________________________________________
+
+Protein 9: HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH
+
+Best Stability Found: -21.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-X', '+Z', '-X', '+Y', '+X', '+X', '-Y', '-Y', '-Y', '-Z', '+X', '+Y', '+Y', '+Z', '-Y', '+X', '+Y', '+X', '-Z', '+X', '+Y', '+Y', '+Z', '+X', '-Y', '-Z', '+Y', '-Z', '+Y', '-Z', '+Y', '+X', '+Y', '-X', '+Y', '+X', '+X', '+Y', '+X', '-Z', '-X', '-Y', '-Z', '-Y', '+Z', '-Y', '+X', '+Z']"
+
+Started with stability of:  -21.0
+Total Iterations:  60
+Total Overlap:     26
+Found in Run:      0
+Elapsed Time:      0.0990

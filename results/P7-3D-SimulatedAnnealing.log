@@ -1,0 +1,17 @@
+_________________________________________________
+
+SimulatedAnnealing
+_________________________________________________
+
+Protein 7: CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC
+
+Best Stability Found: -29.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-Z', '-Y', '-Y', '-X', '-X', '+Z', '+X', '+Z', '+Y', '-Z', '-Z', '-Z', '+Y', '+Z', '+Y', '-Z', '-Z', '-X', '-Z', '+Y', '-X', '-Y', '-Z', '-Z', '+X', '+Z', '+X', '+Z', '-Y', '+Z', '-Y', '-Y', '-X', '-Y']"
+
+Started with stability of:  -24.0
+Total Iterations:  4312388
+Total Overlap:     2156304
+Found in Run:      0
+Elapsed Time:      0.0000

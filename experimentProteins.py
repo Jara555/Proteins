@@ -10,43 +10,28 @@ from classes.Protein import Protein
 
 
 def main(argv):
-    """ Implements an experiment where protein properties are evaluated.
+    """ Implements an experiment where protein properties are evaluated with the Branch 'n Bound algorithm
 
     usage:
-            python proteins.py -a <algorithm> -d <dimensions> -i <iterations> -n <number>
-
-        :argument -a <algorithm> : First letters of algorithm names
-                R = Randomizer
-                HC = HillClimber
-                SA = SimulatedAnnealing
-                DF = DepthFirst
-                BB = BranchNBound (default)
+            python proteins.py  -d <dimensions> -i <iterations> -n <number>
         :argument -d <dimensions> : dimensions to be fold in
                 2 = 2D
                 3 = 3D (default)
-        :argument -i <iterations> : Maximal iterations to be run (required for R and HC, optional for DF and BB)
-        :argument -n <number> : Number of proteins to be created (default: 100)
+        :argument -n <number> : Number of proteins to be created
         :argument -l <length> : Lenght of the protein to be crated (default: 14)
-        :argument -f <fixed h-number> : Fixed number of H's in the protein
+        :argument -f <fixed h-number> : Fixed number of H's in the protein (optional)
     """
-
-    # set lists for input arguments
-    algorithmNames = ["R", "HC", "DF", "BB", "SA"]
 
     # default values
     dimensions = 3
-    maxIterations = None
-    randIterations = 1000
-    number = 100
+    number = 0
     length = 14
-    algorithmName = "BB"
-    algorithm = None
     fixedHNumber = None
 
     # ERROR CHECKING:
 
     # output usage in terminal
-    if len(argv) < 1:
+    if len(argv) < 2:
         usage()
         sys.exit(1)
     elif sys.argv[1] == "help":
@@ -55,7 +40,7 @@ def main(argv):
 
     # try to catch the parsers for command line options
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ha:d:i:n:l:f:", ["help"])
+        opts, args = getopt.getopt(sys.argv[1:], "hd:n:l:f:", ["help"])
     except getopt.GetoptError as err:
         print(str(err))
         usage()
@@ -66,12 +51,8 @@ def main(argv):
         if opt in ("-h", "--help"):
             usage()
             sys.exit()
-        elif opt == "-a":
-            algorithmName = arg.upper()
         elif opt == "-d":
             dimensions = int(arg)
-        elif opt == "-i":
-            maxIterations = int(arg)
         elif opt == "-n":
             number = int(arg)
         elif opt == "-l":
@@ -79,35 +60,26 @@ def main(argv):
         elif opt == "-f":
             fixedHNumber = int(arg)
 
-    # check if algorithm name is correct
-    while algorithmName not in algorithmNames:
-        printAlgorithmOptions()
-        algorithmName = input("    Algorithm: ").upper()
-
-    # check if max iterations is entered and set if needed
-    if not maxIterations and (algorithmName == "R" or algorithmName == "HC"):
-        # go with default value
-        maxIterations = 1000
-
-    # set amount of randomizer iterations to generate a starting pattern for HC and SA
-    # if algorithmName == "SA" or algorithmName == "HC":
-    #     if proteinNumber in [1, 2, 3]:
-    #         randIterations = 10000
-    #     elif proteinNumber in [4, 6, 7]:
-    #         randIterations = 100000
-    #     elif proteinNumber in [5, 8, 9]:
-    #         randIterations = 1000000
+    # check if user gave the number of proteins
+    if number == 0:
+        usage()
+        print("Enter the number of proteins to be generated: ")
+        number = int(input("    Number: "))
 
     # END ERROR CHECKING
 
-    # createProteins(length, number, fixedHNumber, dimensions)
-    # runAlgorithm(algorithmName, number, length, dimensions, maxIterations, fixedHNumber)
+    # create the proteins and run them
+    createProteins(length, number, fixedHNumber, dimensions)
+    runAlgorithm(number, length, dimensions, fixedHNumber)
+
+    # create the stats and visualise
     if fixedHNumber:
         createStatsListsCluster(number, length, dimensions, fixedHNumber)
     else:
         createStatsListHNumber(number, length, dimensions, fixedHNumber)
 
-def createProteins(length, number, fixedHNumber,dimensions):
+
+def createProteins(number, length, fixedHNumber, dimensions):
     """ create proteinStrings in textfiles
 
     :param length: the length of the proteins
@@ -120,23 +92,26 @@ def createProteins(length, number, fixedHNumber,dimensions):
     proteinRandomizer.run()
 
 
-def runAlgorithm(algorithmName, number, length, dimensions, maxIterations, fixedH):
-    """
+def runAlgorithm(number, length, dimensions, fixedH):
+    """ runs the Branch 'n Bound algorithm on the proteins
 
     :param algorithmName: which algorithm should be runned
     :param number: the number of proteins to be runned
     :param length: the length of the proteins to be runned
     :param dimensions: 3 for 3D, 2 for 2D
-    :param maxIterations: how many iterations should the algorithm do
     :param fixedH: fixed number of H's
     :return: addition of upperbound stability and found stability to .csv file (experimentProteins.csv)
     """
 
     writeCSV = "OFF"
+    maxIterations = None
+
+    # startnumber for saving the proteins (do not overwrite default proteins of project)
+    saveNumber = 10000
 
     # loop through the (number of) proteins created
     for i in range(number):
-        proteinNumber = i + 10000
+        proteinNumber = i + saveNumber
         resultsList = []
 
         # create protein from proteinstrings
@@ -162,17 +137,17 @@ def runAlgorithm(algorithmName, number, length, dimensions, maxIterations, fixed
             resultsList[i][3] = minStability
 
             # run BranchNBound algorithm
-            if algorithmName == "BB":
-                algorithm = BranchNBound(protein, writeCSV, maxIterations)
-                algorithm.runAlgorithm()
+            algorithm = BranchNBound(protein, writeCSV, maxIterations)
+            algorithm.runAlgorithm()
 
-                # add stability to resultsList
-                resultsList[i][4] = algorithm.bestStability
+            # add stability to resultsList
+            resultsList[i][4] = algorithm.bestStability
 
-                # write results to csv file
-                with open(writeResults, 'w', newline='') as resultsWritefile:
-                    writer = csv.writer(resultsWritefile)
-                    writer.writerows(resultsList)
+            # write results to csv file
+            with open(writeResults, 'w', newline='') as resultsWritefile:
+                writer = csv.writer(resultsWritefile)
+                writer.writerows(resultsList)
+
 
 def createStatsListsCluster(number, length, dimensions, fixedH):
     """ create lists of the H-count, max (H) cluster length and number of (H) clusters with associated statistics
@@ -226,7 +201,6 @@ def createStatsListHNumber(number, length, dimensions, fixedH):
     :return: lists of the statistics
     """
 
-    #results = ("results/experimentProteins14.2d" + ".csv")
     results = ("results/experimentProteins-l" + str(length) + "-d" + str(dimensions) + "-f" + str(fixedH) + ".csv")
 
     # create empty results and property lists
@@ -297,7 +271,6 @@ def visualiseStatsCluster(clusterLengthStatistics, clusterCountStatistics, numbe
             meanClusterLength.append(mean)
             maxClusterLength.append(max)
 
-
     # calculate mean values cluster count
     for clusterCount in clusterCountStatistics:
         if clusterCount == []:
@@ -314,7 +287,6 @@ def visualiseStatsCluster(clusterLengthStatistics, clusterCountStatistics, numbe
             meanClusterCount.append(mean)
             maxClusterCount.append(max)
 
-
     # open figure
     fig = plt.figure()
     fig.suptitle('Statistical results of ' + str(number) + ' randomly generated proteins in ' + str(dimensions) + 'D' +
@@ -327,18 +299,14 @@ def visualiseStatsCluster(clusterLengthStatistics, clusterCountStatistics, numbe
     for i in range(len(meanList)):
         ax = fig.add_subplot(gs1[i])
         ax.bar(ind, meanList[i], width=0.5, color="green")
-        # ax.scatter(ind, minList[i])
-        # ax.scatter(ind, maxList[i])
         ax.set_xticks(ind)
         ax.set_xlabel(xlabels[i], fontsize=8)
         ax.set_ylabel(ylabel, fontsize=8)
         ax.set_title(plotTitles[i], fontsize=10)
-
         ax.vlines(ind, ymin=minList[i], ymax=maxList[i])
 
     plt.show()
     gs1.tight_layout(fig)
-
 
 def visualiseStatsHCount(HCountStatistics, number, dimensions, length):
     """ visualise statistics
@@ -377,7 +345,6 @@ def visualiseStatsHCount(HCountStatistics, number, dimensions, length):
             meanHcount.append(mean)
             maxHcount.append(max)
 
-
     # open figure
     fig, ax = plt.subplots()
     fig.suptitle('Statistical results of ' + str(number) + ' randomly generated proteins in ' + str(dimensions) + 'D' +
@@ -398,21 +365,15 @@ def usage():
     """Prints the usage of the command line arguments in the terminal """
     print()
     print("usage: python3 proteins.py "
-          "-a <algorithm> -p <protein> -d <dimensions> -i <iterations> -n <number>")
+          "-n <number> -d <dimensions> -l <length> -f <fixed H-number>")
     print()
 
-def printAlgorithmOptions():
-    """Prints the algorithm input options in the terminal """
 
-    usage()
-    print("Algorithm input options:")
-    print("     R  - Randomizer")
-    print("     HC - HillClimber")
-    print("     SA - SimulatedAnnealing")
-    print("     DF - DepthFirst")
-    print("     BB - BranchNBound")
-    print()
-    print("Enter an algorithm")
+def printGiveNumber():
+    """Tells the user to give the number of proteins to be generated """
+
+    print("Enter the number of proteins to be generated: ")
+
 
 if __name__ == "__main__":
     main(sys.argv)
