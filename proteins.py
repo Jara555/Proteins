@@ -45,7 +45,7 @@ def main(argv):
     dimensions = 3
     maxIterations = None
     writeCsv = "OFF"
-    randIterations = 100
+    randIterations = 1000
 
     # ERROR CHECKING:
 
@@ -110,7 +110,7 @@ def main(argv):
         if proteinNumber < 3:
             maxIterations = 1000
         else:
-            maxIterations = 100000
+            maxIterations = 1000000
 
     # set amount of randomizer iterations to generate a starting pattern for HC and SA
     if proteinNumber > 4:
