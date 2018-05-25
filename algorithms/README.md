@@ -1,5 +1,5 @@
 ### Algorithms
-The following folder contains the algorithms used for folding proteins. The proteins can be folded according to the following algorithms:
+The following folder contains the algorithms used for protein folding. All algorithms share properties and methods of the Algorithm super class. The algorithms have the following approaches:
 
 ### Randomizer
 1. A random folding pattern is generated.
