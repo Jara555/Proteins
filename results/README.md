@@ -43,7 +43,7 @@ Elapsed Time:      22.6794
 ```
 
 ### csv files Algorithm Experiment
-The files contain more detailed information in 3 columns inclusing:
+The files contain more detailed information in 3 columns including:
 - iteration number 
 - stability 
 - folding pattern per iteration
