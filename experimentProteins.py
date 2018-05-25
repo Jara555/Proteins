@@ -298,13 +298,14 @@ def visualiseStatsCluster(clusterLengthStatistics, clusterCountStatistics, numbe
     # loops over params and plots data
     for i in range(len(meanList)):
         ax = fig.add_subplot(gs1[i])
-        ax.bar(ind, meanList[i], width=0.5, color="green")
+        ax.bar(ind, meanList[i], width=0.5, color="green", label="Mean stability")
         ax.set_xticks(ind)
-        ax.set_xlabel(xlabels[i], fontsize=8)
-        ax.set_ylabel(ylabel, fontsize=8)
-        ax.set_title(plotTitles[i], fontsize=10)
-        ax.vlines(ind, ymin=minList[i], ymax=maxList[i])
+        ax.set_xlabel(xlabels[i], fontsize=10)
+        ax.set_ylabel(ylabel, fontsize=10)
+        ax.set_title(plotTitles[i], fontsize=12)
+        ax.vlines(ind, ymin=minList[i], ymax=maxList[i], label="Range")
 
+    plt.legend()
     plt.show()
     gs1.tight_layout(fig)
 
@@ -351,13 +352,14 @@ def visualiseStatsHCount(HCountStatistics, number, dimensions, length):
                  ' with length ' + str(length), fontsize=14)
 
     # plot data
-    ax.bar(ind, meanHcount, width=0.5, color="green")
+    ax.bar(ind, meanHcount, width=0.5, color="green", label="Mean stability")
     ax.set_xticks(ind)
-    ax.set_xlabel(xlabel, fontsize=8)
-    ax.set_ylabel(ylabel, fontsize=8)
-    ax.set_title(plotTitle, fontsize=10)
-    ax.vlines(ind, ymin=minHcount, ymax=maxHcount)
+    ax.set_xlabel(xlabel, fontsize=10)
+    ax.set_ylabel(ylabel, fontsize=10)
+    ax.set_title(plotTitle, fontsize=12)
+    ax.vlines(ind, ymin=minHcount, ymax=maxHcount, label="Range")
 
+    plt.legend()
     plt.show()
 
 

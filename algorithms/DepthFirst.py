@@ -14,7 +14,7 @@ class DepthFirst(Algorithm):
         :param maxIterations: stop after maxIterations
         """
 
-        #initialize input varialbes
+        #initialize input variables
         self.maxIterations = maxIterations
 
         # set class properties

@@ -52,7 +52,10 @@ class BranchNBound(DepthFirst):
             return False
 
     def pruneStraight(self, k):
-        """ Prunes when 3 aminoacids in a row have the same orientation"""
+        """ Prunes when 3 aminoacids in a row have the same orientation
+
+        :param k: the aminoacid currently being placed
+        """
 
         # if a range with 3 in a row, prune!
         for j in range(1, k - 1):

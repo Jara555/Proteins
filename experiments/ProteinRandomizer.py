@@ -10,6 +10,8 @@ class ProteinRandomizer():
 
         :param length: length of the protein to be created
         :param iterations: number of random proteins to be generated
+        :param fixedHNumber: fixed number of H's to be in the protein
+        :param dimensions: 2 for 2D, 3 for 3D
         """
 
         # initialize input variables
@@ -24,8 +26,6 @@ class ProteinRandomizer():
         self.clusters = 0
         self.maxClusterLength = 0
         self.clusterLength = 0
-
-
 
     def run(self):
         """ Runs a maximal amount of iterations in which random proteins be created
@@ -45,11 +45,9 @@ class ProteinRandomizer():
             # loop over max iterations
             for iteration in range(self.iterations):
 
+                # check which generator should be used
                 if self.fixedHNumber is None:
                     self.generator()
-                elif self.fixedHNumber == 0:
-                    self.generatorFixedHall()
-                    break
                 else:
                     self.generatorFixedH(self.fixedHNumber)
 
