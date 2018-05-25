@@ -148,7 +148,7 @@ def main(argv):
     ax.text(0, 0.1, 'SA = Simulated Annealing', fontsize=12)
 
     wm = plt.get_current_fig_manager()
-    wm.window.state('zoomed')
+    # wm.window.state('zoomed')
     plt.show()
 
     print()
@@ -180,7 +180,7 @@ def main(argv):
 
         # opens and reads csv file
         try:
-            with open('results/P' + str(protein) + '-' + str(dimensions) + 'D-' + alg[i] + '.csv', 'r') as csvfile:
+            with open('results/csv/P' + str(protein) + '-' + str(dimensions) + 'D-' + alg[i] + '.csv', 'r') as csvfile:
                 csvfile = csvfile.readlines()
                 csvCount += 1
 
@@ -196,7 +196,7 @@ def main(argv):
                         line.split(',')
                         stability.append(abs(float(line.split(',')[1])))
         except IOError:
-            print('csv file for ' + alg[i] + ' does not exist...')
+            print('csv file for ' + alg[i] + ' does not exist, craete one with \'proteins.py ... -cON\'')
             continue
 
         # calculates average stability per n iterations

@@ -66,7 +66,7 @@ python proteins.py -a <algorithm> -p <protein> -d <dimensions> -i <iterations> -
                                         ON = write
                                         OFF = not write (default)
 
-### Experiment
+### ExperimentAlgorithms
 
 After each run a .log file is created containing the running info of the algorithm for the specific protein. To analyze the log results the program experiment.py can be used, found in the map /experiment. The experiment program will analyze the running info of all algorithms for which .log files exist.  
 
