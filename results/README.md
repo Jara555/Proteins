@@ -43,7 +43,10 @@ Elapsed Time:      22.6794
 ```
 
 ### csv files Algorithm Experiment
-The files contain more detailed information including the iteration number, stability and folding pattern per iteration:
+The files contain more detailed information in 3 columns inclusing:
+- iteration number 
+- stability 
+- folding pattern per iteration
 
 ```
  2,-4.0,"['0', '+Y', '+X', '+X', '+Y', '+Y', '+X', '+X', '+X', '+Y', '+X', '-Y', '-Y', '-Y', '-X', '-X', '-X', '+Y', '+X', '+X']"
