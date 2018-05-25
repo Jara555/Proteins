@@ -2,7 +2,7 @@
 The following folder can contain .csv and .log files. The structure of the two will be as follows
 
  ### log files
- Title: 'P <protein number> - <dimensions> D - <algorithm>.log'
+ Title: P  \<protein number\> - \<dimensions\> D - \<algorithm\>.log
  The files contain the summarized data of an algorithm:
  
  ```
