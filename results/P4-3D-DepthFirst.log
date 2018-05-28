@@ -1,0 +1,16 @@
+_________________________________________________
+
+DepthFirst
+_________________________________________________
+
+Protein 4: PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
+
+Best Stability Found: -5.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+X', '+Z', '+Z', '+X', '+X', '-Y', '-Y', '-Y', '+X', '-Y', '+X', '+Z', '-X', '+Z', '+Y', '-Z', '+X', '+Y', '-Z', '-Z', '+X', '-Z', '-Z', '-Z', '-X', '+Y', '+Z', '-Y', '+Z', '-Y', '+Z', '+Z', '+X', '+Y']"
+
+Total Iterations:  2353171
+Total Overlap:     626301
+Found in Run:      166093
+Elapsed Time:      0.0000

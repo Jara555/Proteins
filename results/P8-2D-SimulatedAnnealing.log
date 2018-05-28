@@ -1,0 +1,17 @@
+_________________________________________________
+
+SimulatedAnnealing
+_________________________________________________
+
+Protein 8: HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH
+
+Best Stability Found: -25.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-X', '-Y', '-Y', '+X', '-Y', '+X', '+X', '+Y', '-X', '+Y', '+X', '+Y', '-X', '+Y', '+X', '+Y', '+X', '-Y', '+X', '+Y', '+X', '+Y', '-X', '+Y', '-X', '-Y', '-X', '+Y', '-X', '-Y', '-Y', '-X', '-Y', '-X', '+Y', '-X', '-Y', '-X', '-Y', '+X', '-Y', '-X', '-X', '+Y', '+Y', '-X', '-Y', '-Y']"
+
+Started with stability of:  -16.0
+Total Iterations:  1000000
+Total Overlap:     957289
+Found in Run:      0
+Elapsed Time:      130.7458

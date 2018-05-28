@@ -1,0 +1,17 @@
+_________________________________________________
+
+BranchNBound
+_________________________________________________
+
+Protein 5: HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH
+
+Best Stability Found: -12.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+Y', '-X', '-Z', '-Z', '-Y', '+X', '-Y', '+X', '+X', '+Y', '+Y', '-X', '-Y', '+Z', '-Y', '+X', '+Z', '-Y', '+Z', '-Y', '-X', '-X', '-Z', '+Y', '+Z', '+X', '+Z', '+X', '-Y', '-Y', '-X', '+Z', '-Y', '-X', '-Y', '+Z', '-X', '-Z', '+Y', '+Y', '+Z', '+Z', '-Y', '-Y', '+X', '+Y', '-Z', '-X']"
+
+Total Iterations:  85758
+Total Overlap:     68088
+Total pruned:     597781
+Found in Run:      9814
+Elapsed Time:      0.0000
