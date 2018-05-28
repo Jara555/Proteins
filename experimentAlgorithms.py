@@ -148,8 +148,6 @@ def main(argv):
     ax.text(0, 0.1, 'SA = Simulated Annealing*', fontsize=12)
     ax.text(0, -0.1, '* starts with pattern extracted from randomizer')
 
-    wm = plt.get_current_fig_manager()
-    # wm.window.state('zoomed')
     plt.show()
 
     print()
@@ -220,9 +218,8 @@ def main(argv):
         plt.ylim((0, np.amax(bestStability)))
         k += 1
 
-    wm = plt.get_current_fig_manager()
-    wm.window.state('zoomed')
-    plt.show()
+    if count > 0:
+        plt.show()
 
     print()
     print('----- End Hill Climber vs Simulated Annealing')

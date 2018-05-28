@@ -69,8 +69,8 @@ def main(argv):
     # END ERROR CHECKING
 
     # create the proteins and run them
-    createProteins(number, length, fixedHNumber, dimensions)
-    runAlgorithm(number, length, dimensions, fixedHNumber)
+    #createProteins(number, length, fixedHNumber, dimensions)
+    #runAlgorithm(number, length, dimensions, fixedHNumber)
 
     # create the stats and visualise
     if fixedHNumber:
@@ -299,7 +299,7 @@ def visualiseStatsCluster(clusterLengthStatistics, clusterCountStatistics, numbe
     # loops over params and plots data
     for i in range(len(meanList)):
         ax = fig.add_subplot(gs1[i])
-        ax.bar(ind, meanList[i], width=0.5, color="green", label="Mean stability")
+        ax.bar(ind, meanList[i], width=0.5, color="orange", label="Mean stability")
         ax.set_xticks(ind)
         ax.set_xlabel(xlabels[i], fontsize=10)
         ax.set_ylabel(ylabel, fontsize=10)
@@ -353,7 +353,7 @@ def visualiseStatsHCount(HCountStatistics, number, dimensions, length):
                  ' with length ' + str(length), fontsize=14)
 
     # plot data
-    ax.bar(ind, meanHcount, width=0.5, color="green", label="Mean stability")
+    ax.bar(ind, meanHcount, width=0.5, color="orange", label="Mean stability")
     ax.set_xticks(ind)
     ax.set_xlabel(xlabel, fontsize=10)
     ax.set_ylabel(ylabel, fontsize=10)
