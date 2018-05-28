@@ -85,7 +85,7 @@ python experimentAlgorithms.py -p <protein> -d <dimensions>
                                         
 ### Experiment Proteins
 
-The proteins experiment tries to answer the question 'which properties of a protein in the HP-model make a low stability possible?'. In order to so, it creates random proteins of a specific length with the ProteinRandomizer class that can be found in the /experiments folder. The experiment looks at three properties: the number of H's, the H-cluster length and the number of H-clusters. 
+The proteins experiment analyses the effects of different protein properties on the stability. In order to so, it creates random proteins of a specific length with the ProteinRandomizer class that can be found in the /experiments folder. The experiment looks at three properties: the number of H's, the H-cluster length and the number of H-clusters. 
 
 To run the experiment with the standardconfigurations use the following instructions:
 

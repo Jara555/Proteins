@@ -5,13 +5,13 @@ _________________________________________________
 
 Protein 9: HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH
 
-Best Stability Found: -21.0
+Best Stability Found: -45.0
 
 Best Folding Pattern Found:
-"['0', '+Y', '-X', '+Z', '-X', '+Y', '+X', '+X', '-Y', '-Y', '-Y', '-Z', '+X', '+Y', '+Y', '+Z', '-Y', '+X', '+Y', '+X', '-Z', '+X', '+Y', '+Y', '+Z', '+X', '-Y', '-Z', '+Y', '-Z', '+Y', '-Z', '+Y', '+X', '+Y', '-X', '+Y', '+X', '+X', '+Y', '+X', '-Z', '-X', '-Y', '-Z', '-Y', '+Z', '-Y', '+X', '+Z']"
+"['0', '+Y', '-X', '-Z', '+Y', '+X', '+Z', '+X', '-Y', '+Z', '-X', '-Y', '+X', '+X', '-Z', '+Y', '-Z', '+Y', '-X', '+Y', '-Z', '-X', '-Y', '-Z', '-Y', '-X', '+Y', '+Z', '+Y', '-Z', '+X', '-Z', '+X', '+Z', '-Y', '+Z', '-Y', '+Z', '-X', '-Y', '+X', '+Z', '-Y', '-Z', '-X', '-Z', '+Y', '-X', '+Y', '+X']"
 
-Started with stability of:  -21.0
-Total Iterations:  60
-Total Overlap:     26
+Started with stability of:  -18.0
+Total Iterations:  999996
+Total Overlap:     936606
 Found in Run:      0
-Elapsed Time:      0.0990
+Elapsed Time:      182.4628

@@ -5,13 +5,13 @@ _________________________________________________
 
 Protein 7: CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC
 
-Best Stability Found: -29.0
+Best Stability Found: -46.0
 
 Best Folding Pattern Found:
-"['0', '+Y', '-Z', '-Y', '-Y', '-X', '-X', '+Z', '+X', '+Z', '+Y', '-Z', '-Z', '-Z', '+Y', '+Z', '+Y', '-Z', '-Z', '-X', '-Z', '+Y', '-X', '-Y', '-Z', '-Z', '+X', '+Z', '+X', '+Z', '-Y', '+Z', '-Y', '-Y', '-X', '-Y']"
+"['0', '+Y', '+Z', '-Y', '+X', '+Z', '-X', '-Y', '-Y', '+Z', '-Y', '-Z', '-Z', '-Z', '+Y', '-Z', '+X', '-Z', '+Y', '-X', '+Z', '+X', '+Y', '-X', '-Z', '-X', '+Z', '-Y', '+Z', '+X', '+Z', '-Y', '+X', '+Y', '-Z', '+Y']"
 
-Started with stability of:  -24.0
-Total Iterations:  4312388
-Total Overlap:     2156304
+Started with stability of:  -22.0
+Total Iterations:  999996
+Total Overlap:     944474
 Found in Run:      0
-Elapsed Time:      0.0000
+Elapsed Time:      113.8619
