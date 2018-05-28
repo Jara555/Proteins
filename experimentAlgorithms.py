@@ -142,10 +142,11 @@ def main(argv):
     ax.set_yticks([])
     ax.axis('off')
     ax.text(0, 0.9, 'R = Randomizer', fontsize=12)
-    ax.text(0, 0.7, 'HC = Hill Climber', fontsize=12)
+    ax.text(0, 0.7, 'HC = Hill Climber*', fontsize=12)
     ax.text(0, 0.5, 'DF = Depth First', fontsize=12)
     ax.text(0, 0.3, 'BB = Branch \'n Bound', fontsize=12)
-    ax.text(0, 0.1, 'SA = Simulated Annealing', fontsize=12)
+    ax.text(0, 0.1, 'SA = Simulated Annealing*', fontsize=12)
+    ax.text(0, -0.1, '* starts with pattern extracted from randomizer')
 
     wm = plt.get_current_fig_manager()
     # wm.window.state('zoomed')
@@ -164,7 +165,7 @@ def main(argv):
     print()
 
     # initializes variables
-    iteration = 400
+    iteration = 100
     alg = ["HillClimber", "SimulatedAnnealing"]
     fig = plt.figure()
     fig.suptitle('Protein ' + str(protein) + ' in ' + str(dimensions) + 'D', fontsize=22)
@@ -180,7 +181,7 @@ def main(argv):
 
         # opens and reads csv file
         try:
-            with open('results/csv/P' + str(protein) + '-' + str(dimensions) + 'D-' + alg[i] + '.csv', 'r') as csvfile:
+            with open('results/P' + str(protein) + '-' + str(dimensions) + 'D-' + alg[i] + '.csv', 'r') as csvfile:
                 csvfile = csvfile.readlines()
                 csvCount += 1
 
