@@ -165,7 +165,7 @@ def main(argv):
     print()
 
     # initializes variables
-    iteration = 100
+    iteration = 300
     alg = ["HillClimber", "SimulatedAnnealing"]
     fig = plt.figure()
     fig.suptitle('Protein ' + str(protein) + ' in ' + str(dimensions) + 'D', fontsize=22)
@@ -205,7 +205,7 @@ def main(argv):
         while stabilityNum > iteration:
             start = count * iteration
             end = start + iteration - 1
-            stabilityMean.append(math.ceil(np.mean(stability[start:end])))
+            stabilityMean.append(np.mean(stability[start:end]))
 
             stabilityNum -= iteration
             count += 1
@@ -220,8 +220,9 @@ def main(argv):
         plt.ylim((0, np.amax(bestStability)))
         k += 1
 
-    if csvCount > 0:
-        plt.show()
+    wm = plt.get_current_fig_manager()
+    wm.window.state('zoomed')
+    plt.show()
 
     print()
     print('----- End Hill Climber vs Simulated Annealing')

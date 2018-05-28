@@ -114,7 +114,7 @@ def main(argv):
 
     # set amount of randomizer iterations to generate a starting pattern for HC and SA
     if proteinNumber > 4:
-        randIterations = 100000
+        randIterations = 10000
 
     # END ERROR CHECKING
 
