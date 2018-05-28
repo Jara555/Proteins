@@ -1,0 +1,17 @@
+_________________________________________________
+
+BranchNBound
+_________________________________________________
+
+Protein 6: PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP
+
+Best Stability Found: -25.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+X', '+Y', '+Y', '+X', '-Y', '-Y', '+X', '+Y', '+X', '-Y', '-Y', '-X', '-Y', '-Y', '-X', '+Y', '+Y', '-X', '-Y', '-X', '-Y', '+X', '-Y', '-X', '-Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+Y', '+X', '+X']"
+
+Total Iterations:  48
+Total Overlap:     391677
+Total pruned:     983673
+Found in Run:      45
+Elapsed Time:      4355.2576
