@@ -1,0 +1,16 @@
+_________________________________________________
+
+DepthFirst
+_________________________________________________
+
+Protein 5: HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH
+
+Best Stability Found: -7.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '-Z', '-X', '-Z', '-Z', '+Y', '-Z', '+Y', '+Z', '+Y', '-X', '-X', '+Y', '-Z', '-Z', '+Y', '-X', '-X', '-Y', '+Z', '+Y', '+Y', '+Y', '-X', '-Y', '-X', '+Z', '+X', '+Z', '-Y', '-Z', '+X', '+Z', '+Z', '+Y', '-X', '+Z', '-Y', '-Z', '-X', '-Y', '-Z', '-Z', '+Y', '-X', '+Z', '+Y', '+X', '-Y']"
+
+Total Iterations:  603768
+Total Overlap:     161922
+Found in Run:      292942
+Elapsed Time:      0.0000

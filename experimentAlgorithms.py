@@ -149,7 +149,7 @@ def main(argv):
     ax.text(0, -0.1, '* starts with pattern extracted from randomizer')
 
     wm = plt.get_current_fig_manager()
-    wm.window.state('zoomed')
+    # wm.window.state('zoomed')
     plt.show()
 
     print()
