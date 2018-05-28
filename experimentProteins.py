@@ -69,7 +69,7 @@ def main(argv):
     # END ERROR CHECKING
 
     # create the proteins and run them
-    createProteins(length, number, fixedHNumber, dimensions)
+    createProteins(number, length, fixedHNumber, dimensions)
     runAlgorithm(number, length, dimensions, fixedHNumber)
 
     # create the stats and visualise
@@ -88,6 +88,7 @@ def createProteins(number, length, fixedHNumber, dimensions):
     :param dimensions: 3 for 3D, 2 for 2D
     :return: .txt fils with proteinStrings
     """
+
     proteinRandomizer = ProteinRandomizer(length, number, fixedHNumber, dimensions)
     proteinRandomizer.run()
 
@@ -107,7 +108,7 @@ def runAlgorithm(number, length, dimensions, fixedH):
     maxIterations = None
 
     # startnumber for saving the proteins (do not overwrite default proteins of project)
-    saveNumber = 10000
+    saveNumber = 100
 
     # loop through the (number of) proteins created
     for i in range(number):
