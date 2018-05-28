@@ -35,6 +35,9 @@ class ProteinRandomizer():
 
         minStability = ''
         Stability = ''
+        
+        # start saving at number (do  not overwrite benchmark proteins)
+        saveNumber = 100
 
         writeResults = ("results/experimentProteins-l" + str(self.length) + "-d" + str(self.dimensions) + "-f" +
                         str(self.fixedHNumber) + ".csv")
@@ -52,7 +55,7 @@ class ProteinRandomizer():
                     self.generatorFixedH(self.fixedHNumber)
 
                 # write to text file
-                writeFile = open(("data/protein" + str(iteration + 10000) + ".txt"), "w")
+                writeFile = open(("data/protein" + str(iteration + saveNumber) + ".txt"), "w")
                 writeFile.write(self.proteinString)
 
                 # write to csv file
@@ -67,6 +70,7 @@ class ProteinRandomizer():
         self.countH = 0
         self.countC = 0
         self.clusters = 0
+        self.clusterLength = 0
         self.maxClusterLength = 0
 
         aminoTypes = ["P", "H"]
@@ -89,6 +93,7 @@ class ProteinRandomizer():
         self.countH = 0
         self.countC = 0
         self.clusters = 0
+        self.clusterLength = 0
         self.maxClusterLength = 0
 
         population = []
@@ -127,7 +132,7 @@ class ProteinRandomizer():
             if k == self.length-1:
                 if self.clusterLength > self.maxClusterLength:
                     self.maxClusterLength = self.clusterLength
-                    self.clusters += 1
+                self.clusters += 1
 
         # save cluster and start with new cluster if aminoacid is a P
         elif aminoType == "P":
@@ -140,6 +145,3 @@ class ProteinRandomizer():
                 self.clusters += 1
 
             self.clusterLength = 0
-
-
-
