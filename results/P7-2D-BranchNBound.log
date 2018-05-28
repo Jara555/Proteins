@@ -1,0 +1,17 @@
+_________________________________________________
+
+BranchNBound
+_________________________________________________
+
+Protein 7: CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC
+
+Best Stability Found: -19.0
+
+Best Folding Pattern Found:
+"['0', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+X', '+Y', '+X', '+Y', '-X', '-X', '-Y', '-X', '+Y', '+Y', '-X', '+Y', '+X', '+X', '-Y', '+X', '+Y', '+X', '-Y', '+X', '-Y']"
+
+Total Iterations:  5225240
+Total Overlap:     4565740
+Total pruned:     2691029
+Found in Run:      772208
+Elapsed Time:      0.0000
